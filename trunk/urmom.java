@@ -3,7 +3,7 @@ public class urmom
 
 	urmom()
 	{
-		System.out.println("lol wut");
+		System.out.println("UR MOM IS SO FAT");
 	}
 
 
