@@ -1,0 +1,26 @@
+client says:		server possible responses:			
+--------------------------------------------------------------------
+
+
+
+PLACE S,X,Y		game already started
+			overlaps existing piece
+			illegal placement (all or parly off grid)			
+			placed OK.
+
+
+READY			pieces not placed
+			ready OK
+
+
+
+SHOOT X,Y		not your turn  (or just ignore?)
+			hit ship type
+			hit and sunk ship type
+			miss
+			illegal guess
+
+
+
+
+
