@@ -2,9 +2,11 @@ client says:		server possible responses:
 --------------------------------------------------------------------
 
 
-LOGIN name, password	incorrect password
+LOGIN name, password	incorrect password  //initially we can just ignore password
 			server full
 			OK.
+			
+
 
 
 CHAT message		nobody is here

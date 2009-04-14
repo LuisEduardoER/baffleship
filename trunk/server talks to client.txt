@@ -10,6 +10,30 @@ ARRIVED name
 LEAVES name
 
 
+GAME STARTED			not try to move pieces any more
+
+
+YOUR TURN			make a guess soon
+
+
+
+(possible)			treat this like its own guess
+TIMEOUT --
+  forced guess X,Y
+  and result
+
+
+(possible)
+OPPONENT TIMEOUT		let the player know he is playing against
+				an AFK opponent
+
+
+OPPONENT GUESSED
+  X,Y, and
+  hit ship S or missed		update display accordingly
+
+
+
 
 OPPONENT name			set opponent name			
 
