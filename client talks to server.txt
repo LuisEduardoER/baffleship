@@ -7,7 +7,8 @@ LOGIN name, password	incorrect password
 			OK.
 
 
-CHAT message		OK.  (and pass message to other client)	
+CHAT message		nobody is here
+			OK.  (and pass message to other client)	
 
 
 

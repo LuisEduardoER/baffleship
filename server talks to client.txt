@@ -1,0 +1,31 @@
+server says:			client SHOULD
+-------------------------------------------------------------------------------------
+MESSAGE name message		display this message and the user name
+
+
+PLAYERS namelist		remember the list of people already on the server
+
+ARRIVED name
+
+LEAVES name
+
+
+
+OPPONENT name			set opponent name			
+
+
+
+YOU WIN				duh
+
+
+
+
+YOU LOSE			duh
+
+
+
+OPPONENT quits
+
+
+
+GOODBYE
