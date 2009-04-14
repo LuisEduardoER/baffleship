@@ -4,33 +4,40 @@
 import java.awt.*;
 
 
-public class Square
+public enum Square
 {
 
-	private boolean ship;     //true for ship, false for water
-	private boolean guessed;  //true if square has been shot at, false otherwise
+	WATER(Color.BLUE, false), CARRIER(Color.RED, true), BSHIP(Color.Green, true),
+	CRUISER(Color.WHITE, true), SUB(Color.MAGENTA, true), DESTROYER(Color.PINK, true);
 
-	private Color picture;    //this could be a picture of water, or part of a ship...
-	//if its a ship picture we might want to rotate it
-	//or we could make 4 pictures for each possible ship part
-	private Direction facing;  
+	private Color picture;    	//this could be a picture of water, or part of a ship...
+	private boolean ship;
 
-	//water constrctor
-	Square() { ship=false; guessed=false; picture=Color.BLUE; facing= Direction.NORTH; }
+	private boolean endpiece=false;  	//true if this is a ship AND one of the ends
 
-	//ship constructor has picture and direction
-	Square(Color p, Direction d) {  ship=true; guessed=false; picture = p; facing = d;}
+	private Direction facing=Direction.NORTH;   	/*rotate the picture to display it properly
+					   end pieces of a ship "face" the rest of the ship
+					   vertical middle pieces can face NORTH or SOUTH (same thing)
+					   horizontal middle pices face  EAST or WEST (same thing)
+					   water faces NORTH, but its doesn't matter much */			
 
-	//copy constructor
-	Square( Square s) { ship = s.isShip(); guessed= s.isGuessed(); picture = s.getPicture(); facing = s.getFacing(); }
+	private boolean guessed=false;  //true if square has been shot at, false otherwise
+
+	//constructor
+	Square(Color p, boolean s) {  picture = p; ship = s;}
 
 	//setters and getters
-	public void setShip(boolean s) { ship=s; }
-	public void setShip() { ship=true; }
-	public void setWater(boolean s) { ship=!s; }
-	public void setWater() { ship=false; }
+	public Color getPicture	() { return picture; }
+
 	public boolean isShip() { return ship; }
 	public boolean isWater() { return !ship; }
+
+	public void setEnd(boolean e) { endpiece=g; }
+	public void setEnd() { endpiece=true; }
+	public boolean isEnd() { return endpiece; }
+
+
+
 
 	public void setGuessed(boolean g) { guessed=g; }
 	public void setGuessed() { guessed=true; }
