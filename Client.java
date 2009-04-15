@@ -23,14 +23,16 @@ public class Client extends JFrame
    private ObjectInputStream input; // input stream from server
    private String message = ""; // message from server
    private String chatServer; // host server for this application
+	private int port;	//port # on host
    private Socket client; // socket to communicate with server
 
    // initialize chatServer and set up GUI
-   public Client( String host )
+   public Client( String host , int p )
    {
       super( "Client" );
 
       chatServer = host; // set server to which this client connects
+	port = p;
 
       enterField = new JTextField(); // create enterField
       enterField.setEditable( false );
@@ -84,7 +86,7 @@ public class Client extends JFrame
       displayMessage( "Attempting connection\n" );
 
       // create Socket to make connection to server
-      client = new Socket( InetAddress.getByName( chatServer ), 12345 );
+      client = new Socket( InetAddress.getByName( chatServer ), port );
 
       // display connection information
       displayMessage( "Connected to: " + 
