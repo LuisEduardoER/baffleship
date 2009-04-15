@@ -8,14 +8,19 @@ public class ClientTest
    {
       Client application; // declare client application
 
-      // if no command line args
-      if ( args.length == 0 )
-         application = new Client( "127.0.0.1" ); // connect to localhost
-      else
-         application = new Client( args[ 0 ] ); // use args to connect
+	String host;
+	int port;
+
+	try { host= new String(args[0]); } catch (Exception e) { host = "127.0.0.1"; }
+	try { port= Integer.parseInt(args[1]); } catch (Exception e) { port = 44771; }
+
+         application = new Client( host, port ); 
+
+
 
       application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
       application.runClient(); // run client application
+
    } // end main
 } // end class ClientTest
 
