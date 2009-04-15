@@ -16,43 +16,26 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class Server extends JFrame implements ActionListener
+public class Server
 {
    private JTextField enterField; // inputs message from user
    private JTextArea displayArea; // display information to user
    private ObjectOutputStream output; // output stream to client
    private ObjectInputStream input; // input stream from client
    private ServerSocket server; // server socket
-   private Socket connection; // connection to client
+   private Socket connectionA; // connection to client A
+   private Socket connectionB; // connection to client B
    private int counter = 1; // counter of number of connections
+	private int port;
+	private boolean A_PRESENT=false;
+	private boolean B_PRESENT=false;
 
    // set up GUI
-   public Server()
+   public Server(int p)
    {
-      super( "Server" );
+	port = p;
 
-      enterField = new JTextField(); // create enterField
-      enterField.setEditable( false );
-      enterField.addActionListener(
-         new ActionListener() 
-         {
-            // send message to client
-            public void actionPerformed( ActionEvent event )
-            {
-               sendData( event.getActionCommand() );
-               enterField.setText( "" );
-            } // end method actionPerformed
-         } // end anonymous inner class
-      ); // end call to addActionListener
-
-      add( enterField, BorderLayout.NORTH );
-	add(grid, BorderLayout.SOUTH);
-
-      displayArea = new JTextArea(); // create displayArea
-   
-
-      setSize( 800, 800 ); // set size of window
-      setVisible( true ); // show window
+      //setVisible( true ); // show window
    } // end Server constructor
 
    // set up and run server 
@@ -60,7 +43,7 @@ public class Server extends JFrame implements ActionListener
    {
       try // set up server to receive connections; process connections
       {
-         server = new ServerSocket( 12345, 100 ); // create ServerSocket
+         server = new ServerSocket( port, 100 ); // create ServerSocket
 
          while ( true ) 
          {
@@ -90,21 +73,30 @@ public class Server extends JFrame implements ActionListener
    // wait for connection to arrive, then display connection info
    private void waitForConnection() throws IOException
    {
-      displayMessage( "Waiting for connection\n" );
-      connection = server.accept(); // allow server to accept connection            
-      displayMessage( "Connection " + counter + " received from: " +
-         connection.getInetAddress().getHostName() );
+      System.out.println( "Waiting for connection\n" );
+      if(!A_PRESENT){
+	connectionA = server.accept(); // allow server to accept connection  
+	A_PRESENT = true;
+	System.out.println( "Connection " + counter + " received from: " +
+         connectionA.getInetAddress().getHostName() );
+      }
+	if(A_PRESENT){
+	  connectionB = server.accept();        
+	System.out.println( "Connection " + counter + " received from: " +
+         connectionB.getInetAddress().getHostName() );
+	}
+      
    } // end method waitForConnection
 
    // get streams to send and receive data
    private void getStreams() throws IOException
    {
       // set up output stream for objects
-      output = new ObjectOutputStream( connection.getOutputStream() );
+      output = new ObjectOutputStream( connectionA.getOutputStream() );
       output.flush(); // flush output buffer to send header information
 
       // set up input stream for objects
-      input = new ObjectInputStream( connection.getInputStream() );
+      input = new ObjectInputStream( connectionA.getInputStream() );
 
       displayMessage( "\nGot I/O streams\n" );
    } // end method getStreams
@@ -143,7 +135,7 @@ public class Server extends JFrame implements ActionListener
       {
          output.close(); // close output stream
          input.close(); // close input stream
-         connection.close(); // close socket
+         connectionA.close(); // close socket
       } // end try
       catch ( IOException ioException ) 
       {

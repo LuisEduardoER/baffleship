@@ -6,8 +6,10 @@ public class ServerTest
 {
    public static void main( String args[] )
    {
-      Server application = new Server(); // create server
-      application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+	int port;
+	 if ( args.length == 0 ) port = 44771;
+	else port = Integer.parseInt(args[0]);
+      Server application = new Server(port); // create server
       application.runServer(); // run server application
    } // end main
 } // end class ServerTest
