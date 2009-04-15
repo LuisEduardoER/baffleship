@@ -105,6 +105,8 @@ public class Server
       // set up input stream for objects
       inputB = new ObjectInputStream( connectionB.getInputStream() );
 
+	System.out.println("getStreams");
+
    } // end method getStreams
 
    // process connection with client
@@ -118,11 +120,11 @@ public class Server
          try // read message and display it
          {
             message = ( String ) inputA.readObject(); // read new message
-            displayMessage( "\n" + message ); // display message
+            System.out.println( "\n" + message ); // display message
          } // end try
          catch ( ClassNotFoundException classNotFoundException ) 
          {
-            displayMessage( "\nUnknown object type received" );
+            System.out.println( "\nUnknown object type received" );
          } // end catch
 
       } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
@@ -131,8 +133,8 @@ public class Server
    // close streams and socket
    private void closeConnection() 
    {
-      displayMessage( "\nTerminating connection\n" );
-      setTextFieldEditable( false ); // disable enterField
+      System.out.println( "\nTerminating connection\n" );
+    
 
       try 
       {
@@ -153,11 +155,11 @@ public class Server
       {
          outputA.writeObject( "other client>>> " + message );
          outputA.flush(); // flush output to client
-         displayMessage( "\nSERVER>>> " + message );
+         System.out.println( "\nSERVER>>> " + message );
       } // end try
       catch ( IOException ioException ) 
       {
-         displayArea.append( "\nError writing object" );
+         System.out.println( "\nError writing object" );
       } // end catch
    } // end method sendData
 
@@ -169,7 +171,7 @@ public class Server
          {
             public void run() // updates displayArea
             {
-               displayArea.append( messageToDisplay ); // append message
+               System.out.println( messageToDisplay ); // append message
             } // end method run
          } // end anonymous inner class
       ); // end call to SwingUtilities.invokeLater
