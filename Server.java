@@ -20,8 +20,10 @@ public class Server
 {
    private JTextField enterField; // inputs message from user
    private JTextArea displayArea; // display information to user
-   private ObjectOutputStream output; // output stream to client
-   private ObjectInputStream input; // input stream from client
+   private ObjectOutputStream outputA; // output stream to client
+   private ObjectInputStream inputA; // input stream from client
+   private ObjectOutputStream outputB; // output stream to client
+   private ObjectInputStream inputB; // input stream from client
    private ServerSocket server; // server socket
    private Socket connectionA; // connection to client A
    private Socket connectionB; // connection to client B
@@ -74,17 +76,15 @@ public class Server
    private void waitForConnection() throws IOException
    {
       System.out.println( "Waiting for connection\n" );
-      if(!A_PRESENT){
+
 	connectionA = server.accept(); // allow server to accept connection  
-	A_PRESENT = true;
 	System.out.println( "Connection " + counter + " received from: " +
          connectionA.getInetAddress().getHostName() );
-      }
-	if(A_PRESENT){
-	  connectionB = server.accept();        
+
+
+	connectionB = server.accept();        
 	System.out.println( "Connection " + counter + " received from: " +
-         connectionB.getInetAddress().getHostName() );
-	}
+        connectionB.getInetAddress().getHostName() );
       
    } // end method waitForConnection
 
@@ -92,13 +92,19 @@ public class Server
    private void getStreams() throws IOException
    {
       // set up output stream for objects
-      output = new ObjectOutputStream( connectionA.getOutputStream() );
-      output.flush(); // flush output buffer to send header information
+      outputA = new ObjectOutputStream( connectionA.getOutputStream() );
+      outputA.flush(); // flush output buffer to send header information
 
       // set up input stream for objects
-      input = new ObjectInputStream( connectionA.getInputStream() );
+      inputA = new ObjectInputStream( connectionA.getInputStream() );
 
-      displayMessage( "\nGot I/O streams\n" );
+	// set up output stream for objects
+      outputB = new ObjectOutputStream( connectionB.getOutputStream() );
+      outputB.flush(); // flush output buffer to send header information
+
+      // set up input stream for objects
+      inputB = new ObjectInputStream( connectionB.getInputStream() );
+
    } // end method getStreams
 
    // process connection with client
@@ -107,14 +113,11 @@ public class Server
       String message = "Connection successful";
       sendData( message ); // send connection successful message
 
-      // enable enterField so server user can send messages
-      setTextFieldEditable( true );
-
       do // process messages sent from client
       { 
          try // read message and display it
          {
-            message = ( String ) input.readObject(); // read new message
+            message = ( String ) inputA.readObject(); // read new message
             displayMessage( "\n" + message ); // display message
          } // end try
          catch ( ClassNotFoundException classNotFoundException ) 
@@ -133,8 +136,8 @@ public class Server
 
       try 
       {
-         output.close(); // close output stream
-         input.close(); // close input stream
+         outputA.close(); // close output stream
+         inputA.close(); // close input stream
          connectionA.close(); // close socket
       } // end try
       catch ( IOException ioException ) 
@@ -148,8 +151,8 @@ public class Server
    {
       try // send object to client
       {
-         output.writeObject( "SERVER>>> " + message );
-         output.flush(); // flush output to client
+         outputA.writeObject( "other client>>> " + message );
+         outputA.flush(); // flush output to client
          displayMessage( "\nSERVER>>> " + message );
       } // end try
       catch ( IOException ioException ) 
@@ -172,19 +175,6 @@ public class Server
       ); // end call to SwingUtilities.invokeLater
    } // end method displayMessage
 
-   // manipulates enterField in the event-dispatch thread
-   private void setTextFieldEditable( final boolean editable )
-   {
-      SwingUtilities.invokeLater(
-         new Runnable()
-         {
-            public void run() // sets enterField's editability
-            {
-               enterField.setEditable( editable );
-            } // end method run
-         }  // end inner class
-      ); // end call to SwingUtilities.invokeLater
-   } // end method setTextFieldEditable
 
 } // end class Server
 
