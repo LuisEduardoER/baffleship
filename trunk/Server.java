@@ -112,22 +112,34 @@ public class Server
    // process connection with client
    private void processConnection() throws IOException
    {
-      String message = "Connection successful";
-      sendData( message ); // send connection successful message
+      String message;
+      //sendData( message ); // send connection successful message
 
       do // process messages sent from client
       { 
          try // read message and display it
          {
-            message = ( String ) inputA.readObject(); // read new message
-            System.out.println( "\n" + message ); // display message
+		if (inputA.available() > 0 )
+		{
+		       	message = ( String ) inputA.readObject(); // read new message
+			System.out.println( "\nfrom A: " + message ); // display message
+		}
+
+		if (inputB.available() > 0 )
+		{
+		       	message = ( String ) inputB.readObject(); // read new message
+			System.out.println( "\nfrom A: " + message ); // display message
+		}
+
+
+
          } // end try
          catch ( ClassNotFoundException classNotFoundException ) 
          {
             System.out.println( "\nUnknown object type received" );
          } // end catch
 
-      } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
+      } while ( true );
    } // end method processConnection
 
    // close streams and socket
