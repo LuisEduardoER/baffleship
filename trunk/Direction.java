@@ -31,6 +31,16 @@ public enum Direction
 			default: return WEST; //needed to compile but should never happen
 		}
 	}
+	
+
+	public static Direction parseDirection(String s)
+	{
+		try { return valueOf(s); } 
+			catch (Exception e) { return null; }
+        }
+
+
+
 
 }
 
