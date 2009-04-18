@@ -7,7 +7,7 @@
 	Direction a = Direction.NORTH;
 	Direction b = a.Clockwise();
 	b = b.Opposite();
-	if (a == b) return a;
+	if ( Direction.parseDirection("East") == Direction.EAST) { ; };
 
 */
 
@@ -35,7 +35,7 @@ public enum Direction
 
 	public static Direction parseDirection(String s)
 	{
-		try { return valueOf(s); } 
+		try { return valueOf(s.toUpperCase() ); } 
 			catch (Exception e) { return null; }
         }
 
