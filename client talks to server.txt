@@ -10,7 +10,7 @@ LOGIN name, password	incorrect password  //initially we can just ignore password
 
 
 CHAT message		nobody is here
-			OK.  (and pass message to other client)	
+			OK.  (and pass message to other clients)	
 
 
 

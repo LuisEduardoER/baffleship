@@ -45,4 +45,8 @@ public enum Square
 	public void setGuessed() { guessed=true; }
 	public boolean isGuessed() { return guessed; }
 
+	
+	
+
+
 }
