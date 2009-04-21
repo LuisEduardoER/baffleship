@@ -17,7 +17,7 @@ public class Square
 	private boolean guessed=false;  //true if square has been shot at, false otherwise
 
 	//constructors
-	Square( SquareType st;) { squareType= st; }
+	Square( SquareType st) { squareType= st; }
 	Square( SquareType s, Direction d) { squareType= s; facing=d;}
 
 	//copy constructor
@@ -27,7 +27,7 @@ public class Square
 	//setters and getters
 
 	public void setType( SquareType st) { squareType=st; }
-	public Direction getType() { return squareType; }
+	public SquareType getType() { return squareType; }
 
 	public void setEnd(boolean e) { endpiece=e; }
 	public void setEnd() { endpiece=true; }
