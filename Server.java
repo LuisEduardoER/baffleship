@@ -1,6 +1,4 @@
-// Fig. 24.5: Server.java
-// Set up a Server that will receive a connection from a client, send 
-// a string to the client, and close the connection.
+
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,15 +13,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import java.io.StringBufferInputStream;
+import java.net.*;
+import java.io.*;
+
+
 
 public class Server
 {
    private JTextField enterField; // inputs message from user
    private JTextArea displayArea; // display information to user
-   private ObjectOutputStream outputA; // output stream to client
-   private ObjectInputStream inputA; // input stream from client
-   private ObjectOutputStream outputB; // output stream to client
-   private ObjectInputStream inputB; // input stream from client
+   private PrintWriter outputA; // output stream to client
+   private BufferedReader inputA; // input stream from client
+   private PrintWriter outputB; // output stream to client
+   private BufferedReader inputB; // input stream from client
    private ServerSocket server; // server socket
    private Socket connectionA; // connection to client A
    private Socket connectionB; // connection to client B
@@ -62,7 +65,7 @@ public class Server
             finally 
             {
                closeConnection(); //  close connection
-               counter++;
+         
             } // end finally
          } // end while
       } // end try
@@ -86,27 +89,28 @@ public class Server
 	connectionB = server.accept();        
 	System.out.println( "Connection " + counter + " received from: " +
         connectionB.getInetAddress().getHostName() );
+
+      counter++;
       
    } // end method waitForConnection
 
    // get streams to send and receive data
    private void getStreams() throws IOException
    {
-      // set up output stream for objects
-      outputA = new ObjectOutputStream( connectionA.getOutputStream() );
-      outputA.flush(); // flush output buffer to send header information
 
+      // set up output stream for objects
+      outputA = new PrintWriter(connectionA.getOutputStream(), true);
+	outputA.flush();
       // set up input stream for objects
-      inputA = new ObjectInputStream( connectionA.getInputStream() );
+      inputA =  new BufferedReader( new InputStreamReader( connectionA.getInputStream() ) );
 
 	// set up output stream for objects
-     outputB = new ObjectOutputStream( connectionB.getOutputStream() );
-     outputB.flush(); // flush output buffer to send header information
-
+     outputB = new PrintWriter(connectionB.getOutputStream(), true);
+outputB.flush();
       // set up input stream for objects
-      inputB = new ObjectInputStream( connectionB.getInputStream() );
+      inputB  =  new BufferedReader( new InputStreamReader( connectionB.getInputStream() ) );
 
-	System.out.println("getStreams");
+	System.out.println("finished getStreams");
 
    } // end method getStreams
 
@@ -121,29 +125,23 @@ public class Server
 
       do // process messages sent from client
       { 
-         try // read message and display it
-         {
-		if (inputA.available() > 0 )
+
+		if (inputA.ready() )
 		{
-		       	messageA = ( String ) inputA.readObject(); // read new message
+		       	messageA = inputA.readLine(); // read new message
 			System.out.println( "\nfrom A: " + messageA ); // display message
 			sendData(messageA, B);
-		} else System.out.println("A not rdy");
+		} 
+//else System.out.println("A not rdy");
 
-		if (inputB.available() > 0 )
+		if (inputB.ready() )
 		{
-		       	messageB = ( String ) inputB.readObject(); // read new message
+		       	messageB = inputB.readLine(); // read new message
 			System.out.println( "\nfrom B: " + messageB ); // display message
 			sendData(messageB, A);
-		} else System.out.println("B not rdy");
+		} //else System.out.println("B not rdy");
 
 
-
-         } // end try
-         catch ( ClassNotFoundException classNotFoundException ) 
-         {
-            System.out.println( "\nUnknown object type received" );
-         } // end catch
 
       } while ( true );
    } // end method processConnection
@@ -172,23 +170,19 @@ public class Server
    // send message to client
    private void sendData( String message, char x )
    {
-      try // send object to client
-      {
+
 	if(x == 'A'){
-         outputA.writeObject( "client B>> " + message );
+         outputA.println( "client B>> " + message );
          outputA.flush(); // flush output to client
          System.out.println( "\nsending to A>>> " + message );
 	}
 	if(x == 'B'){
-	outputB.writeObject( "client A>>> " + message );
+	outputB.println( "client A>>> " + message );
          outputB.flush(); // flush output to client
          System.out.println( "\n sendint to B>>> " + message );
-}
-      } // end try
-      catch ( IOException ioException ) 
-      {
-         System.out.println( "\nError writing object" );
-      } // end catch
+	}
+     
+
    } // end method sendData
 
    // manipulates displayArea in the event-dispatch thread
