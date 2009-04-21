@@ -121,21 +121,29 @@ outputB.flush();
       String messageB;
 	char A = 'A';
 	char B = 'B';
-      //sendData( message ); // send connection successful message
 
-      do // process messages sent from client
+	System.out.println("starting procon");
+
+      while(true) // process messages sent from client
       { 
 
 		if (inputA.ready() )
 		{
+			System.out.println("1111");
+
 		       	messageA = inputA.readLine(); // read new message
+			System.out.println("2222");
 			System.out.println( "\nfrom A: " + messageA ); // display message
+			System.out.println("3333");
 			sendData(messageA, B);
+			System.out.println("4444");
 		} 
-//else System.out.println("A not rdy");
+else System.out.println("A not rdy");
 
 		if (inputB.ready() )
 		{
+						System.out.println("B ready");
+
 		       	messageB = inputB.readLine(); // read new message
 			System.out.println( "\nfrom B: " + messageB ); // display message
 			sendData(messageB, A);
@@ -143,7 +151,7 @@ outputB.flush();
 
 
 
-      } while ( true );
+      } 
    } // end method processConnection
 
    // close streams and socket

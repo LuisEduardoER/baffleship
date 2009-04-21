@@ -14,13 +14,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import java.net.*;
+import java.io.*;
+
 
 public class Client extends JFrame 
 {
    private JTextField enterField; // enters information from user
    private JTextArea displayArea; // display information to user
    private ObjectOutputStream output; // output stream to server
-   private ObjectInputStream input; // input stream from server
+   private BufferedReader input; // input stream from server
    private String message = ""; // message from server
    private String chatServer; // host server for this application
 	private int port;	//port # on host
@@ -96,12 +99,17 @@ public class Client extends JFrame
    // get streams to send and receive data
    private void getStreams() throws IOException
    {
+
+      displayMessage( "111\n" );
       // set up output stream for objects
       output = new ObjectOutputStream( client.getOutputStream() );      
+      displayMessage( "222\n" );
       output.flush(); // flush output buffer to send header information
-
+      displayMessage( "333\n" );
       // set up input stream for objects
-      input = new ObjectInputStream( client.getInputStream() );
+      input =  new BufferedReader( new InputStreamReader( client.getInputStream() ) );
+
+
 
       displayMessage( "\nGot I/O streams\n" );
    } // end method getStreams
@@ -114,15 +122,12 @@ public class Client extends JFrame
 
       do // process messages sent from server
       { 
-         try // read message and display it
-         {
-            message = ( String ) input.readObject(); // read new message
+
+      
+            message =  input.readLine(); // read new message
             displayMessage( "\n" + message ); // display message
-         } // end try
-         catch ( ClassNotFoundException classNotFoundException ) 
-         {
-            displayMessage( "\nUnknown object type received" );
-         } // end catch
+ 
+
 
       } while ( !message.equals( "SERVER>>> TERMINATE" ) );
    } // end method processConnection
