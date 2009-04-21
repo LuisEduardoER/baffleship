@@ -16,8 +16,9 @@ public class ClientTest
 
          application = new Client( host, port ); 
 
-      application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-      application.runClient(); // run client application
+         application.runClient(); // run client application
+
+	
 
    } // end main
 } // end class ClientTest
