@@ -8,9 +8,12 @@ import java.awt.*;
 public enum SquareType
 {
 
-	WATER(Color.BLUE, Color.GREEN, false),
-	CARRIER(Color.RED, Color.ORANGE, true), BSHIP(Color.GREEN, Color.YELLOW, true),
-	CRUISER(Color.WHITE, Color.GRAY, true), SUB(Color.MAGENTA, Color.PINK, true),
+	WATER(Color.BLUE, Color.CYAN, false),
+
+	CARRIER(Color.RED, Color.ORANGE, true),
+	BSHIP(Color.GREEN, Color.YELLOW, true),
+	CRUISER(Color.WHITE, Color.GRAY, true),
+	SUB(Color.MAGENTA, Color.PINK, true),
 	DESTROYER(Color.PINK, Color.RED, true);
 
 	public final Color picture;    	//this could be a picture of water, or part of a ship...
@@ -23,6 +26,6 @@ public enum SquareType
 	public boolean isShip() { return ship; }
 	public boolean isWater() { return !ship; }
 		
-	//other setters and getters not needed.  our enums are final.
+	//setters not needed.  our enums are final.
 
 }
