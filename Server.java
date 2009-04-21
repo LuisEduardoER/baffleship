@@ -81,6 +81,7 @@ public class Server
 	System.out.println( "Connection " + counter + " received from: " +
          connectionA.getInetAddress().getHostName() );
 
+	counter++;
 
 	connectionB = server.accept();        
 	System.out.println( "Connection " + counter + " received from: " +
@@ -99,8 +100,8 @@ public class Server
       inputA = new ObjectInputStream( connectionA.getInputStream() );
 
 	// set up output stream for objects
-      outputB = new ObjectOutputStream( connectionB.getOutputStream() );
-      outputB.flush(); // flush output buffer to send header information
+     outputB = new ObjectOutputStream( connectionB.getOutputStream() );
+     outputB.flush(); // flush output buffer to send header information
 
       // set up input stream for objects
       inputB = new ObjectInputStream( connectionB.getInputStream() );
@@ -112,24 +113,29 @@ public class Server
    // process connection with client
    private void processConnection() throws IOException
    {
-      String message;
+      String messageA;
+      String messageB;
+	char A = 'A';
+	char B = 'B';
       //sendData( message ); // send connection successful message
 
       do // process messages sent from client
       { 
          try // read message and display it
          {
-		if (inputA.available() > 0 )
-		{
-		       	message = ( String ) inputA.readObject(); // read new message
-			System.out.println( "\nfrom A: " + message ); // display message
-		}
+		//if (inputA.available() > 0 )
+		//{
+		       	messageA = ( String ) inputA.readObject(); // read new message
+			System.out.println( "\nfrom A: " + messageA ); // display message
+			sendData(messageA, B);
+		//}
 
-		if (inputB.available() > 0 )
-		{
-		       	message = ( String ) inputB.readObject(); // read new message
-			System.out.println( "\nfrom A: " + message ); // display message
-		}
+		//if (inputB.available() > 0 )
+		//{
+		       	messageB = ( String ) inputB.readObject(); // read new message
+			System.out.println( "\nfrom B: " + messageB ); // display message
+			sendData(messageB, A);
+		//}
 
 
 
@@ -153,6 +159,9 @@ public class Server
          outputA.close(); // close output stream
          inputA.close(); // close input stream
          connectionA.close(); // close socket
+	 outputB.close(); // close output stream
+         inputB.close(); // close input stream
+         connectionB.close(); // close socket
       } // end try
       catch ( IOException ioException ) 
       {
@@ -161,13 +170,20 @@ public class Server
    } // end method closeConnection
 
    // send message to client
-   private void sendData( String message )
+   private void sendData( String message, char x )
    {
       try // send object to client
       {
-         outputA.writeObject( "other client>>> " + message );
+	if(x == 'A'){
+         outputA.writeObject( "client B>> " + message );
          outputA.flush(); // flush output to client
-         System.out.println( "\nSERVER>>> " + message );
+         System.out.println( "\nsending to A>>> " + message );
+	}
+	if(x == 'B'){
+	outputB.writeObject( "client A>>> " + message );
+         outputB.flush(); // flush output to client
+         System.out.println( "\n sendint to B>>> " + message );
+}
       } // end try
       catch ( IOException ioException ) 
       {
