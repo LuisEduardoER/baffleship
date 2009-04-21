@@ -123,19 +123,19 @@ public class Server
       { 
          try // read message and display it
          {
-		//if (inputA.available() > 0 )
-		//{
+		if (inputA.available() > 0 )
+		{
 		       	messageA = ( String ) inputA.readObject(); // read new message
 			System.out.println( "\nfrom A: " + messageA ); // display message
 			sendData(messageA, B);
-		//}
+		} else System.out.println("A not rdy");
 
-		//if (inputB.available() > 0 )
-		//{
+		if (inputB.available() > 0 )
+		{
 		       	messageB = ( String ) inputB.readObject(); // read new message
 			System.out.println( "\nfrom B: " + messageB ); // display message
 			sendData(messageB, A);
-		//}
+		} else System.out.println("B not rdy");
 
 
 
