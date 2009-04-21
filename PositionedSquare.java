@@ -1,6 +1,8 @@
 
 //john gaetano
 
+import java.awt.Point;
+
 public class PositionedSquare
 {
 
