@@ -117,8 +117,8 @@ outputB.flush();
    // process connection with client
    private void processConnection() throws IOException
    {
-      String messageA;
-      String messageB;
+      char messageA;
+      char messageB;
 	char A = 'A';
 	char B = 'B';
 
@@ -131,20 +131,20 @@ outputB.flush();
 		{
 			System.out.println("1111");
 
-		       	messageA = inputA.readLine(); // read new message
+		       	messageA = (char) inputA.read(); // read new message
 			System.out.println("2222");
 			System.out.println( "\nfrom A: " + messageA ); // display message
 			System.out.println("3333");
 			sendData(messageA, B);
 			System.out.println("4444");
 		} 
-else System.out.println("A not rdy");
+//else System.out.println("A not rdy");
 
 		if (inputB.ready() )
 		{
 						System.out.println("B ready");
 
-		       	messageB = inputB.readLine(); // read new message
+		       	messageB = (char) inputB.read(); // read new message
 			System.out.println( "\nfrom B: " + messageB ); // display message
 			sendData(messageB, A);
 		} //else System.out.println("B not rdy");
@@ -176,7 +176,7 @@ else System.out.println("A not rdy");
    } // end method closeConnection
 
    // send message to client
-   private void sendData( String message, char x )
+   private void sendData( char message, char x )
    {
 
 	if(x == 'A'){
