@@ -34,6 +34,8 @@ SHOOT X,Y		not your turn  (or just ignore?)
 			illegal guess
 
 
+RETRANSMIT		resend last message to that client
+
 
 
 
