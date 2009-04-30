@@ -21,30 +21,34 @@ import java.io.*;
 
 public class Server
 {
-   private JTextField enterField; // inputs message from user
-   private JTextArea displayArea; // display information to user
-   private PrintWriter outputA; // output stream to client
-   private BufferedReader inputA; // input stream from client
-   private PrintWriter outputB; // output stream to client
-   private BufferedReader inputB; // input stream from client
+
    private ServerSocket server; // server socket
    private Socket connectionA; // connection to client A
    private Socket connectionB; // connection to client B
-   private int counter = 1; // counter of number of connections
+
+   private PrintWriter outToA;
+   private InputStream inFromA; // input stream from client
+
+   private PrintWriter outToB; // output stream to client
+   private InputStream inFromB; // input stream from client
+
 	private int port;
 	private boolean A_PRESENT=false;
 	private boolean B_PRESENT=false;
 
-   // set up GUI
+
+
+   private void Print (String s) { System.out.println(s); }
+
+
    public Server(int p)
    {
 	port = p;
 
-      //setVisible( true ); // show window
-   } // end Server constructor
+   } 
 
    // set up and run server 
-   public void runServer()
+   public void run()
    {
       try // set up server to receive connections; process connections
       {
@@ -54,13 +58,13 @@ public class Server
          {
             try 
             {
-               waitForConnection(); // wait for a connection
+               waitForConnections(); 
                getStreams(); // get input & output streams
-               processConnection(); // process connection
+               processConnections(); 
             } // end try
             catch ( EOFException eofException ) 
             {
-               displayMessage( "\nServer terminated connection" );
+               Print( "\nServer terminated connection" );
             } // end catch
             finally 
             {
@@ -73,86 +77,47 @@ public class Server
       {
          ioException.printStackTrace();
       } // end catch
-   } // end method runServer
+   } // end method run
 
    // wait for connection to arrive, then display connection info
-   private void waitForConnection() throws IOException
+   private void waitForConnections() throws IOException
    {
-      System.out.println( "Waiting for connection\n" );
+	Print( "Waiting for connection\n" );
 
 	connectionA = server.accept(); // allow server to accept connection  
-	System.out.println( "Connection " + counter + " received from: " +
-         connectionA.getInetAddress().getHostName() );
-
-	counter++;
+	Print( "Connection received from: " + connectionA.getInetAddress().getHostName() );
 
 	connectionB = server.accept();        
-	System.out.println( "Connection " + counter + " received from: " +
-        connectionB.getInetAddress().getHostName() );
-
-      counter++;
-      
-   } // end method waitForConnection
+	Print( "Connection received from: " + connectionB.getInetAddress().getHostName() );
+   } 
 
    // get streams to send and receive data
    private void getStreams() throws IOException
-   {
+   {    
+     	outToA = new PrintWriter(connectionA.getOutputStream(), true);
+	inFromA = connectionA.getInputStream();
 
-      // set up output stream for objects
-      outputA = new PrintWriter(connectionA.getOutputStream(), true);
-	outputA.flush();
-      // set up input stream for objects
-      inputA =  new BufferedReader( new InputStreamReader( connectionA.getInputStream() ) );
-
-	// set up output stream for objects
-     outputB = new PrintWriter(connectionB.getOutputStream(), true);
-outputB.flush();
-      // set up input stream for objects
-      inputB  =  new BufferedReader( new InputStreamReader( connectionB.getInputStream() ) );
-
-	System.out.println("finished getStreams");
-
-   } // end method getStreams
+	outToB = new PrintWriter(connectionB.getOutputStream(), true);
+	inFromB = connectionB.getInputStream();
+   }
 
    // process connection with client
-   private void processConnection() throws IOException
+   private void processConnections() throws IOException
    {
-      char messageA;
-      char messageB;
-	char A = 'A';
-	char B = 'B';
+	StringBuilder tempMessage;
 
-	System.out.println("starting procon");
+	while(true) // process messages sent from client
+	{ 
+		tempMessage = new StringBuilder(); 
+		while ( inFromA.available() >0 )tempMessage.append((char)inFromA.read());
+		if (tempMessage.length()>0 ) outToB.println(tempMessage.toString());
 
-      while(true) // process messages sent from client
-      { 
+		tempMessage = new StringBuilder(); 
+		while ( inFromB.available() >0 ) tempMessage.append((char)inFromB.read());
+		if (tempMessage.length()>0 ) outToA.println(tempMessage.toString());
+	}
+  }
 
-		if (inputA.ready() )
-		{
-			System.out.println("1111");
-
-		       	messageA = (char) inputA.read(); // read new message
-			System.out.println("2222");
-			System.out.println( "\nfrom A: " + messageA ); // display message
-			System.out.println("3333");
-			sendData(messageA, B);
-			System.out.println("4444");
-		} 
-//else System.out.println("A not rdy");
-
-		if (inputB.ready() )
-		{
-						System.out.println("B ready");
-
-		       	messageB = (char) inputB.read(); // read new message
-			System.out.println( "\nfrom B: " + messageB ); // display message
-			sendData(messageB, A);
-		} //else System.out.println("B not rdy");
-
-
-
-      } 
-   } // end method processConnection
 
    // close streams and socket
    private void closeConnection() 
@@ -162,11 +127,11 @@ outputB.flush();
 
       try 
       {
-         outputA.close(); // close output stream
-         inputA.close(); // close input stream
+         inFromA.close(); // close output stream
+         outToA.close(); // close input stream
          connectionA.close(); // close socket
-	 outputB.close(); // close output stream
-         inputB.close(); // close input stream
+	 inFromB.close(); // close output stream
+         outToB.close(); // close input stream
          connectionB.close(); // close socket
       } // end try
       catch ( IOException ioException ) 
@@ -175,52 +140,7 @@ outputB.flush();
       } // end catch
    } // end method closeConnection
 
-   // send message to client
-   private void sendData( char message, char x )
-   {
-
-	if(x == 'A'){
-         outputA.println( "client B>> " + message );
-         outputA.flush(); // flush output to client
-         System.out.println( "\nsending to A>>> " + message );
-	}
-	if(x == 'B'){
-	outputB.println( "client A>>> " + message );
-         outputB.flush(); // flush output to client
-         System.out.println( "\n sendint to B>>> " + message );
-	}
-     
-
-   } // end method sendData
-
-   // manipulates displayArea in the event-dispatch thread
-   private void displayMessage( final String messageToDisplay )
-   {
-      SwingUtilities.invokeLater(
-         new Runnable() 
-         {
-            public void run() // updates displayArea
-            {
-               System.out.println( messageToDisplay ); // append message
-            } // end method run
-         } // end anonymous inner class
-      ); // end call to SwingUtilities.invokeLater
-   } // end method displayMessage
 
 
 } // end class Server
 
-/**************************************************************************
- * (C) Copyright 1992-2005 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/

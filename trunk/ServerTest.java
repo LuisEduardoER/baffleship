@@ -10,7 +10,7 @@ public class ServerTest
 	 if ( args.length == 0 ) port = 44771;
 	else port = Integer.parseInt(args[0]);
       Server application = new Server(port); // create server
-      application.runServer(); // run server application
+      application.run(); // run server application
    } // end main
 } // end class ServerTest
 
