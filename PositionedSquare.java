@@ -3,7 +3,7 @@
 
 import java.awt.Point;
 
-public class PositionedSquare extends Square
+class PositionedSquare extends Square
 {
 	private Point location;
 

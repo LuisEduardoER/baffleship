@@ -17,8 +17,9 @@ public class Square
 	private boolean guessed=false;  //true if square has been shot at, false otherwise
 
 	//constructors
+	Square() {squareType= SquareType.WATER; }
 	Square( SquareType st) { squareType= st; }
-	Square( SquareType s, Direction d) { squareType= s; facing=d;}
+	Square( SquareType st, Direction d) { squareType= st; facing=d;}
 
 	//copy constructor
 	Square( Square s) { squareType= s.getType(); endpiece=s.isEnd(); facing=s.getFacing(); guessed=s.isGuessed(); }

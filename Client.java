@@ -22,7 +22,7 @@ public class Client extends JFrame
 {
    private JTextField enterField; // enters information from user
    private JTextArea displayArea; // display information to user
-   private ObjectOutputStream output; // output stream to server
+   private PrintWriter output; // output stream to server
    private BufferedReader input; // input stream from server
    private String message = ""; // message from server
    private String chatServer; // host server for this application
@@ -102,9 +102,8 @@ public class Client extends JFrame
 
       displayMessage( "111\n" );
       // set up output stream for objects
-      output = new ObjectOutputStream( client.getOutputStream() );      
+      output = new PrintWriter(client.getOutputStream() , true); 
       displayMessage( "222\n" );
-      output.flush(); // flush output buffer to send header information
       displayMessage( "333\n" );
       // set up input stream for objects
       input =  new BufferedReader( new InputStreamReader( client.getInputStream() ) );
@@ -125,7 +124,7 @@ public class Client extends JFrame
 
       
             message =  input.readLine(); // read new message
-            displayMessage( "\n" + message ); // display message
+            displayMessage( "\nhim: " + message ); // display message
  
 
 
@@ -153,16 +152,10 @@ public class Client extends JFrame
    // send message to server
    private void sendData( String message )
    {
-      try // send object to server
-      {
-         output.writeObject( message );
-         output.flush(); // flush data to output
+         output.print(message);
+	output.flush();
          displayMessage( "\nyou: " + message );
-      } // end try
-      catch ( IOException ioException )
-      {
-         displayArea.append( "\nError writing object" );
-      } // end catch
+  
    } // end method sendData
 
    // manipulates displayArea in the event-dispatch thread
