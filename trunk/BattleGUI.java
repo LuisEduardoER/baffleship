@@ -16,25 +16,14 @@ import  java.io.*;
 class GUI extends JFrame implements ActionListener
 {
 
-	final int wrongGuessReward = -3;
-	final int shootLaserReward = -1;
-	final int correctGuessReward = 4;
-
-
-	//BlackBox masterBox;
-	boolean known[][];
-	int bafflesKnown;
-	boolean disableGuessing;	
-	int score;
-
-
-
 	JFrame application = new JFrame();
 
-        JButton button1 = new JButton("Button");
+        JButton button1 = new JButton("Login");
         JButton button2 = new JButton("Button");
         JButton button3 = new JButton("Button");
         JButton button4 = new JButton("Button");
+	JTextField usernameField = new JTextField(20);
+	JTextField passwordField = new JTextField(20);
  
 
 	JButton buttonStartOver = new JButton("Restart");
@@ -66,65 +55,51 @@ class GUI extends JFrame implements ActionListener
 	}
 	
 
- */
-
-					
-
+	 */
 
 
 	void ShowBoard()
 	{
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray[i][j].setVisible(true);		
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray[i][j].setVisible(true);
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);		
 	}
 
 
 	void HideBoard()
 	{
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray[i][j].setVisible(false);
-		
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(false);	
 	}
-
-
-
 
 	
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
 
+ 		String username = usernameField.getText();
+		String password = passwordField.getText();
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray[i][j])
 		{
 			
 		}
-
 	}
 
-
-
-	/** Returns an ImageIcon, or null if the path was invalid. */
-    protected static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = BattleGUI.class.getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-
-
-
-
-
+		/** Returns an ImageIcon, or null if the path was invalid. */
+	    protected static ImageIcon createImageIcon(String path) {
+		java.net.URL imgURL = BattleGUI.class.getResource(path);
+		if (imgURL != null) {
+		    return new ImageIcon(imgURL);
+		} else {
+		    System.err.println("Couldn't find file: " + path);
+		    return null;
+		}
+	    }
 
 
 	public JPanel createContentPane()
 	{
-
-		//createSounds();
-
-		
+	
 		//bottom panel
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -164,14 +139,25 @@ class GUI extends JFrame implements ActionListener
 		
 		final JPopupMenu menu = new JPopupMenu();
     
-        // Create and add a menu item
-        JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
-        dropBomb.addActionListener(this);
-        menu.add(dropBomb);
+		// Create and add a menu item
+		JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
+		dropBomb.addActionListener(this);
+		menu.add(dropBomb);
+
+
+		/* Login shit we might use later
+		usernameField.addActionListener(this);
+		passwordField.addActionListener(this);
+		usernameField.setLocation(100,100);
+		passwordField.setLocation(100,00);
+		usernameField.setVisible(true);
+		passwordField.setVisible(true);
+		usernameField.setEditable( true );
+		passwordField.setEditable( true );*/
     
-        button1.setLocation(10,10);
-        button1.setSize(100,25);
-		button1.setVisible(true);
+        	button1.setLocation(10,10);
+        	button1.setSize(100,25);
+		button1.setVisible(false);
 		button1.setForeground(Color.black);
 		button1.setBackground(Color.white);
 		button1.setBorder(border);
@@ -179,8 +165,8 @@ class GUI extends JFrame implements ActionListener
 		buttonPanel.add(button1);
 		
 		button2.setLocation(10,110);
-        button2.setSize(100,25);
-		button2.setVisible(true);
+       		button2.setSize(100,25);
+		button2.setVisible(false);
 		button2.setForeground(Color.black);
 		button2.setBackground(Color.white);
 		button2.setBorder(border);
@@ -188,8 +174,8 @@ class GUI extends JFrame implements ActionListener
 		buttonPanel.add(button2);
 		
 		button3.setLocation(10,210);
-        button3.setSize(100,25);
-		button3.setVisible(true);
+        	button3.setSize(100,25);
+		button3.setVisible(false);
 		button3.setForeground(Color.black);
 		button3.setBackground(Color.white);
 		button3.setBorder(border);
@@ -197,8 +183,8 @@ class GUI extends JFrame implements ActionListener
 		buttonPanel.add(button3);
 		
 		button4.setLocation(10,310);
-        button4.setSize(100,25);
-		button4.setVisible(true);
+        	button4.setSize(100,25);
+		button4.setVisible(false);
 		button4.setForeground(Color.black);
 		button4.setBackground(Color.white);
 		button4.setBorder(border);
@@ -231,30 +217,25 @@ class GUI extends JFrame implements ActionListener
 			buttonArray2[i][j].setBackground(Color.white);
 			buttonArray2[i][j].setBorder(border);
 			buttonArray2[i][j].addActionListener(this);
-            // Set the component to show the popup menu
-            buttonArray2[i][j].addMouseListener(new MouseAdapter() {
-                public void mousePressed(MouseEvent evt) {
-                    if (evt.isPopupTrigger()) {
-                        menu.show(evt.getComponent(), evt.getX(), evt.getY());
-                    }
-                }
-                public void mouseReleased(MouseEvent evt) {
-                    if (evt.isPopupTrigger()) {
-                        menu.show(evt.getComponent(), evt.getX(), evt.getY());
-                    }
-                }
-            });
 
-			buttonPanel.add(buttonArray2[i][j]);
+		    // Set the component to show the popup menu
+		    buttonArray2[i][j].addMouseListener(new MouseAdapter() {
+		        public void mousePressed(MouseEvent evt) {
+		            if (evt.isPopupTrigger()) {
+		                menu.show(evt.getComponent(), evt.getX(), evt.getY());
+		            }
+		        }
+		        public void mouseReleased(MouseEvent evt) {
+		            if (evt.isPopupTrigger()) {
+		                menu.show(evt.getComponent(), evt.getX(), evt.getY());
+		            }
+		        }
+		    });
+				buttonPanel.add(buttonArray2[i][j]);
+			}
+			return panel;
 		}
-		return panel;
-	}
-
-
-
 }
-
-
 
 
 
@@ -282,15 +263,11 @@ public class BattleGUI extends JFrame
 		//com.sun.awt.AWTUtilities.setWindowOpaque(frame, false);
 		frame.setVisible(true);
 
-	}
-	
+	}	
 		
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             		public void run() { createAndShowGUI(); }
         	}) ;
 	}
-
-
-
 }
