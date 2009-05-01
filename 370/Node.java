@@ -1,5 +1,5 @@
 
-include java.awt.Point;
+import java.awt.Point;
 
 public class Node
 {
