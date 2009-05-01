@@ -1,6 +1,7 @@
 
+include java.awt.Point;
 
-public Class Node
+public class Node
 {
 private boolean awake;
 private final Point location;
