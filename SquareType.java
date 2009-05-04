@@ -22,7 +22,7 @@ public enum SquareType
 	public final int length;   //if its a ship, how long is the ship
 
 	//constructor
-	SquareType(Color p, Color ep, boolean s, int l) {  picture = p; endPicture=ep; ship = s; length = l}	
+	SquareType(Color p, Color ep, boolean s, int l) {  picture = p; endPicture=ep; ship = s; length = l;}	
 	
 	public boolean isShip() { return ship; }
 	public boolean isWater() { return !ship; }

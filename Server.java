@@ -112,11 +112,11 @@ public class Server
 	{ 
 		tempMessage = new StringBuilder(); 
 		while ( inFromA.available() >0 )tempMessage.append((char)inFromA.read());
-		if (tempMessage.length()>0 ) outToB.println(tempMessage.toString());
+		if (tempMessage.length()>0 ) outToB.println("CHAT "+tempMessage.toString());
 
 		tempMessage = new StringBuilder(); 
 		while ( inFromB.available() >0 ) tempMessage.append((char)inFromB.read());
-		if (tempMessage.length()>0 ) outToA.println(tempMessage.toString());
+		if (tempMessage.length()>0 ) outToA.println("CHAT "+tempMessage.toString());
 	}
   }
 
