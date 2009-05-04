@@ -5,9 +5,8 @@ public class Node
 {
 	private boolean awake;
 	private Network network;
-	private final Point2D location;
+	public final Point2D location;
 	private float energy;
-
 
 	static final float detectionRange = 5;
 	static final float maxEnergy = 100;
@@ -19,8 +18,22 @@ public class Node
 		location = new Point2D.Float((float)p.getX(),(float)p.getY());
 	}
 
-	public void wakeup() { awake=true; }
+	public static float distance(Point2D p, Point2D q)
+	{
+		return (float) Math.sqrt( Math.pow( ( p.getX() - q.getX() ),2) + Math.pow( ( p.getY() - q.getY() ),2) );
+	}
 
+	public float distance(Point2D p)
+	{
+		return distance(location,p);
+	}
+
+	public boolean inRange(Point2D p)
+	{
+		return ( detectionRange >= distance(p) );
+	}
+
+	public void wakeup() { if (energy>0) awake=true; }
 
 	public void run()
 	{
