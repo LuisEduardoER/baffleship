@@ -87,11 +87,15 @@ class BattleGUI extends JFrame implements ActionListener
  		String username = usernameField.getText();
 		String password = passwordField.getText();
 		
-		if(source == button1)showOpponentBoard();
+		if(source == button1){
+		    showOpponentBoard();
+		    client.sendData( "READY" );
+		}
+		        
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray[i][j])
 		{
-			
+			client.sendData( "SHOOT" + " " + Integer.toString(i) + " " + Integer.toString(j) );
 		}
 	}
 
@@ -135,7 +139,7 @@ class BattleGUI extends JFrame implements ActionListener
 		    // send message to server
 		    public void actionPerformed( ActionEvent event )
 		    {
-		       client.sendData( event.getActionCommand() );
+		       client.sendData( "CHAT " +event.getActionCommand() );
 		       enterField.setText( "" );
 		    } // end method actionPerformed
 		 } // end anonymous inner class
