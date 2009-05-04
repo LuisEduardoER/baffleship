@@ -10,6 +10,10 @@
 	if ( Direction.parseDirection("East") == Direction.EAST) { ; };
 
 */
+ 
+
+import java.awt.Point;
+
 
 
 public enum Direction
