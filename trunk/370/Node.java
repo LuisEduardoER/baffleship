@@ -55,12 +55,7 @@ public class Node
 	{
 		if ( awake && isAlive() )
 		{ 
-
-
 ;
-
-
-
 		}
 	}
 	
