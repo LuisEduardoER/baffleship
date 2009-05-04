@@ -27,6 +27,9 @@ public class Client
 	private int port;	//port # on host
    private Socket client; // socket to communicate with server
 	BattleGUI battleGui;
+	
+	String delims = "[ ]+";
+
 
    // initialize chatServer and set up GUI
    public Client( String host , int p , BattleGUI b)
@@ -77,33 +80,30 @@ public class Client
    // get streams to send and receive data
    private void getStreams() throws IOException
    {
-
-      displayMessage( "111\n" );
       // set up output stream for objects
       output = new PrintWriter(client.getOutputStream() , true); 
-      displayMessage( "222\n" );
-      displayMessage( "333\n" );
+      
       // set up input stream for objects
       input =  new BufferedReader( new InputStreamReader( client.getInputStream() ) );
 
-
-
-      displayMessage( "\nGot I/O streams\n" );
    } // end method getStreams
 
    // process connection with server
    private void processConnection() throws IOException
    {
+     String[] tokens;
       do // process messages sent from server
-      { 
-
-      
+      {      
             message =  input.readLine(); // read new message
-            displayMessage( "\nhim: " + message ); // display message
- 
-
-
-      } while ( !message.equals( "SERVER>>> TERMINATE" ) );
+            System.out.println("lol");
+            tokens = message.split(delims);
+            
+           if(tokens[0].equals("CHAT")){
+                displayMessage( "\nOpponent: ");
+                 for(int i=2; i<tokens.length; i++) 
+                    displayMessage( tokens[i] +" " );
+           }  
+      } while(!tokens[0].equals("EXIT")); 
    } // end method processConnection
 
    // close streams and socket
@@ -128,7 +128,13 @@ public class Client
    {
          output.print(message);
 	output.flush();
-         displayMessage( "\nyou: " + message );
+	   String[] tokens = message.split(delims);
+            
+            if(tokens[0].equals("CHAT")){
+                displayMessage( "\nYou: ");
+                 for(int i=1; i<tokens.length; i++) 
+                    displayMessage( tokens[i] +" " );
+           }  
   
    } // end method sendData
 
