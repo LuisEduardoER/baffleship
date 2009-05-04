@@ -4,7 +4,14 @@ import java.util.ArrayList;
 
 public class Network
 {
-	java.util.List<Node> nodes = new ArrayList<Node>();
+	public final Point2D objectLocation;
+
+
+
+
+
+
+	public java.util.List<Node> nodes = new ArrayList<Node>();
 
 	public ArrayList<Node> inRange(Point2D p)
 	{
