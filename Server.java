@@ -38,6 +38,8 @@ public class Server
 
 
 
+
+
    private void Print (String s) { System.out.println(s); }
 
 
@@ -118,13 +120,15 @@ public class Server
 	}
   }
 
+	public void sendToPlayerA(String s) { outToA.println(s); }
+
+	public void sendToPlayerB(String s) { outToB.println(s); }
+
 
    // close streams and socket
    private void closeConnection() 
    {
       System.out.println( "\nTerminating connection\n" );
-    
-
       try 
       {
          inFromA.close(); // close output stream
