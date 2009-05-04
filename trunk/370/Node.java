@@ -3,13 +3,15 @@ import java.awt.geom.*;
 
 public class Node
 {
-	private boolean awake;
-	private Network network;
-	public final Point2D location;
-	private float energy;
 
 	static final float detectionRange = 5;
 	static final float maxEnergy = 100;
+
+	private Network network; //context
+	private boolean awake;
+	private boolean current;  //does this node consider itself to be the "current node"?
+	public final Point2D location;
+	private float energy;		//0 or less is dead
 
 	Node (Point2D p)
 	{
