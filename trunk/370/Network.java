@@ -56,7 +56,7 @@ public class Network
 	public void tick()
 	{
 		wakeupNodes();
-		for(Node n : nodes) 
+		for(Node n : nodes) ;
 
 
 	}
