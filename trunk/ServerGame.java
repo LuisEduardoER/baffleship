@@ -14,7 +14,7 @@ public class ServerGame
 	{
 		server=s;
 
-		gamestate=GameState.WAITING
+		gamestate=GameState.WAITING;
 		for (int x=0;x<10;x++) for (int y=0;y<10;y++)
 		{
 			boardA[x][y] = new Square();
@@ -22,7 +22,7 @@ public class ServerGame
 		}
 		
 
-
+	}
 
 
 
