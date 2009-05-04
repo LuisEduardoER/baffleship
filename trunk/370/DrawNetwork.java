@@ -7,21 +7,21 @@ import java.awt.event.*;
 public class DrawNetwork extends JPanel
 {
 		
-	Network network = new Network();
+	Network network;
 
-	DrawNetwork(){
-
-
+	DrawNetwork(Network n){
+        network = n;
 	}
 
 	public void paintComponent(Graphics comp)
 	{
 		super.paintComponent(comp);
 		Graphics2D comp2D = (Graphics2D)comp;
-		
-		Ellipse2D.Double node = new Ellipse2D.double(0, , 50, 50);
-		comp2D.setPaint(Color.red);
-		comp2D.fill(node);
+		for(Node n : network.nodes){
+		    Ellipse2D.Double node = new Ellipse2D.Double(n.location.getX(),n.location.getY(), 30, 30);
+		    comp2D.setPaint(Color.red);
+		    comp2D.fill(node);
+		}
 		
 	}
 }
