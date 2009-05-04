@@ -6,6 +6,8 @@ public class Network
 {
 	public java.util.List<Node> nodes = new ArrayList<Node>();
 
+	private java.util.List<Node> nodesToAwaken = new ArrayList<Node>();
+
 	//public final Point2D objectLocation;
 
 
@@ -37,6 +39,20 @@ public class Network
 		}
 		return tempNode;
 	}
+
+	public void wakeupNextTick(Node n)
+	{
+		nodesToAwaken.add(n);
+	}
+
+
+	private void wakeupNodes()
+	{
+		for(Node n : nodesToAwaken) n.wakeup();
+		nodesToAwaken.clear();
+	}
+
+
 
 	public void tick()
 	{
