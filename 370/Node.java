@@ -39,11 +39,11 @@ public class Node
 		return ( detectionRange >= distance(p) );
 	}
 
-	public void wakeup() { if isAlive() { awake=true; System.out.println("Waking up node "+name+" at location "+location); } }
+	public void wakeup() { if (isAlive()) { awake=true; System.out.println("Waking up node "+name+" at location "+location); } }
 
 	public void setCurrent()
 	{
-		if isAlive()
+		if (isAlive())
 		{
 			awake=true;
 			current=true;
@@ -57,7 +57,7 @@ public class Node
 		{ 
 
 
-
+;
 
 
 
