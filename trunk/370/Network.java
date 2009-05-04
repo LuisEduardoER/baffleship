@@ -6,12 +6,12 @@ public class Network
 {
 	public java.util.List<Node> nodes = new ArrayList<Node>();
 
-	public final Point2D objectLocation;
+	//public final Point2D objectLocation;
 
 
 	public void addNode(String name, Point2D p)
 	{
-		nodes.add(new Node(name, this, p);
+		nodes.add(new Node(name, this, p));
 	}
 
 
