@@ -19,7 +19,7 @@ class BattleGUI extends JFrame implements ActionListener
 	
 	JFrame application = new JFrame();
 
-        JButton button1 = new JButton("Login");
+        JButton button1 = new JButton("Ready");
         JButton button2 = new JButton("Button");
         JButton button3 = new JButton("Button");
         JButton button4 = new JButton("Button");
@@ -66,17 +66,17 @@ class BattleGUI extends JFrame implements ActionListener
 	 */
 
 
-	void ShowBoard()
+	void showOpponentBoard()
 	{
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray[i][j].setVisible(true);
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);		
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);	
+		button1.setVisible(false);	
 	}
 
 
-	void HideBoard()
+	void hideOpponentBoard()
 	{
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray[i][j].setVisible(false);
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(false);	
+		button1.setVisible(true);
 	}
 
 	
@@ -86,6 +86,8 @@ class BattleGUI extends JFrame implements ActionListener
 
  		String username = usernameField.getText();
 		String password = passwordField.getText();
+		
+		if(source == button1)showOpponentBoard();
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray[i][j])
 		{
@@ -196,9 +198,9 @@ class BattleGUI extends JFrame implements ActionListener
 		usernameField.setEditable( true );
 		passwordField.setEditable( true );*/
     
-        	button1.setLocation(10,10);
+        	button1.setLocation(200,275);
         	button1.setSize(100,25);
-		button1.setVisible(false);
+		button1.setVisible(true);
 		button1.setForeground(Color.black);
 		button1.setBackground(Color.white);
 		button1.setBorder(border);
@@ -253,7 +255,7 @@ class BattleGUI extends JFrame implements ActionListener
 			buttonArray2[i][j] = new JButton("");
 			buttonArray2[i][j].setLocation(125+24*i,50+24*j);
 			buttonArray2[i][j].setSize(25,25);
-			buttonArray2[i][j].setVisible(true);
+			buttonArray2[i][j].setVisible(false);
 			buttonArray2[i][j].setBackground(Color.white);
 			buttonArray2[i][j].setBackground(Color.white);
 			buttonArray2[i][j].setBorder(border);
