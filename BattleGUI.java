@@ -13,9 +13,10 @@ import javax.swing.border.*;
 import  java.io.*;
 
 
-class GUI extends JFrame implements ActionListener
+class BattleGUI extends JFrame implements ActionListener
 {
 
+	
 	JFrame application = new JFrame();
 
         JButton button1 = new JButton("Login");
@@ -31,6 +32,13 @@ class GUI extends JFrame implements ActionListener
 	JButton buttonArray[][] = new JButton[10][10];
 
 	JButton buttonArray2[][] = new JButton[10][10];
+
+	JTextField enterField; // enters information from user
+   	JTextArea displayArea; // display information to user
+
+	Client client;
+
+	
 	
 		//==========================================ICONS===============
 	/*	ImageIcon unguessedButtonIcon = createImageIcon("images/unguessed.gif");
@@ -96,6 +104,11 @@ class GUI extends JFrame implements ActionListener
 		}
 	    }
 
+	public void setClient(Client c)
+	{
+		client = c;
+	}
+
 
 	public JPanel createContentPane()
 	{
@@ -104,6 +117,34 @@ class GUI extends JFrame implements ActionListener
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(Color.white);
+
+
+		JPanel textPanel = new JPanel(new BorderLayout());
+		textPanel.setBackground(Color.yellow);
+		textPanel.setSize(400, 150);
+		textPanel.setLocation(50,600);	
+		
+
+		enterField = new JTextField(); // create enterField
+	      	enterField.setEditable( true );
+	     	enterField.addActionListener(
+		 new ActionListener() 
+		 {
+		    // send message to server
+		    public void actionPerformed( ActionEvent event )
+		    {
+		       client.sendData( event.getActionCommand() );
+		       enterField.setText( "" );
+		    } // end method actionPerformed
+		 } // end anonymous inner class
+	      	); // end call to addActionListener
+
+	     	textPanel.add( enterField, BorderLayout.NORTH );
+
+	      	displayArea = new JTextArea(); // create displayArea
+	      	textPanel.add( new JScrollPane( displayArea ), BorderLayout.CENTER );
+		
+		panel.add(textPanel);
 		
 		/* Creation of a Panel to contain the title label
         	JPanel titlePanel = new JPanel();
@@ -127,8 +168,8 @@ class GUI extends JFrame implements ActionListener
         	// Creation of a panel to contain all the JButtons.
        		JPanel buttonPanel = new JPanel();     
        		buttonPanel.setLayout(null);
-       		buttonPanel.setLocation(000, 00);
-      		buttonPanel.setSize(700, 700);
+       		buttonPanel.setLocation(000, 000);
+      		buttonPanel.setSize(500,600);
        		panel.add(buttonPanel);	
  
 
@@ -196,7 +237,7 @@ class GUI extends JFrame implements ActionListener
 		{
 			
 			buttonArray[i][j] = new JButton("");
-			buttonArray[i][j].setLocation(225+25*i,275+25*j);
+			buttonArray[i][j].setLocation(125+24*i,325+24*j);
 			buttonArray[i][j].setSize(25,25);
 			buttonArray[i][j].setVisible(true);
 			buttonArray[i][j].setForeground(Color.white);
@@ -210,7 +251,7 @@ class GUI extends JFrame implements ActionListener
 		{
 			
 			buttonArray2[i][j] = new JButton("");
-			buttonArray2[i][j].setLocation(225+25*i,10+25*j);
+			buttonArray2[i][j].setLocation(125+24*i,50+24*j);
 			buttonArray2[i][j].setSize(25,25);
 			buttonArray2[i][j].setVisible(true);
 			buttonArray2[i][j].setBackground(Color.white);
@@ -232,42 +273,11 @@ class GUI extends JFrame implements ActionListener
 		        }
 		    });
 				buttonPanel.add(buttonArray2[i][j]);
-			}
-			return panel;
+		}
+			
+		return panel;
+
 		}
 }
 
 
-
-public class BattleGUI extends JFrame
-{
-
-	public static void createAndShowGUI()
-	{
-		Toolkit toolkit = Toolkit.getDefaultToolkit();  
-		Dimension screenSize = toolkit.getScreenSize();
-
-
-		JFrame frame = new JFrame("Baffleship!");		
-		GUI menu = new GUI();
-		frame.setContentPane(menu.createContentPane());
-        	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.70f);
-	        frame.setSize(500,700);
-
-		//place frame in middle of screen
-		int x = (screenSize.width - frame.getWidth()) / 2;  
-		int y = (screenSize.height - frame.getHeight()) / 2;  
- 		frame.setLocation(x, y); 
-		//frame.setUndecorated(true);
-		//com.sun.awt.AWTUtilities.setWindowOpaque(frame, false);
-		frame.setVisible(true);
-
-	}	
-		
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-            		public void run() { createAndShowGUI(); }
-        	}) ;
-	}
-}
