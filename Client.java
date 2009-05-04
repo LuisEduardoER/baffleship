@@ -18,46 +18,24 @@ import java.net.*;
 import java.io.*;
 
 
-public class Client extends JFrame 
+public class Client
 {
-   private JTextField enterField; // enters information from user
-   private JTextArea displayArea; // display information to user
    private PrintWriter output; // output stream to server
    private BufferedReader input; // input stream from server
    private String message = ""; // message from server
    private String chatServer; // host server for this application
 	private int port;	//port # on host
    private Socket client; // socket to communicate with server
+	BattleGUI battleGui;
 
    // initialize chatServer and set up GUI
-   public Client( String host , int p )
+   public Client( String host , int p , BattleGUI b)
    {
-      super( "Client" );
+      battleGui = b;
 
       chatServer = host; // set server to which this client connects
 	port = p;
-
-      enterField = new JTextField(); // create enterField
-      enterField.setEditable( false );
-      enterField.addActionListener(
-         new ActionListener() 
-         {
-            // send message to server
-            public void actionPerformed( ActionEvent event )
-            {
-               sendData( event.getActionCommand() );
-               enterField.setText( "" );
-            } // end method actionPerformed
-         } // end anonymous inner class
-      ); // end call to addActionListener
-
-      add( enterField, BorderLayout.NORTH );
-
-      displayArea = new JTextArea(); // create displayArea
-      add( new JScrollPane( displayArea ), BorderLayout.CENTER );
-
-      setSize( 300, 150 ); // set size of window
-      setVisible( true ); // show window
+	//runClient();
    } // end Client constructor
 
    // connect to server and process messages from server
@@ -116,9 +94,6 @@ public class Client extends JFrame
    // process connection with server
    private void processConnection() throws IOException
    {
-      // enable enterField so client user can send messages
-      setTextFieldEditable( true );
-
       do // process messages sent from server
       { 
 
@@ -135,8 +110,7 @@ public class Client extends JFrame
    private void closeConnection() 
    {
       displayMessage( "\nClosing connection" );
-      setTextFieldEditable( false ); // disable enterField
-
+ 
       try 
       {
          output.close(); // close output stream
@@ -150,7 +124,7 @@ public class Client extends JFrame
    } // end method closeConnection
 
    // send message to server
-   private void sendData( String message )
+   public void sendData( String message )
    {
          output.print(message);
 	output.flush();
@@ -166,25 +140,13 @@ public class Client extends JFrame
          {
             public void run() // updates displayArea
             {
-               displayArea.append( messageToDisplay );
+               battleGui.displayArea.append( messageToDisplay );
             } // end method run
          }  // end anonymous inner class
       ); // end call to SwingUtilities.invokeLater
    } // end method displayMessage
 
-   // manipulates enterField in the event-dispatch thread
-   private void setTextFieldEditable( final boolean editable )
-   {
-      SwingUtilities.invokeLater(
-         new Runnable() 
-         {
-            public void run() // sets enterField's editability
-            {
-               enterField.setEditable( editable );
-            } // end method run
-         } // end anonymous inner class
-      ); // end call to SwingUtilities.invokeLater
-   } // end method setTextFieldEditable
+  
 } // end class Client
 
 /**************************************************************************
