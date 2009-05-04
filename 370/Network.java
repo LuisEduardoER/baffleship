@@ -16,7 +16,6 @@ public class Network
 		nodes.add(new Node(name, this, p));
 	}
 
-
 	public ArrayList<Node> inRange(Point2D p)
 	{
 		java.util.ArrayList<Node> temp = new ArrayList<Node>();	
@@ -40,11 +39,7 @@ public class Network
 		return tempNode;
 	}
 
-	public void wakeupNextTick(Node n)
-	{
-		nodesToAwaken.add(n);
-	}
-
+	public void wakeupNextTick(Node n) { nodesToAwaken.add(n); }
 
 	private void wakeupNodes()
 	{
@@ -56,6 +51,10 @@ public class Network
 
 	public void tick()
 	{
+		wakeupNodes();
+
+
+
 
 	}
 
