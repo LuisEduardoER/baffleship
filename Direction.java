@@ -40,7 +40,20 @@ public enum Direction
         }
 
 
+	public static Point Move(Point p, Direction dir, int distance)
+	{
+		Point newP = new Point(p);
 
+		switch (dir)
+		{
+			case NORTH: newP.translate(0, - distance); break;
+			case EAST:  newP.translate(distance, 0); break;
+			case SOUTH: newP.translate(0, distance); break;
+			case WEST:  newP.translate(- distance, 0); break;
+		}
+
+		return newP;
+	}
 
 }
 
