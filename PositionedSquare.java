@@ -9,4 +9,6 @@ class PositionedSquare extends Square
 	//constructor
 	PositionedSquare( SquareType st, Direction d, Point p) { super(st,d); location=new Point(p); }
 
+	
+
 }
