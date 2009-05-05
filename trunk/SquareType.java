@@ -29,4 +29,12 @@ public enum SquareType
 		
 	//setters not needed.  our enums are final.
 
+
+	public static SquareType parseShip(String s)
+	{
+		try { return valueOf(s.toUpperCase() ); } 
+			catch (Exception e) { return null; }
+        }
+
+
 }

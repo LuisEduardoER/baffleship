@@ -14,7 +14,7 @@ CHAT message		nobody is here
 
 
 
-PLACE S,X,Y		game already started
+PLACE S,X,Y,D		game already started
 			overlaps existing piece
 			illegal placement (all or parly off grid)			
 			placed OK.

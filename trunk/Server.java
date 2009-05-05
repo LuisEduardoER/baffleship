@@ -36,6 +36,7 @@ public class Server
 	private boolean A_PRESENT=false;
 	private boolean B_PRESENT=false;
 
+	ServerGame theGame = new ServerGame(this);
 
 
 
@@ -112,17 +113,19 @@ public class Server
 	{ 
 		tempMessage = new StringBuilder(); 
 		while ( inFromA.available() >0 )tempMessage.append((char)inFromA.read());
-		if (tempMessage.length()>0 ) outToB.println("CHAT "+tempMessage.toString());
+		if (tempMessage.length()>0 ) theGame.inputFromPlayer('A',tempMessage.toString());
 
 		tempMessage = new StringBuilder(); 
 		while ( inFromB.available() >0 ) tempMessage.append((char)inFromB.read());
-		if (tempMessage.length()>0 ) outToA.println("CHAT "+tempMessage.toString());
+		if (tempMessage.length()>0 ) theGame.inputFromPlayer('B',tempMessage.toString());
 	}
   }
 
-	public void sendToPlayerA(String s) { outToA.println(s); }
-
-	public void sendToPlayerB(String s) { outToB.println(s); }
+	public void sendToPlayer(char player, String s)
+	{
+		if (player == 'A') outToA.println(s);
+		if (player == 'B') outToB.println(s);
+	}
 
 
    // close streams and socket
