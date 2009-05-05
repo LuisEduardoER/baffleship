@@ -12,6 +12,9 @@ public class ServerGame
 	private Fleet fleetA = new Fleet();
 	private Fleet fleetB = new Fleet();
 
+	boolean readyA =false;
+	boolean readyB =false;
+
 	private GameState gamestate;
 
 	public ServerGame(Server s)
@@ -29,14 +32,47 @@ public class ServerGame
 	public void inputFromPlayer(char player, String message)
 	{
 		StringTokenizer parsedMessage = new StringTokenizer(message);
-		int messageLength = parsed.Message.countTokens(); 
+		int messageLength = parsedMessage.countTokens(); 
 		
 		if ( messageLength == 0 ) return; //just in case we got an empty message
-		
-		switch ( parsedMessage.nextToken() )
-		{
-			
 
+		String command = parsedMessage.nextToken().toUpperCase();
+
+		//we cant use switch on strings, sadly
+
+		if ( command == "CHAT" ) 
+		{
+			if ( messageLength == 1 ) return; //empty chats not allowed
+
+			if (player == 'A') server.sendToPlayer('B', message);
+			if (player == 'B') server.sendToPlayer('A', message);
+
+			return;
+		}
+		
+		if ( command == "READY" ) 
+		{
+			if ( (player == 'A') && ( fleetA.numShips() == 5 ) ) readyA =true; 
+			if ( (player == 'B') && ( fleetB.numShips() == 5 ) ) readyB =true;
+
+			if ( ( gamestate == GameState.WAITING ) && readyA && readyB ) gamestate = GameState.TURN_A;
+		}
+
+		if ( command == "PLACE" )
+		{
+			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to place a ship: "+message);
+			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to place a ship: "+message);
+		}
+
+
+		if ( command == "SHOOT" ) 
+		{
+			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to shoot: "+message);
+			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to shoot: "+message);
+		}
+		
+
+	}
 
 	
 
@@ -53,7 +89,7 @@ public class ServerGame
 		return false;
 	}
 
-	public SquareType shootAt(Point p, char player)
+/*	public SquareType shootAt(Point p, char player)
 	{
 		switch (gamestate) 
 		{
@@ -62,7 +98,7 @@ public class ServerGame
 	}
 
 
-
+*/
 
 	
 
