@@ -9,11 +9,6 @@ public class Fleet
 {
 	private java.util.List<Ship> ships = new ArrayList<Ship>();
 
-
-public Fleet()
-	{;		
-	}
-
 //returns true if ship is actually added or repositioned
 public boolean addShip(Ship newShip)
 	{
@@ -21,32 +16,38 @@ public boolean addShip(Ship newShip)
 		if (newShip.shipType == SquareType.WATER) return false;
 
 		//cant add a ship of the same kind as already exists
-		for(Ship s : ships) if (newShip.shipType == s.shipType ) return false;
+		for(Ship s : ships) 
+			if (newShip.shipType == s.shipType ) return false;
 
 		//can't add a ship that collides with an existing ship
-		for(Ship s : ships) 
-		
+		for(Ship s : ships)
+			for (int i=0; i<newShip.shipType.length; i++)
+				if ( s.collides( Direction.Move(newShip.startLocation,newShip.facing,i) ) )
+					return false;
 
-
+		//finally we can add the ship
+		ships.add(newShip);
+		return true;
 	}
 
-
-//returns true if its a hit, false for a miss
-//but really you should probably only be calling this if you know its a hit
-//deletes the hit square
-public boolean shoot(Point p)
+//returns WATER if you hit water or else returns the ship type on a hit
+//there is no protection against shotting the same square many times
+//that can be taken care of some other place
+public SquareType shoot(Point p)
 	{
-		for (int i=0; i< squares.size() ; i++) if ( squares.get(i).location.equals( p ) )
-		{			
-			squares.remove(i);
-			return true;
-		}
-		//else
-		return false;
+		for (Ship s : ships)
+			if ( s.shoot(p) ) return s.shipType;
+
+		return SquareType.WATER;
 	}	
 
-public boolean isSunk() { return squares.isEmpty();  }
 
-
+public boolean isSunk()
+	{
+		for (Ship s : ships)
+			if ( ! (s.isSunk() )) return false;
+		
+		return true;
+	}
 
 }
