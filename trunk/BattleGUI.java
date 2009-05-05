@@ -1,11 +1,26 @@
-
-
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Random;
 import javax.swing.border.*;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.TransferHandler;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+
 
 //import sun.audio.AudioPlayer;
 //import sun.audio.AudioStream;
@@ -18,6 +33,7 @@ class BattleGUI extends JFrame implements ActionListener
 
 	
 	JFrame application = new JFrame();
+	
 
         JButton button1 = new JButton("Ready");
         JButton button2 = new JButton("Button");
@@ -38,14 +54,33 @@ class BattleGUI extends JFrame implements ActionListener
 
 	Client client;
 
-	
+	String delims = "[ ]+";
 	
 		//==========================================ICONS===============
-	/*	ImageIcon unguessedButtonIcon = createImageIcon("images/unguessed.gif");
-		ImageIcon leftButtonIcon = createImageIcon("images/left.gif");
-		ImageIcon rightButtonIcon = createImageIcon("images/right.gif");
-		ImageIcon guessedButtonIcon = createImageIcon("images/guessed.gif");
+		ImageIcon carrierIcon = createImageIcon("carrier.jpg");
+		ImageIcon bshipIcon = createImageIcon("battleship.jpg");
+		ImageIcon cruiserIcon = createImageIcon("cruiser.jpg");
+		ImageIcon subIcon = createImageIcon("sub.jpg");
+		ImageIcon destroyerIcon = createImageIcon("destroyer.jpg");
 
+		ImageIcon carrierIconFront = createImageIcon("carrier1.jpg");
+		ImageIcon carrierIconMiddle = createImageIcon("carrier2.jpg");
+		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
+		ImageIcon waterIcon = createImageIcon("Water.JPG");
+	//	ImageIcon rightButtonIcon = createImageIcon("images/right.gif");
+	//	ImageIcon guessedButtonIcon = createImageIcon("images/guessed.gif");
+
+		JButton carrierLabel = new JButton(carrierIcon);
+		JButton battleShipButton = new JButton(bshipIcon);
+		JButton cruiserButton = new JButton(cruiserIcon);
+		JButton subButton = new JButton(subIcon);
+		JButton destroyerButton = new JButton(destroyerIcon);
+
+
+	 // Attach the drag source
+    	//JLabelDragSource cruiserdragSource = new JLabelDragSource(label);
+	
+	/*
 	AudioStream sounds[] = new AudioStream[10];
 	AudioPlayer p = AudioPlayer.player;
 
@@ -79,17 +114,112 @@ class BattleGUI extends JFrame implements ActionListener
 		button1.setVisible(true);
 	}
 
+	void placeCarrier(int x, int y, String dir, String ship)
+	{
+		int i=0;
+		buttonArray[x][y].setIcon(carrierIconFront);
+		if(ship.equals("carrier")) i = 3;
+		if(ship.equals("battle")) i = 2;
+		if(ship.equals("cruiser")) i = 1;
+		if(ship.equals("sub")) i = 1;
+		if(ship.equals("destroyer")) i = 0;
+		
+		if(dir.equals("N")){
+			for(int j=0; j<=i; j++){
+				buttonArray[x][++y].setIcon(carrierIconMiddle);
+			}
+			buttonArray[x][++y].setIcon(carrierIconEnd);
+		}
+		if(dir.equals("E")){
+			for(int j=0; j<=i; j++){
+				buttonArray[++x][y].setIcon(carrierIconMiddle);
+			}
+			buttonArray[++x][y].setIcon(carrierIconEnd);
+		}
+		if(dir.equals("S")){
+			for(int j=0; j<=i; j++){
+				buttonArray[x][--y].setIcon(carrierIconMiddle);
+			}
+			buttonArray[x][--y].setIcon(carrierIconEnd);
+		}
+		if(dir.equals("W")){
+			for(int j=0; j<=i; j++){
+				buttonArray[--x][y].setIcon(carrierIconMiddle);
+			}
+			buttonArray[--x][y].setIcon(carrierIconEnd);
+		}
+	}
+
+
 	
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
-
- 		String username = usernameField.getText();
-		String password = passwordField.getText();
+		int x, y;
+		String dir; 	
 		
 		if(source == button1){
 		    showOpponentBoard();
 		    client.sendData( "READY" );
+		}
+	
+		/*if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
+			 String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+		}*/
+
+		if(source == carrierLabel){
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			placeCarrier(x, y, dir, "carrier");
+		}
+
+		if(source == battleShipButton){
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			placeCarrier(x, y, dir, "battle");
+		}
+
+		if(source == cruiserButton){
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			placeCarrier(x, y, dir, "cruiser");
+		}
+
+		if(source == subButton){
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			placeCarrier(x, y, dir, "sub");
+		}
+
+		if(source == destroyerButton){
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String[] tokens;
+           		 tokens = coords.split(delims);
+        		x = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[0]);
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			placeCarrier(x, y, dir, "destroyer");
 		}
 		        
 
@@ -159,17 +289,42 @@ class BattleGUI extends JFrame implements ActionListener
         	titlePanel.setSize(800, 100);
         	titlePanel.setBackground(Color.white);
         	panel.add(titlePanel);
+		*/
+
+		//ship buttons
+		carrierLabel.setSize(125, 25);
+		carrierLabel.setLocation(188, 20);
+		carrierLabel.setVisible(true);
+		carrierLabel.addActionListener(this);
+		panel.add(carrierLabel);
+		
+		battleShipButton.setSize(100, 25);
+		battleShipButton.setLocation(200, 70);
+		battleShipButton.setVisible(true);
+		battleShipButton.addActionListener(this);
+		panel.add(battleShipButton);
+
+		cruiserButton.setSize(75, 25);
+		cruiserButton.setLocation(213, 120);
+		cruiserButton.setVisible(true);
+		cruiserButton.addActionListener(this);
+		panel.add(cruiserButton);
+
+		subButton.setSize(75, 25);
+		subButton.setLocation(213, 170);
+		subButton.setVisible(true);
+		subButton.addActionListener(this);
+		panel.add(subButton);
+
+		destroyerButton.setSize(50, 25);
+		destroyerButton.setLocation(225, 220);
+		destroyerButton.setVisible(true);
+		destroyerButton.addActionListener(this);
+		panel.add(destroyerButton);
 
 		
-		JLabel titleLabel = new JLabel("Baffleship!");
-		Font font = new Font("Lucida Sans", Font.PLAIN, 14);
-        	titleLabel.setLocation(0, 0);
-        	titleLabel.setSize(300, 100);
-        	titleLabel.setHorizontalAlignment(0);		
-		titleLabel.setFont(font);
-        	titleLabel.setForeground(Color.black);
-        	titleLabel.setBackground(Color.black);
-        	titlePanel.add(titleLabel);*/
+		
+
 
         	// Creation of a panel to contain all the JButtons.
        		JPanel buttonPanel = new JPanel();     
@@ -188,7 +343,7 @@ class BattleGUI extends JFrame implements ActionListener
     
 		// Create and add a menu item
 		JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
-		dropBomb.addActionListener(this);
+		dropBomb.addActionListener(new MenuActionListener());
 		menu.add(dropBomb);
 
 
@@ -242,7 +397,7 @@ class BattleGUI extends JFrame implements ActionListener
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
 		{
 			
-			buttonArray[i][j] = new JButton("");
+			buttonArray[i][j] = new JButton(waterIcon);
 			buttonArray[i][j].setLocation(125+24*i,325+24*j);
 			buttonArray[i][j].setSize(25,25);
 			buttonArray[i][j].setVisible(true);
@@ -280,10 +435,13 @@ class BattleGUI extends JFrame implements ActionListener
 		    });
 				buttonPanel.add(buttonArray2[i][j]);
 		}
-			
+
+
+		
 		return panel;
 
 		}
 }
+
 
 
