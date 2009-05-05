@@ -18,12 +18,11 @@ public class Square
 
 	//constructors
 	Square() {squareType= SquareType.WATER; }
-	Square( SquareType st) { squareType= st; }
+	Square( SquareType st ) { squareType= st; }
 	Square( SquareType st, Direction d) { squareType= st; facing=d;}
 
 	//copy constructor
 	Square( Square s) { squareType= s.getType(); endpiece=s.isEnd(); facing=s.getFacing(); guessed=s.isGuessed(); }
-
 
 	//setters and getters
 
@@ -44,6 +43,5 @@ public class Square
 	//picture is based on the ship type
 	//you can't set picture (except indirecly by changing ship type)
 	public Color getPicture() { return endpiece ? squareType.endPicture : squareType.picture; }
-
 
 }
