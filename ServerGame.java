@@ -8,11 +8,10 @@ public class ServerGame
 	private Square boardA[][];
 	private Square boardB[][];
 
-	private java.util.List<Ship> A_Ships = new ArrayList<Ship>();
-	private java.util.List<Ship> B_Ships = new ArrayList<Ship>();
+	private Fleet A_fleet = new Fleet();
+	private Fleet B_fleet = new Fleet();
 
 	private GameState gamestate;
-
 
 	public ServerGame(Server s)
 	{

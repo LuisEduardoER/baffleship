@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Fleet
 {
-	private java.util.List<Ship> ships = new ArrayList<Ship>();
+	public java.util.List<Ship> ships = new ArrayList<Ship>();
 
 //returns true if ship is actually added or repositioned
 public boolean addShip(Ship newShip)
@@ -31,7 +31,7 @@ public boolean addShip(Ship newShip)
 	}
 
 //returns WATER if you hit water or else returns the ship type on a hit
-//there is no protection against shotting the same square many times
+//there is no protection against shooting the same square many times
 //that can be taken care of some other place
 public SquareType shoot(Point p)
 	{
@@ -49,5 +49,8 @@ public boolean isSunk()
 		
 		return true;
 	}
+
+
+public int numShips() { return ships.size(); }
 
 }
