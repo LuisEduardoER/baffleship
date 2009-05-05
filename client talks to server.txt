@@ -27,7 +27,7 @@ READY			pieces not placed
 
 
 
-SHOOT X,Y		not your turn  (or just ignore?)
+SHOOT X Y		not your turn  (or just ignore?)
 			hit ship type
 			hit and sunk ship type
 			miss
@@ -35,7 +35,4 @@ SHOOT X,Y		not your turn  (or just ignore?)
 
 
 RETRANSMIT		resend last message to that client
-
-
-
 
