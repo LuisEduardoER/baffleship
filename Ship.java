@@ -2,7 +2,6 @@
 //Ship.java
 
 import java.awt.*;
-
 import java.util.*;
 
 
@@ -25,7 +24,30 @@ public Ship(SquareType s, Point p, Direction d)
 
 	}
 
+public boolean collide(Point p)
+	{
+		for (int i=0; i< squares.size() ; i++) if ( squares.get(i).location.equals( p ) ) return true;
+		return false;
+	}
 
+//returns true if its a hit, false for a miss
+//but really you should probably only be calling this once you know its a hit
+public boolean shoot(Point p)
+	{
+		for (int i=0; i< squares.size() ; i++) if ( squares.get(i).location.equals( p ) )
+		{			
+			squares.get(i).setGuessed();
+			return true;
+		}
+		//else
+		return false;
+	}	
+
+public boolean isSunk()
+	{
+		for (PositionedSquare ps : squares) if (! (ps.isGuessed() )) return false;
+		return true;
+	}
 
 
 }
