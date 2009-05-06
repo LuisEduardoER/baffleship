@@ -101,7 +101,12 @@ class BattleGUI extends JFrame implements ActionListener
 	void showOpponentBoard()
 	{
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);	
-		button1.setVisible(false);	
+		button1.setVisible(false);
+		carrierLabel.setVisible(false);
+		battleShipButton.setVisible(false);
+		cruiserButton.setVisible(false);
+		subButton.setVisible(false);
+		destroyerButton.setVisible(false);
 	}
 
 
@@ -113,13 +118,14 @@ class BattleGUI extends JFrame implements ActionListener
 
 	void placeCarrier(int x, int y, String dir, String ship)
 	{
+		client.sendData( "SHOOT " +);
 		int i=0;
 		buttonArray[x][y].setIcon(carrierIconFront);
-		if(ship.equals("carrier")) i = 3;
-		if(ship.equals("battle")) i = 2;
-		if(ship.equals("cruiser")) i = 1;
-		if(ship.equals("sub")) i = 1;
-		if(ship.equals("destroyer")) i = 0;
+		if(ship.equals("carrier")) i = 3; client.sendData( "SHOOT " + "CARRIER" + x + y + dir);
+		if(ship.equals("battle")) i = 2; client.sendData( "SHOOT " + "BSHIP" + x + y + dir);
+		if(ship.equals("cruiser")) i = 1; client.sendData( "SHOOT " + "CRUISER" + x + y + dir) ;
+		if(ship.equals("sub")) i = 1; client.sendData( "SHOOT " + "SUB" + x + y + dir);
+		if(ship.equals("destroyer")) i = 0; client.sendData( "SHOOT " + "DESTROYER" + x + y + dir);
 		
 		if(dir.equals("N")){
 			for(int j=0; j<i; j++){
@@ -191,7 +197,7 @@ class BattleGUI extends JFrame implements ActionListener
 		}
 		        
 
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray[i][j])
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray2[i][j])
 		{
 			client.sendData( "SHOOT" + " " + Integer.toString(i) + " " + Integer.toString(j) );
 		}
