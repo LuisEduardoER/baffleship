@@ -102,11 +102,7 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);	
 		button1.setVisible(false);
-		carrierLabel.setVisible(false);
-		battleShipButton.setVisible(false);
-		cruiserButton.setVisible(false);
-		subButton.setVisible(false);
-		destroyerButton.setVisible(false);
+		
 	}
 
 
@@ -118,20 +114,19 @@ class BattleGUI extends JFrame implements ActionListener
 
 	void placeCarrier(int x, int y, String dir, String ship)
 	{
-		client.sendData( "SHOOT " +);
-		int i=0;
+		int i=0; //number of middle pieces
 		buttonArray[x][y].setIcon(carrierIconFront);
-		if(ship.equals("carrier")) i = 3; client.sendData( "SHOOT " + "CARRIER" + x + y + dir);
-		if(ship.equals("battle")) i = 2; client.sendData( "SHOOT " + "BSHIP" + x + y + dir);
-		if(ship.equals("cruiser")) i = 1; client.sendData( "SHOOT " + "CRUISER" + x + y + dir) ;
-		if(ship.equals("sub")) i = 1; client.sendData( "SHOOT " + "SUB" + x + y + dir);
-		if(ship.equals("destroyer")) i = 0; client.sendData( "SHOOT " + "DESTROYER" + x + y + dir);
+		if(ship.equals("carrier")){ i = 3; }
+		if(ship.equals("battle")) {i = 2; }
+		if(ship.equals("cruiser")){ i = 1; }
+		if(ship.equals("sub")){ i = 1; }
+		if(ship.equals("destroyer")){ i = 0; }
 		
 		if(dir.equals("N")){
 			for(int j=0; j<i; j++){
-				buttonArray[x][++y].setIcon(carrierIconMiddle);
+				buttonArray[x][--y].setIcon(carrierIconMiddle);
 			}
-			buttonArray[x][++y].setIcon(carrierIconEnd);
+			buttonArray[x][--y].setIcon(carrierIconEnd);
 		}
 		if(dir.equals("E")){
 			for(int j=0; j<i; j++){
@@ -141,9 +136,9 @@ class BattleGUI extends JFrame implements ActionListener
 		}
 		if(dir.equals("S")){
 			for(int j=0; j<i; j++){
-				buttonArray[x][--y].setIcon(carrierIconMiddle);
+				buttonArray[x][++y].setIcon(carrierIconMiddle);
 			}
-			buttonArray[x][--y].setIcon(carrierIconEnd);
+			buttonArray[x][++y].setIcon(carrierIconEnd);
 		}
 		if(dir.equals("W")){
 			for(int j=0; j<i; j++){
@@ -172,28 +167,40 @@ class BattleGUI extends JFrame implements ActionListener
 			String[] tokens;
            		 tokens = coords.split(delims);
         		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
+			y = Integer.parseInt(tokens[1]);
 			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
 		}
-
+	
+		
 		if(source == carrierLabel){
+			carrierLabel.setVisible(false);
 			placeCarrier(x, y, dir, "carrier");
+			client.sendData( "SHOOT " + "CARRIER" + x + y + dir);
 		}
 
 		if(source == battleShipButton){		
+			battleShipButton.setVisible(false);
 			placeCarrier(x, y, dir, "battle");
+			client.sendData( "SHOOT " + "BSHIP" + x + y + dir);
+			
 		}
 
 		if(source == cruiserButton){		
+			cruiserButton.setVisible(false);
 			placeCarrier(x, y, dir, "cruiser");
+			client.sendData( "SHOOT " + "CRUISER" + x + y + dir) ;
 		}
 
-		if(source == subButton){		
+		if(source == subButton){
+			subButton.setVisible(false);		
 			placeCarrier(x, y, dir, "sub");
+			client.sendData( "SHOOT " + "SUB" + x + y + dir);
 		}
 
 		if(source == destroyerButton){
+			destroyerButton.setVisible(false);
 			placeCarrier(x, y, dir, "destroyer");
+			client.sendData( "SHOOT " + "DESTROYER" + x + y + dir);
 		}
 		        
 
