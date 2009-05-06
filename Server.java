@@ -121,6 +121,9 @@ public class Server
 	}
   }
 
+
+
+
 	public void sendToPlayer(char player, String s)
 	{
 		System.out.println("Sending to player "+player+": "+s);
