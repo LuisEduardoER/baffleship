@@ -311,7 +311,7 @@ class BattleGUI extends JFrame implements ActionListener
     
 		// Create and add a menu item
 		JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
-		dropBomb.addActionListener(new MenuActionListener());
+		//dropBomb.addActionListener(new MenuActionListener());
 		menu.add(dropBomb);
 
 
