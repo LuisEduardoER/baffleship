@@ -42,9 +42,9 @@ class BattleGUI extends JFrame implements ActionListener
 
 	JButton buttonStartOver = new JButton("Restart");
 
-	JButton buttonArray[][] = new JButton[10][10];
+	JButton bottomArray[][] = new JButton[10][10];
 
-	JButton buttonArray2[][] = new JButton[10][10];
+	JButton topArray[][] = new JButton[10][10];
 
 	JTextField enterField; // enters information from user
    	JTextArea displayArea; // display information to user
@@ -52,6 +52,11 @@ class BattleGUI extends JFrame implements ActionListener
 	Client client;
 
 	String delims = "[ ]+";
+
+	Object shipType = 0;
+	Object location = 0;
+	int xLoc = 0;
+	int yLoc = 0;
 	
 		//==========================================ICONS===============
 		ImageIcon carrierIcon = createImageIcon("carrier.jpg");
@@ -65,7 +70,7 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
 		ImageIcon waterIcon = createImageIcon("Water.JPG");
 		ImageIcon hitIcon = createImageIcon("explosion.png");
-		ImageIcon missIcon = createImageIcon("miss.png");
+		ImageIcon missIcon = createImageIcon("miss.jpg");
 
 		JButton carrierLabel = new JButton(carrierIcon);
 		JButton battleShipButton = new JButton(bshipIcon);
@@ -98,7 +103,7 @@ class BattleGUI extends JFrame implements ActionListener
 
 	void showOpponentBoard()
 	{
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);	
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) topArray[i][j].setVisible(true);	
 		button1.setVisible(false);
 		carrierLabel.setVisible(false);
 		battleShipButton.setVisible(false);	
@@ -111,7 +116,7 @@ class BattleGUI extends JFrame implements ActionListener
 
 	void hideOpponentBoard()
 	{
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(false);	
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) topArray[i][j].setVisible(false);	
 		button1.setVisible(true);
 	}
 
@@ -119,7 +124,7 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		int i=0; //number of middle pieces
 		int direction = 0;
-		buttonArray[x][y].setIcon(carrierIconFront);
+		bottomArray[x][y].setIcon(carrierIconFront);
 		if(ship.equals("carrier")){ i = 3; }
 		if(ship.equals("battle")) {i = 2; }
 		if(ship.equals("cruiser")){ i = 1; }
@@ -129,53 +134,53 @@ class BattleGUI extends JFrame implements ActionListener
 		if(dir.equalsIgnoreCase("north")){
 			if( i+2 > y){
 				y = 0;
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){	buttonArray[x][++y].setIcon(carrierIconMiddle);}
-				buttonArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){	bottomArray[x][++y].setIcon(carrierIconMiddle);}
+				bottomArray[x][++y].setIcon(carrierIconEnd);
 			}
 			else{
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){	buttonArray[x][--y].setIcon(carrierIconMiddle);}
-				buttonArray[x][--y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){	bottomArray[x][--y].setIcon(carrierIconMiddle);}
+				bottomArray[x][--y].setIcon(carrierIconEnd);
 			}
 		}
 		if(dir.equalsIgnoreCase("east")){
 			if( i+2 > (10-x)){
 				x = 10-(i+2);
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
-				buttonArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
+				bottomArray[++x][y].setIcon(carrierIconEnd);
 			}
 			else{
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
-				buttonArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
+				bottomArray[++x][y].setIcon(carrierIconEnd);
 			}
 		}	
 		if(dir.equalsIgnoreCase("south")){
 			if( i+2 > 10-y){
 				y = 10 -(i+2);
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[x][++y].setIcon(carrierIconMiddle);}
-				buttonArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddle);}
+				bottomArray[x][++y].setIcon(carrierIconEnd);
 			}
 			else{
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[x][++y].setIcon(carrierIconMiddle);}
-				buttonArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddle);}
+				bottomArray[x][++y].setIcon(carrierIconEnd);
 			}
 		}
 		if(dir.equalsIgnoreCase("west")){
 			if( i+2 > x){
 				x = 0;
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
-				buttonArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
+				bottomArray[++x][y].setIcon(carrierIconEnd);
 			}
 			else{
-				buttonArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){buttonArray[--x][y].setIcon(carrierIconMiddle);}
-				buttonArray[--x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){bottomArray[--x][y].setIcon(carrierIconMiddle);}
+				bottomArray[--x][y].setIcon(carrierIconEnd);
 			}
 		}
 	}
@@ -184,6 +189,7 @@ class BattleGUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
+		//Object shipType = evt.getSource();
 		int x = 0;
 		int y = 0;
 		String dir = "north"; 		
@@ -193,14 +199,17 @@ class BattleGUI extends JFrame implements ActionListener
 		}
 	
 		if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
+			shipType = source;
+			
+			/*
 			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
 			String[] tokens;
            		tokens = coords.split(delims);
         		x = Integer.parseInt(tokens[0]);
 			y = Integer.parseInt(tokens[1]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");*/
 		}	
-		
+		/*
 		if(source == carrierLabel){
 			carrierLabel.setVisible(false);
 			placeShip(x, y, dir, "carrier");
@@ -230,11 +239,59 @@ class BattleGUI extends JFrame implements ActionListener
 			destroyerButton.setVisible(false);
 			placeShip(x, y, dir, "destroyer");
 			client.sendData( "PLACE " + "DESTROYER " + " " + x + " " + y + " " + dir);
-		}		        
+		}	*/	        
 
-		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray2[i][j])
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == topArray[i][j])
 		{
 			client.sendData( "SHOOT " + " " + Integer.toString(i) + " " + Integer.toString(j) );
+		}
+
+		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == bottomArray[i][j])
+		{
+			if(location == (Integer)0) {
+				location = source;
+				xLoc = i;
+				yLoc = j;
+				//System.out.println(x+", "+y);
+			}
+			else{
+				location = 0;
+				if( (j < yLoc) && (i == xLoc)) dir = "north";
+				if( (j > yLoc) && (i == xLoc)) dir = "south";
+				if( (i > xLoc) && (j == yLoc)) dir = "east";
+				if( (i < xLoc) && (j == yLoc)) dir = "west";
+				System.out.println(dir);
+				if(shipType == carrierLabel){
+					carrierLabel.setVisible(false);
+					placeShip(xLoc, yLoc, dir, "carrier");
+					client.sendData( "PLACE " + "CARRIER " + " " + xLoc + " " + yLoc + " " + dir);
+				}
+
+				if(shipType == battleShipButton){		
+					battleShipButton.setVisible(false);
+					placeShip(xLoc, yLoc, dir, "battle");
+					client.sendData( "PLACE " + "BSHIP " + " " + xLoc + " " + yLoc + " " + dir);
+			
+				}
+
+				if(shipType == cruiserButton){		
+					cruiserButton.setVisible(false);
+					placeShip(xLoc, yLoc, dir, "cruiser");
+					client.sendData( "PLACE " + "CRUISER " + " " + xLoc + " " + yLoc + " " + dir);
+				}
+
+				if(shipType == subButton){
+					subButton.setVisible(false);		
+					placeShip(xLoc, yLoc, dir, "sub");
+					client.sendData( "PLACE " + "SUB " + " " + xLoc + " " + yLoc + " " + dir);
+				}
+
+				if(shipType == destroyerButton){
+					destroyerButton.setVisible(false);
+					placeShip(xLoc, yLoc, dir, "destroyer");
+					client.sendData( "PLACE " + "DESTROYER " + " " + xLoc + " " + yLoc + " " + dir);
+				}
+			}		        
 		}
 	}
 
@@ -256,22 +313,22 @@ class BattleGUI extends JFrame implements ActionListener
 
 	public void opponentHitShip(int x, int y)
 	{
-		buttonArray[x][y].setIcon(hitIcon);
+		bottomArray[x][y].setIcon(hitIcon);
 	}
 
 	public void opponentMissShip(int x, int y)
 	{
-		buttonArray[x][y].setIcon(missIcon);
+		bottomArray[x][y].setIcon(missIcon);
 	}
 
 	public void yourShotMissed(int x, int y)
 	{
-		buttonArray2[x][y].setIcon(hitIcon);
+		topArray[x][y].setIcon(missIcon);
 	}
 
 	public void yourShotHit(int x, int y)
 	{
-		buttonArray2[x][y].setIcon(missIcon);
+		topArray[x][y].setIcon(hitIcon);
 	}
 
 
@@ -413,30 +470,30 @@ class BattleGUI extends JFrame implements ActionListener
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
 		{		
-			buttonArray[i][j] = new JButton(waterIcon);
-			buttonArray[i][j].setLocation(125+24*i,325+24*j);
-			buttonArray[i][j].setSize(25,25);
-			buttonArray[i][j].setVisible(true);
-			buttonArray[i][j].setForeground(Color.white);
-			buttonArray[i][j].setBackground(Color.white);
-			buttonArray[i][j].setBorder(border);
-			buttonArray[i][j].addActionListener(this);
-			buttonPanel.add(buttonArray[i][j]);
+			bottomArray[i][j] = new JButton(waterIcon);
+			bottomArray[i][j].setLocation(125+24*i,325+24*j);
+			bottomArray[i][j].setSize(25,25);
+			bottomArray[i][j].setVisible(true);
+			bottomArray[i][j].setForeground(Color.white);
+			bottomArray[i][j].setBackground(Color.white);
+			bottomArray[i][j].setBorder(border);
+			bottomArray[i][j].addActionListener(this);
+			buttonPanel.add(bottomArray[i][j]);
 		}
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
 		{			
-			buttonArray2[i][j] = new JButton(waterIcon);
-			buttonArray2[i][j].setLocation(125+24*i,50+24*j);
-			buttonArray2[i][j].setSize(25,25);
-			buttonArray2[i][j].setVisible(false);
-			buttonArray2[i][j].setBackground(Color.white);
-			buttonArray2[i][j].setBackground(Color.white);
-			buttonArray2[i][j].setBorder(border);
-			buttonArray2[i][j].addActionListener(this);
+			topArray[i][j] = new JButton(waterIcon);
+			topArray[i][j].setLocation(125+24*i,50+24*j);
+			topArray[i][j].setSize(25,25);
+			topArray[i][j].setVisible(false);
+			topArray[i][j].setBackground(Color.white);
+			topArray[i][j].setBackground(Color.white);
+			topArray[i][j].setBorder(border);
+			topArray[i][j].addActionListener(this);
 
 		    // Set the component to show the popup menu
-		    buttonArray2[i][j].addMouseListener(new MouseAdapter() {
+		    topArray[i][j].addMouseListener(new MouseAdapter() {
 		        public void mousePressed(MouseEvent evt) {
 		            if (evt.isPopupTrigger()) {
 		                menu.show(evt.getComponent(), evt.getX(), evt.getY());
@@ -448,7 +505,7 @@ class BattleGUI extends JFrame implements ActionListener
 		            }
 		        }
 		    });
-				buttonPanel.add(buttonArray2[i][j]);
+				buttonPanel.add(topArray[i][j]);
 		}
 
 
