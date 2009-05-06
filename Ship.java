@@ -30,6 +30,19 @@ public boolean collides(Point p)
 		return false;
 	}
 
+
+public boolean inBounds(int xMin, int yMin, int xMax, int yMax)
+	{
+
+		return false;
+
+	}
+
+
+
+
+
+
 //returns true if its a hit, false for a miss
 //also marks the square hit
 //if you had already hit that square, congratulations, you just hit it again.
