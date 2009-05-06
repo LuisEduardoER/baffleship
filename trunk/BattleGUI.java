@@ -184,22 +184,20 @@ class BattleGUI extends JFrame implements ActionListener
 		Object source = evt.getSource();
 		int x = 0;
 		int y = 0;
-		String dir = "N"; 	
-		
+		String dir = "N"; 		
 		if(source == button1){
 		    showOpponentBoard();
 		    client.sendData( "READY" );
 		}
 	
 		if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
-			 String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
+			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
 			String[] tokens;
-           		 tokens = coords.split(delims);
+           		tokens = coords.split(delims);
         		x = Integer.parseInt(tokens[0]);
 			y = Integer.parseInt(tokens[1]);
 			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
-		}
-	
+		}	
 		
 		if(source == carrierLabel){
 			carrierLabel.setVisible(false);
@@ -230,12 +228,11 @@ class BattleGUI extends JFrame implements ActionListener
 			destroyerButton.setVisible(false);
 			placeShip(x, y, dir, "destroyer");
 			client.sendData( "PLACE " + "DESTROYER " + " " + x + " " + y + " " + dir);
-		}
-		        
+		}		        
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == buttonArray2[i][j])
 		{
-			client.sendData( "SHOOT" + " " + Integer.toString(i) + " " + Integer.toString(j) );
+			client.sendData( "SHOOT " + " " + Integer.toString(i) + " " + Integer.toString(j) );
 		}
 	}
 
