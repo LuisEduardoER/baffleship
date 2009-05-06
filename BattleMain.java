@@ -17,6 +17,7 @@ public class BattleMain extends JFrame
 
 			JFrame frame = new JFrame("Baffleship!");		
 			BattleGUI menu = new BattleGUI();
+			
 			frame.setContentPane(menu.createContentPane());
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			//com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.70f);
@@ -29,10 +30,10 @@ public class BattleMain extends JFrame
 			//frame.setUndecorated(true);
 			//com.sun.awt.AWTUtilities.setWindowOpaque(frame, false);
 			frame.setVisible(true);
-
 			Client client = new Client("127.0.0.1", 44771, menu);
 			menu.setClient(client);
 			client.runClient();
+			
 		}
 	
 		
