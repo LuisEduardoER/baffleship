@@ -19,68 +19,62 @@ import java.io.*;
 
 
 
+
+
 public class Server
 {
+	private ServerSocket server; // server socket
 
-   private ServerSocket server; // server socket
-   private Socket connectionA; // connection to client A
-   private Socket connectionB; // connection to client B
+	private Socket connectionA; // connection to client A
+	private PrintWriter outToA; // output stream to client
+	private InputStream inFromA; // input stream from client
 
-   private PrintWriter outToA;
-   private InputStream inFromA; // input stream from client
-
-   private PrintWriter outToB; // output stream to client
-   private InputStream inFromB; // input stream from client
-
-	private int port;
-	private boolean A_PRESENT=false;
-	private boolean B_PRESENT=false;
+	private Socket connectionB; // connection to client B
+	private PrintWriter outToB; // output stream to client
+   	private InputStream inFromB; // input stream from client
 
 	ServerGame theGame = new ServerGame(this);
 
-
-
-
    private void Print (String s) { System.out.println(s); }
 
-
-   public Server(int p)
+   public static void main( String args[] )
    {
-	port = p;
+	int port = 44771; //default port
+	try { port= Integer.parseInt(args[0]); } catch (Exception e) {;}
 
+      	Server application = new Server(port); // create  and run server
    } 
 
-   // set up and run server 
-   public void run()
+
+   public Server(int port)
    {
+
       try // set up server to receive connections; process connections
       {
-         server = new ServerSocket( port, 100 ); // create ServerSocket
+         server = new ServerSocket(port); // create ServerSocket
 
-         while ( true ) 
-         {
             try 
             {
                waitForConnections(); 
                getStreams(); // get input & output streams
-               processConnections(); 
-            } // end try
+               processConnections(); //loops until a connection is closed
+            } 
             catch ( EOFException eofException ) 
             {
                Print( "\nServer terminated connection" );
-            } // end catch
+            } 
             finally 
             {
-               closeConnection(); //  close connection
-         
-            } // end finally
-         } // end while
+               closeConnections();          
+            } 
+
       } // end try
-      catch ( IOException ioException ) 
+      catch ( Exception e ) 
       {
-         ioException.printStackTrace();
+         e.printStackTrace();
+	 Print("Can't listen on port "+port);
       } // end catch
-   } // end method run
+   } // end constructor
 
    // wait for connection to arrive, then display connection info
    private void waitForConnections() throws IOException
@@ -109,7 +103,7 @@ public class Server
    {
 	StringBuilder tempMessage;
 
-	while(true) // process messages sent from client
+	while( (connectionA.isConnected() ) && (connectionB.isConnected() ) ) // process messages sent from client
 	{ 
 		tempMessage = new StringBuilder(); 
 		while ( inFromA.available() >0 )tempMessage.append((char)inFromA.read());
@@ -121,9 +115,6 @@ public class Server
 	}
   }
 
-
-
-
 	public void sendToPlayer(char player, String s)
 	{
 		System.out.println("Sending to player "+player+": "+s);
@@ -133,7 +124,7 @@ public class Server
 
 
    // close streams and socket
-   private void closeConnection() 
+   private void closeConnections() 
    {
       System.out.println( "\nTerminating connection\n" );
       try 
