@@ -100,7 +100,7 @@ public class Client
             
            if(tokens[0].equals("CHAT")){
                 displayMessage( "\nOpponent: ");
-                 for(int i=2; i<tokens.length; i++) 
+                 for(int i=1; i<tokens.length; i++) 
                     displayMessage( tokens[i] +" " );
            }  
       } while(!tokens[0].equals("EXIT")); 
