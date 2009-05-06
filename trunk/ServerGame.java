@@ -44,7 +44,7 @@ public class ServerGame
 
 		if ( command.equals("CHAT") )
 		{
-			if ( messageLength == 1 ) return; //empty chats not allowed
+			if ( messageLength < 2 ) return; //empty chats not allowed
 
 			if (player == 'A') server.sendToPlayer('B', message);
 			if (player == 'B') server.sendToPlayer('A', message);
@@ -62,6 +62,20 @@ public class ServerGame
 
 		if ( command.equals("PLACE") ) 
 		{
+			if ( messageLength < 5 ) return; //incomplete command, ignore
+
+			SquareType newShipType;
+			int x;
+			int y;
+			Direction d;
+		
+			newShipType = SquareType.parseShip( parsedMessage.nextToken() );
+			if ( ( newShipType == null ) || (newShipType == SquareType.WATER ) ) return; //invalid ship, ignore
+			
+			
+
+
+
 			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to place a ship: "+message);
 			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to place a ship: "+message);
 		}
