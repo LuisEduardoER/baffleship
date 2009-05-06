@@ -33,8 +33,15 @@ public boolean collides(Point p)
 
 public boolean inBounds(int xMin, int yMin, int xMax, int yMax)
 	{
+		Point tempPoint;
+		for (int i=0; i<shipType.length; i++)
+		{
+			tempPoint = Direction.Move(startLocation,facing,i);
+			if ( (tempPoint.getX() < xMin) || (tempPoint.getX() > xMax) ||
+			     (tempPoint.getY() < yMin) || (tempPoint.getY() > yMax) ) return false;
+		}
 
-		return false;
+		return true;			
 
 	}
 
