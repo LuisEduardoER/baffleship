@@ -126,7 +126,7 @@ class BattleGUI extends JFrame implements ActionListener
 		if(ship.equals("sub")){ i = 1; }
 		if(ship.equals("destroyer")){ i = 0; }
 		
-		if(dir.equals("N")){
+		if(dir.equalsIgnoreCase("north")){
 			if( i+2 > y){
 				y = 0;
 				buttonArray[x][y].setIcon(carrierIconFront);
@@ -139,7 +139,7 @@ class BattleGUI extends JFrame implements ActionListener
 				buttonArray[x][--y].setIcon(carrierIconEnd);
 			}
 		}
-		if(dir.equals("E")){
+		if(dir.equalsIgnoreCase("east")){
 			if( i+2 > (10-x)){
 				x = 10-(i+2);
 				buttonArray[x][y].setIcon(carrierIconFront);
@@ -152,7 +152,7 @@ class BattleGUI extends JFrame implements ActionListener
 				buttonArray[++x][y].setIcon(carrierIconEnd);
 			}
 		}	
-		if(dir.equals("S")){
+		if(dir.equalsIgnoreCase("south")){
 			if( i+2 > 10-y){
 				y = 10 -(i+2);
 				buttonArray[x][y].setIcon(carrierIconFront);
@@ -165,7 +165,7 @@ class BattleGUI extends JFrame implements ActionListener
 				buttonArray[x][++y].setIcon(carrierIconEnd);
 			}
 		}
-		if(dir.equals("W")){
+		if(dir.equalsIgnoreCase("west")){
 			if( i+2 > x){
 				x = 0;
 				buttonArray[x][y].setIcon(carrierIconFront);
@@ -186,7 +186,7 @@ class BattleGUI extends JFrame implements ActionListener
 		Object source = evt.getSource();
 		int x = 0;
 		int y = 0;
-		String dir = "N"; 		
+		String dir = "north"; 		
 		if(source == button1){
 		    showOpponentBoard();
 		    client.sendData( "READY" );
