@@ -1,13 +1,15 @@
 
 import java.util.*;
 import java.util.StringTokenizer;
+import java.awt.Point;
 
 public class ServerGame
 {
 	private Server server;
 
-	private Square boardA[][];
-	private Square boardB[][];
+	//track what squares have been shot at
+	private boolean boardA[][] = new boolean[10][10];
+	private boolean boardB[][] = new boolean[10][10];
 
 	private Fleet fleetA = new Fleet();
 	private Fleet fleetB = new Fleet();
@@ -66,8 +68,7 @@ public class ServerGame
 		 */
 		if ( command.equals("PLACE") ) 
 		{
-
-			if ( gamestate != GameState.WAITING ) return false;  //lol too late
+			if ( gamestate != GameState.WAITING ) return;  //lol too late
 
 			if ( messageLength < 5 ) return; //incomplete command, ignore
 
@@ -75,66 +76,81 @@ public class ServerGame
 			int x;
 			int y;
 			Direction dir;
-			Ship newShip;
-		
+			Ship newShip;		
 		
 			newShipType = SquareType.parseShip( tokenizedMessage.nextToken() );
-			if ( ( newShipType == null ) || (newShipType == SquareType.WATER ) ) return; //invalid ship, ignore
+			if ( ( newShipType == null ) || (newShipType.isWater() ) ) return; //invalid ship, ignore
 			
-			try { x= parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+			try { x= Integer.parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
 
-			try { y= parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+			try { y= Integer.parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
 
-			dir = direction.parseDirection( tokenizedMessage.nextToken() );
+			dir = Direction.parseDirection( tokenizedMessage.nextToken() );
 			if ( dir == null ) return; //not a direction
 
 
 			//finally we can make a ship
 			newShip = new Ship(newShipType, new Point(x,y), dir);
 
-			//but the ship might extend off the board
+			//but the ship might extend off the board, in which case we stop
+			if ( newShip.outOfBounds(0,0,9,9) ) return;
 		
+			//else try to add the ship to the appropriate fleet
+			//if the fleet rejects it, too bad 
+			if (player == 'A') fleetA.addShip(newShip); 
+			if (player == 'B') fleetB.addShip(newShip);
 
-
-
-			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to place a ship: "+message);
-			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to place a ship: "+message);
+			return;
 		}
 
 
 		if ( command.equals("SHOOT") ) 
 		{
-			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to shoot: "+message);
-			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to shoot: "+message);
+			if ( messageLength < 3 ) return; //incomplete command, ignore
+
+			int x;
+			int y;
+			try { x= Integer.parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+			try { y= Integer.parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+
+			if ( (x < 0) || (x > 9) || (y < 0) || (y > 9) ) return;  //cant shoot off the board
+
+			//cant shoot when it isn't your turn	
+			if ( (gamestate == GameState.WAITING ) || (gamestate == GameState.GAMEOVER ) ) return;
+
+			if (gamestate == GameState.TURN_A)
+			{
+				if (player !='A') return; //cant shoot when it isn't your turn
+			
+				SquareType result = fleetB.shoot(new Point(x,y) );
+		
+				server.sendToPlayer('A', "YOURSHOT "+result+" "+x+" "+y);
+				server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
+					
+				if ( boardB[x][y] ) gamestate = GameState.TURN_B; else boardB[x][y]=true;
+
+				return;
+			}
+
+
+			if (gamestate == GameState.TURN_B)
+			{
+				if (player !='B') return; //cant shoot when it isn't your turn
+		
+				SquareType result = fleetA.shoot(new Point(x,y) );
+			
+				server.sendToPlayer('B', "YOURSHOT "+result+" "+x+" "+y);
+				server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
+					
+				if ( boardA[x][y] ) gamestate = GameState.TURN_A; else boardA[x][y]=true;
+
+				return;
+			}
+
 		}
 		
 
 	}
-
-	
-
-
-
-	//returns true if ship is actually placed
-	public boolean placeShip(Ship s, char player)
-	{
-
-	}
-
-/*	public SquareType shootAt(Point p, char player)
-	{
-		switch (gamestate) 
-		{
-			GameState.A_TURN: if (player =='A') return fleetB.shoot(p); break;
-			GameState.B_TURN: if (player =='B') return fleetA.shoot(p); else return SquareType.WATER;
-	}
-
-
-*/
-
-	
-
-
 
 
 }

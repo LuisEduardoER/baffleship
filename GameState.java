@@ -4,7 +4,7 @@
 
 public enum GameState
 {
-	WAITING, TURN_A, TURN_B, GAME_OVER;
+	WAITING, TURN_A, TURN_B, GAMEOVER;
 
 /*public enum Direction
 {
