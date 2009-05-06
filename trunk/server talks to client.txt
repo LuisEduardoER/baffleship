@@ -1,22 +1,28 @@
 server says:			client SHOULD
 -------------------------------------------------------------------------------------
-MESSAGE name message		display this message and the user name
+CHAT message			display this message as coming from the opponent
 
 
-PLAYERS namelist		remember the list of people already on the server
+DISCONNECTED			??not sure yet but we should try to detect if one player disconnects
+				and then tell the opponent so he knows to quit too
 
-ARRIVED name
-
-LEAVES name
-
-
-GAME STARTED			not try to move pieces any more
+START				game has started								
 
 
-YOUR TURN			make a guess soon
+YOURTURN			make a guess soon
+
+
+HISSHOT squaretype X Y		update display accordingly
+
+
+GAMEOVER WIN			duh
+GAMEOVER LOSE			duh
 
 
 
+
+
+//these probably won't be implemented
 (possible)			treat this like its own guess
 TIMEOUT --
   forced guess X,Y
@@ -26,30 +32,3 @@ TIMEOUT --
 (possible)
 OPPONENT TIMEOUT		let the player know he is playing against
 				an AFK opponent
-
-
-OPPONENT GUESSED
-  X,Y, and
-  hit ship S or missed		update display accordingly
-
-
-
-
-OPPONENT name			set opponent name			
-
-
-
-YOU WIN				duh
-
-
-
-
-YOU LOSE			duh
-
-
-
-OPPONENT quits
-
-
-
-GOODBYE
