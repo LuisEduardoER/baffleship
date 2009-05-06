@@ -31,12 +31,12 @@ public class ServerGame
 
 	public void inputFromPlayer(char player, String message)
 	{
-		StringTokenizer parsedMessage = new StringTokenizer(message);
-		int messageLength = parsedMessage.countTokens(); 
+		StringTokenizer tokenizedMessage = new StringTokenizer(message.toUpperCase() );
+		int messageLength = tokenizedMessage.countTokens(); 
 		
 		if ( messageLength == 0 ) return; //just in case we got an empty message
 
-		String command = parsedMessage.nextToken().toUpperCase();
+		String command = tokenizedMessage.nextToken();
 
 		//we cant use switch on strings, sadly
 
@@ -60,25 +60,40 @@ public class ServerGame
 			if ( ( gamestate == GameState.WAITING ) && readyA && readyB ) gamestate = GameState.TURN_A;
 		}
 
+
+		/* 
+		  	 PLACE BSHIP 4 5 EAST
+		 */
 		if ( command.equals("PLACE") ) 
 		{
 
 			if ( gamestate != GameState.WAITING ) return false;  //lol too late
+
 			if ( messageLength < 5 ) return; //incomplete command, ignore
 
 			SquareType newShipType;
 			int x;
 			int y;
-			Direction d;
+			Direction dir;
+			Ship newShip;
 		
-			newShipType = SquareType.parseShip( parsedMessage.nextToken() );
+		
+			newShipType = SquareType.parseShip( tokenizedMessage.nextToken() );
 			if ( ( newShipType == null ) || (newShipType == SquareType.WATER ) ) return; //invalid ship, ignore
 			
-			
+			try { x= parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+
+			try { y= parseInt( tokenizedMessage.nextToken() ); } catch (NumberFormatException e) { return; }
+
+			dir = direction.parseDirection( tokenizedMessage.nextToken() );
+			if ( dir == null ) return; //not a direction
 
 
+			//finally we can make a ship
+			newShip = new Ship(newShipType, new Point(x,y), dir);
 
-
+			//but the ship might extend off the board
+		
 
 
 
