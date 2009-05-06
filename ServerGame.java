@@ -44,7 +44,6 @@ public class ServerGame
 
 		//we cant use switch on strings, sadly
 
-		System.out.println("command from "+player+" is "+command);
 
 		if ( command.equals("CHAT") )
 		{
