@@ -112,9 +112,10 @@ class BattleGUI extends JFrame implements ActionListener
 		button1.setVisible(true);
 	}
 
-	void placeCarrier(int x, int y, String dir, String ship)
+	void placeShip(int x, int y, String dir, String ship)
 	{
 		int i=0; //number of middle pieces
+		int direction = 0;
 		buttonArray[x][y].setIcon(carrierIconFront);
 		if(ship.equals("carrier")){ i = 3; }
 		if(ship.equals("battle")) {i = 2; }
@@ -123,28 +124,56 @@ class BattleGUI extends JFrame implements ActionListener
 		if(ship.equals("destroyer")){ i = 0; }
 		
 		if(dir.equals("N")){
-			for(int j=0; j<i; j++){
-				buttonArray[x][--y].setIcon(carrierIconMiddle);
+			if( i+2 > y){
+				y = 0;
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){	buttonArray[x][++y].setIcon(carrierIconMiddle);}
+				buttonArray[x][++y].setIcon(carrierIconEnd);
 			}
-			buttonArray[x][--y].setIcon(carrierIconEnd);
+			else{
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){	buttonArray[x][--y].setIcon(carrierIconMiddle);}
+				buttonArray[x][--y].setIcon(carrierIconEnd);
+			}
 		}
 		if(dir.equals("E")){
-			for(int j=0; j<i; j++){
-				buttonArray[++x][y].setIcon(carrierIconMiddle);
+			if( i+2 > (10-x)){
+				x = 10-(i+2);
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
+				buttonArray[++x][y].setIcon(carrierIconEnd);
 			}
-			buttonArray[++x][y].setIcon(carrierIconEnd);
-		}
+			else{
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
+				buttonArray[++x][y].setIcon(carrierIconEnd);
+			}
+		}	
 		if(dir.equals("S")){
-			for(int j=0; j<i; j++){
-				buttonArray[x][++y].setIcon(carrierIconMiddle);
+			if( i+2 > 10-y){
+				y = 10 -(i+2);
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[x][++y].setIcon(carrierIconMiddle);}
+				buttonArray[x][++y].setIcon(carrierIconEnd);
 			}
-			buttonArray[x][++y].setIcon(carrierIconEnd);
+			else{
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[x][++y].setIcon(carrierIconMiddle);}
+				buttonArray[x][++y].setIcon(carrierIconEnd);
+			}
 		}
 		if(dir.equals("W")){
-			for(int j=0; j<i; j++){
-				buttonArray[--x][y].setIcon(carrierIconMiddle);
+			if( i+2 > x){
+				x = 0;
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[++x][y].setIcon(carrierIconMiddle);}
+				buttonArray[++x][y].setIcon(carrierIconEnd);
 			}
-			buttonArray[--x][y].setIcon(carrierIconEnd);
+			else{
+				buttonArray[x][y].setIcon(carrierIconFront);
+				for(int j=0; j<i; j++){buttonArray[--x][y].setIcon(carrierIconMiddle);}
+				buttonArray[--x][y].setIcon(carrierIconEnd);
+			}
 		}
 	}
 
@@ -174,33 +203,33 @@ class BattleGUI extends JFrame implements ActionListener
 		
 		if(source == carrierLabel){
 			carrierLabel.setVisible(false);
-			placeCarrier(x, y, dir, "carrier");
-			client.sendData( "PLACE " + "CARRIER" + x + y + dir);
+			placeShip(x, y, dir, "carrier");
+			client.sendData( "PLACE " + "CARRIER " + " " + x + " " + y + " " + dir);
 		}
 
 		if(source == battleShipButton){		
 			battleShipButton.setVisible(false);
-			placeCarrier(x, y, dir, "battle");
-			client.sendData( "PLACE " + "BSHIP" + x + y + dir);
+			placeShip(x, y, dir, "battle");
+			client.sendData( "PLACE " + "BSHIP " + " " + x + " " + y + " " + dir);
 			
 		}
 
 		if(source == cruiserButton){		
 			cruiserButton.setVisible(false);
-			placeCarrier(x, y, dir, "cruiser");
-			client.sendData( "PLACE " + "CRUISER" + x + y + dir) ;
+			placeShip(x, y, dir, "cruiser");
+			client.sendData( "PLACE " + "CRUISER " + " " + x + " " + y + " " + dir);
 		}
 
 		if(source == subButton){
 			subButton.setVisible(false);		
-			placeCarrier(x, y, dir, "sub");
-			client.sendData( "PLACE " + "SUB" + x + y + dir);
+			placeShip(x, y, dir, "sub");
+			client.sendData( "PLACE " + "SUB " + " " + x + " " + y + " " + dir);
 		}
 
 		if(source == destroyerButton){
 			destroyerButton.setVisible(false);
-			placeCarrier(x, y, dir, "destroyer");
-			client.sendData( "PLACE " + "DESTROYER" + x + y + dir);
+			placeShip(x, y, dir, "destroyer");
+			client.sendData( "PLACE " + "DESTROYER " + " " + x + " " + y + " " + dir);
 		}
 		        
 
