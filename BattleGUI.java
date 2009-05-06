@@ -256,22 +256,22 @@ class BattleGUI extends JFrame implements ActionListener
 
 	public void opponentHitShip(int x, int y)
 	{
-		buttonArray2[x][y].setIcon(hitIcon);
+		buttonArray[x][y].setIcon(hitIcon);
 	}
 
 	public void opponentMissShip(int x, int y)
 	{
-		buttonArray2[x][y].setIcon(missIcon);
+		buttonArray[x][y].setIcon(missIcon);
 	}
 
 	public void yourShotMissed(int x, int y)
 	{
-		buttonArray[x][y].setIcon(hitIcon);
+		buttonArray2[x][y].setIcon(hitIcon);
 	}
 
 	public void yourShotHit(int x, int y)
 	{
-		buttonArray[x][y].setIcon(missIcon);
+		buttonArray2[x][y].setIcon(missIcon);
 	}
 
 
