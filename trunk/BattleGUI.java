@@ -64,8 +64,8 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon carrierIconMiddle = createImageIcon("carrier2.jpg");
 		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
 		ImageIcon waterIcon = createImageIcon("Water.JPG");
-	//	ImageIcon rightButtonIcon = createImageIcon("images/right.gif");
-	//	ImageIcon guessedButtonIcon = createImageIcon("images/guessed.gif");
+		ImageIcon hitIcon = createImageIcon("explosion.png");
+		ImageIcon missIcon = createImageIcon("miss.png");
 
 		JButton carrierLabel = new JButton(carrierIcon);
 		JButton battleShipButton = new JButton(bshipIcon);
@@ -74,7 +74,7 @@ class BattleGUI extends JFrame implements ActionListener
 		JButton destroyerButton = new JButton(destroyerIcon);
 
 
-	 // Attach the drag source
+	//Attach the drag source
     	//JLabelDragSource cruiserdragSource = new JLabelDragSource(label);
 	
 	/*
@@ -93,8 +93,6 @@ class BattleGUI extends JFrame implements ActionListener
 		}
 		catch(IOException IOE){}
 	}
-	
-
 	 */
 
 
@@ -252,6 +250,26 @@ class BattleGUI extends JFrame implements ActionListener
 		client = c;
 	}
 
+	public void opponentHitShip(int x, int y)
+	{
+		buttonArray2[x][y].setIcon(hitIcon);
+	}
+
+	public void opponentMissShip(int x, int y)
+	{
+		buttonArray2[x][y].setIcon(missIcon);
+	}
+
+	public void yourShotMissed(int x, int y)
+	{
+		buttonArray[x][y].setIcon(hitIcon);
+	}
+
+	public void yourShotHit(int x, int y)
+	{
+		buttonArray[x][y].setIcon(missIcon);
+	}
+
 
 	public JPanel createContentPane()
 	{
@@ -288,15 +306,7 @@ class BattleGUI extends JFrame implements ActionListener
 	      	textPanel.add( new JScrollPane( displayArea ), BorderLayout.CENTER );
 		
 		panel.add(textPanel);
-		
-		/* Creation of a Panel to contain the title label
-        	JPanel titlePanel = new JPanel();
-	        titlePanel.setLayout(null);
-	        titlePanel.setLocation(0, 0);
-        	titlePanel.setSize(800, 100);
-        	titlePanel.setBackground(Color.white);
-        	panel.add(titlePanel);
-		*/
+	
 
 		//ship buttons
 		carrierLabel.setSize(125, 25);
@@ -329,9 +339,6 @@ class BattleGUI extends JFrame implements ActionListener
 		destroyerButton.addActionListener(this);
 		panel.add(destroyerButton);
 
-		
-		
-
 
         	// Creation of a panel to contain all the JButtons.
        		JPanel buttonPanel = new JPanel();     
@@ -352,7 +359,6 @@ class BattleGUI extends JFrame implements ActionListener
 		JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
 		//dropBomb.addActionListener(new MenuActionListener());
 		menu.add(dropBomb);
-
 
 		/* Login shit we might use later
 		usernameField.addActionListener(this);
@@ -402,8 +408,7 @@ class BattleGUI extends JFrame implements ActionListener
 
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
-		{
-			
+		{		
 			buttonArray[i][j] = new JButton(waterIcon);
 			buttonArray[i][j].setLocation(125+24*i,325+24*j);
 			buttonArray[i][j].setSize(25,25);
@@ -416,9 +421,8 @@ class BattleGUI extends JFrame implements ActionListener
 		}
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
-		{
-			
-			buttonArray2[i][j] = new JButton("");
+		{			
+			buttonArray2[i][j] = new JButton(waterIcon);
 			buttonArray2[i][j].setLocation(125+24*i,50+24*j);
 			buttonArray2[i][j].setSize(25,25);
 			buttonArray2[i][j].setVisible(false);
