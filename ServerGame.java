@@ -122,9 +122,6 @@ public class ServerGame
 
 			if ( (x < 0) || (x > 9) || (y < 0) || (y > 9) ) return;  //cant shoot off the board
 
-			//cant shoot when it isn't your turn	
-			if ( (gamestate == GameState.WAITING ) || (gamestate == GameState.GAMEOVER ) ) return;
-
 			if (gamestate == GameState.TURN_A)
 			{
 				if (player !='A') return; //cant shoot when it isn't your turn
@@ -134,7 +131,12 @@ public class ServerGame
 				server.sendToPlayer('A', "YOURSHOT "+result+" "+x+" "+y);
 				server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
 					
-				if ( ! boardB[x][y] ) { boardB[x][y]=true; gamestate= GameState.TURN_B; }
+				if ( ! boardB[x][y] )
+				{
+					boardB[x][y]=true;
+					gamestate= GameState.TURN_B;
+					checkVictory();
+				}
 
 				return;
 			}
@@ -149,15 +151,39 @@ public class ServerGame
 				server.sendToPlayer('B', "YOURSHOT "+result+" "+x+" "+y);
 				server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
 					
-				if ( ! boardA[x][y] ) { boardA[x][y]=true; gamestate= GameState.TURN_A; }
+				if ( ! boardA[x][y] )
+				{
+					boardA[x][y]=true;
+					gamestate= GameState.TURN_A;
+					checkVictory();
+				}
 
 				return;
 			}
 
+			//if we got down to here, someone tried to shoot during setup or gameover
+			return;
 		}
-		
-
 	}
+
+
+	private void checkVictory()
+	{
+		if ( fleetA.isSunk() )
+		{
+			server.sendToPlayer('A', "GAMEOVER LOSE");
+			server.sendToPlayer('B', "GAMEOVER WIN");
+			gamestate=GameState.GAMEOVER;
+		}
+			
+		if ( fleetB.isSunk() )
+		{
+			server.sendToPlayer('A', "GAMEOVER WIN");
+			server.sendToPlayer('B', "GAMEOVER LOSE");
+			gamestate=GameState.GAMEOVER;
+		}
+	}
+
 
 
 }
