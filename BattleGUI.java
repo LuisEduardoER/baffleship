@@ -100,6 +100,11 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) buttonArray2[i][j].setVisible(true);	
 		button1.setVisible(false);
+		carrierLabel.setVisible(false);
+		battleShipButton.setVisible(false);	
+		cruiserButton.setVisible(false);
+		subButton.setVisible(false);
+		destroyerButton.setVisible(false);
 		
 	}
 
@@ -176,7 +181,6 @@ class BattleGUI extends JFrame implements ActionListener
 	}
 
 
-	
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
