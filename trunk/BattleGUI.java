@@ -21,7 +21,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
-
 //import sun.audio.AudioPlayer;
 //import sun.audio.AudioStream;
 
@@ -29,9 +28,7 @@ import  java.io.*;
 
 
 class BattleGUI extends JFrame implements ActionListener
-{
-
-	
+{	
 	JFrame application = new JFrame();
 	
 
@@ -125,25 +122,25 @@ class BattleGUI extends JFrame implements ActionListener
 		if(ship.equals("destroyer")) i = 0;
 		
 		if(dir.equals("N")){
-			for(int j=0; j<=i; j++){
+			for(int j=0; j<i; j++){
 				buttonArray[x][++y].setIcon(carrierIconMiddle);
 			}
 			buttonArray[x][++y].setIcon(carrierIconEnd);
 		}
 		if(dir.equals("E")){
-			for(int j=0; j<=i; j++){
+			for(int j=0; j<i; j++){
 				buttonArray[++x][y].setIcon(carrierIconMiddle);
 			}
 			buttonArray[++x][y].setIcon(carrierIconEnd);
 		}
 		if(dir.equals("S")){
-			for(int j=0; j<=i; j++){
+			for(int j=0; j<i; j++){
 				buttonArray[x][--y].setIcon(carrierIconMiddle);
 			}
 			buttonArray[x][--y].setIcon(carrierIconEnd);
 		}
 		if(dir.equals("W")){
-			for(int j=0; j<=i; j++){
+			for(int j=0; j<i; j++){
 				buttonArray[--x][y].setIcon(carrierIconMiddle);
 			}
 			buttonArray[--x][y].setIcon(carrierIconEnd);
@@ -155,70 +152,41 @@ class BattleGUI extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
-		int x, y;
-		String dir; 	
+		int x = 0;
+		int y = 0;
+		String dir = "N"; 	
 		
 		if(source == button1){
 		    showOpponentBoard();
 		    client.sendData( "READY" );
 		}
 	
-		/*if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
+		if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
 			 String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
 			String[] tokens;
            		 tokens = coords.split(delims);
         		x = Integer.parseInt(tokens[0]);
 			y = Integer.parseInt(tokens[0]);
 			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
-		}*/
+		}
 
 		if(source == carrierLabel){
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		 tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
 			placeCarrier(x, y, dir, "carrier");
 		}
 
-		if(source == battleShipButton){
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		 tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+		if(source == battleShipButton){		
 			placeCarrier(x, y, dir, "battle");
 		}
 
-		if(source == cruiserButton){
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		 tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+		if(source == cruiserButton){		
 			placeCarrier(x, y, dir, "cruiser");
 		}
 
-		if(source == subButton){
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		 tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
+		if(source == subButton){		
 			placeCarrier(x, y, dir, "sub");
 		}
 
 		if(source == destroyerButton){
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		 tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[0]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");
 			placeCarrier(x, y, dir, "destroyer");
 		}
 		        
