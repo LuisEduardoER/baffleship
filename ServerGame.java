@@ -60,7 +60,13 @@ public class ServerGame
 			if ( (player == 'A') && ( fleetA.numShips() == 5 ) ) readyA =true; 
 			if ( (player == 'B') && ( fleetB.numShips() == 5 ) ) readyB =true;
 
-			if ( ( gamestate == GameState.WAITING ) && readyA && readyB ) gamestate = GameState.TURN_A;
+			if ( ( gamestate == GameState.WAITING ) && readyA && readyB )
+			{
+				gamestate = GameState.TURN_A;
+				server.sendToPlayer('A',"START");
+				server.sendToPlayer('B',"START");
+				server.sendToPlayer('A',"YOURTURN");
+			}
 		}
 
 
@@ -128,7 +134,7 @@ public class ServerGame
 				server.sendToPlayer('A', "YOURSHOT "+result+" "+x+" "+y);
 				server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
 					
-				if ( boardB[x][y] ) gamestate = GameState.TURN_B; else boardB[x][y]=true;
+				if ( ! boardB[x][y] ) { boardB[x][y]=true; gamestate= GameState.TURN_B; }
 
 				return;
 			}
@@ -143,7 +149,7 @@ public class ServerGame
 				server.sendToPlayer('B', "YOURSHOT "+result+" "+x+" "+y);
 				server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
 					
-				if ( boardA[x][y] ) gamestate = GameState.TURN_A; else boardA[x][y]=true;
+				if ( ! boardA[x][y] ) { boardA[x][y]=true; gamestate= GameState.TURN_A; }
 
 				return;
 			}

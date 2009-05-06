@@ -22,6 +22,8 @@ public Ship(SquareType s, Point p, Direction d)
 		for (int i=0; i<shipType.length; i++)
 			squares.add(new PositionedSquare( shipType, d, Direction.Move(p,d,i) ));
 
+		System.out.println("creating ship " +s + " at "+p+" facing "+d);
+
 	}
 
 public boolean collides(Point p)

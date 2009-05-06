@@ -27,6 +27,9 @@ public boolean addShip(Ship newShip)
 
 		//finally we can add the ship
 		ships.add(newShip);
+		
+		System.out.println("adding ship " + newShip+ " to fleet");
+
 		return true;
 	}
 
