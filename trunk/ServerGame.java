@@ -33,6 +33,8 @@ public class ServerGame
 
 	public void inputFromPlayer(char player, String message)
 	{
+		System.out.println("In from player "+player+": "+message);
+
 		StringTokenizer tokenizedMessage = new StringTokenizer(message.toUpperCase() );
 		int messageLength = tokenizedMessage.countTokens(); 
 		
