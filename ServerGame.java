@@ -62,6 +62,8 @@ public class ServerGame
 
 		if ( command.equals("PLACE") ) 
 		{
+
+			if ( gamestate != GameState.WAITING ) return false;  //lol too late
 			if ( messageLength < 5 ) return; //incomplete command, ignore
 
 			SquareType newShipType;
@@ -73,6 +75,10 @@ public class ServerGame
 			if ( ( newShipType == null ) || (newShipType == SquareType.WATER ) ) return; //invalid ship, ignore
 			
 			
+
+
+
+
 
 
 
@@ -97,12 +103,7 @@ public class ServerGame
 	//returns true if ship is actually placed
 	public boolean placeShip(Ship s, char player)
 	{
-		if ( gamestate != GameState.WAITING ) return false;
 
-		if ( player == 'A' ) return fleetA.addShip(s);
-		if ( player == 'B' ) return fleetB.addShip(s);
-
-		return false;
 	}
 
 /*	public SquareType shootAt(Point p, char player)
