@@ -123,6 +123,7 @@ public class Server
 
 	public void sendToPlayer(char player, String s)
 	{
+		System.out.println("Sending to player "+player+": "+s);
 		if (player == 'A') outToA.println(s);
 		if (player == 'B') outToB.println(s);
 	}
