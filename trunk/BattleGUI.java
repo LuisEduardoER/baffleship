@@ -175,32 +175,32 @@ class BattleGUI extends JFrame implements ActionListener
 		if(source == carrierLabel){
 			carrierLabel.setVisible(false);
 			placeCarrier(x, y, dir, "carrier");
-			client.sendData( "SHOOT " + "CARRIER" + x + y + dir);
+			client.sendData( "PLACE " + "CARRIER" + x + y + dir);
 		}
 
 		if(source == battleShipButton){		
 			battleShipButton.setVisible(false);
 			placeCarrier(x, y, dir, "battle");
-			client.sendData( "SHOOT " + "BSHIP" + x + y + dir);
+			client.sendData( "PLACE " + "BSHIP" + x + y + dir);
 			
 		}
 
 		if(source == cruiserButton){		
 			cruiserButton.setVisible(false);
 			placeCarrier(x, y, dir, "cruiser");
-			client.sendData( "SHOOT " + "CRUISER" + x + y + dir) ;
+			client.sendData( "PLACE " + "CRUISER" + x + y + dir) ;
 		}
 
 		if(source == subButton){
 			subButton.setVisible(false);		
 			placeCarrier(x, y, dir, "sub");
-			client.sendData( "SHOOT " + "SUB" + x + y + dir);
+			client.sendData( "PLACE " + "SUB" + x + y + dir);
 		}
 
 		if(source == destroyerButton){
 			destroyerButton.setVisible(false);
 			placeCarrier(x, y, dir, "destroyer");
-			client.sendData( "SHOOT " + "DESTROYER" + x + y + dir);
+			client.sendData( "PLACE " + "DESTROYER" + x + y + dir);
 		}
 		        
 
