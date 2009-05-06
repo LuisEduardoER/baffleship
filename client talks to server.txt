@@ -2,37 +2,15 @@ client says:		server possible responses:
 --------------------------------------------------------------------
 
 
-LOGIN name, password	incorrect password  //initially we can just ignore password
-			server full
-			OK.
-			
+CHAT message		(pass message to other clients)	
 
 
 
-CHAT message		nobody is here
-			OK.  (and pass message to other clients)	
+PLACE S,X,Y,D		(none, place ship  if possible)
 
+READY			(none, start game if both players are ready)
 
-
-PLACE S,X,Y,D		game already started
-			overlaps existing piece
-			illegal placement (all or parly off grid)			
-			placed OK.
-
-
-
-READY			pieces not placed
-			ready OK
-
-
-
-
-SHOOT X Y		not your turn  (or just ignore?)
-			hit ship type
-			hit and sunk ship type
-			miss
-			illegal guess
-
-
-RETRANSMIT		resend last message to that client
+SHOOT X Y		ignore if illegal in any way
+			YOURSHOT squaretype X Y
+			and send something to other player
 
