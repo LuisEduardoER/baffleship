@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -52,7 +53,7 @@ public class Client
       } // end try
       catch ( EOFException eofException ) 
       {
-         displayMessage( "\nClient terminated connection" );
+         displayMessage(Color.black,  "\nClient terminated connection" );
       } // end catch
       catch ( IOException ioException ) 
       {
@@ -67,13 +68,13 @@ public class Client
    // connect to server
    private void connectToServer() throws IOException
    {      
-      displayMessage( "Attempting connection\n" );
+      displayMessage( Color.black, "Attempting connection\n" );
 
       // create Socket to make connection to server
       client = new Socket( InetAddress.getByName( chatServer ), port );
 
       // display connection information
-      displayMessage( "Connected to: " + 
+      displayMessage( Color.black, "Connected to: " + 
          client.getInetAddress().getHostName() );
    } // end method connectToServer
 
@@ -98,29 +99,29 @@ public class Client
             tokens = message.split(delims);
             
           if(tokens[0].equals("CHAT")){
-                displayMessage( "\nOpponent: ");
+                displayMessage( Color.green, "\nOpponent: ");
                  for(int i=1; i<tokens.length; i++) 
-                    displayMessage( tokens[i] +" " );
+                    displayMessage( Color.black, tokens[i] +" " );
            }  
 	 if(tokens[0].equals("YOURSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
 		if(!result.isShip()){
-			displayMessage( "You missed");
+			displayMessage( Color.red, "\nYou missed");
 			battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 		else {
-			displayMessage( "You hit the " + result.name);
+			displayMessage( Color.red, "\nYou hit the " + result.name);
 			battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 	  }
 	 if(tokens[0].equals("HISSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
 		if(!result.isShip()){
-			displayMessage( "Opponent Miss");
+			displayMessage( Color.red, "\nOpponent Miss");
 			battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 		else {
-			displayMessage( "Your opponent hit your " + result.name);
+			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
 			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 	}
@@ -130,7 +131,7 @@ public class Client
    // close streams and socket
    private void closeConnection() 
    {
-      displayMessage( "\nClosing connection" );
+      displayMessage( Color.red, "\nClosing connection" );
  
       try 
       {
@@ -152,21 +153,22 @@ public class Client
 	   String[] tokens = message.split(delims);
             
             if(tokens[0].equals("CHAT")){
-                displayMessage( "\nYou: ");
+                displayMessage( Color.green, "\nYou: ");
                  for(int i=1; i<tokens.length; i++) 
-                    displayMessage( tokens[i] +" " );
+                    displayMessage( Color.black, tokens[i] +" " );
            }  
   
    } // end method sendData
 
    // manipulates displayArea in the event-dispatch thread
-   private void displayMessage( final String messageToDisplay )
+   private void displayMessage( final Color c, final String messageToDisplay )
    {
       SwingUtilities.invokeLater(
          new Runnable()
          {
             public void run() // updates displayArea
             {
+		battleGui.displayArea.setForeground(c);
                battleGui.displayArea.append( messageToDisplay );
             } // end method run
          }  // end anonymous inner class
