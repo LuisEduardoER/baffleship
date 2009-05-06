@@ -5,8 +5,8 @@ client says:		server possible responses:
 CHAT message		(pass message to other clients)	
 
 
-
 PLACE S,X,Y,D		(none, place ship  if possible)
+			(cannot move ship once it has been place)
 
 READY			(none, start game if both players are ready)
 
