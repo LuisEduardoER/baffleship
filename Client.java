@@ -95,14 +95,35 @@ public class Client
       do // process messages sent from server
       {      
             message =  input.readLine(); // read new message
-            System.out.println("lol");
             tokens = message.split(delims);
             
-           if(tokens[0].equals("CHAT")){
+          if(tokens[0].equals("CHAT")){
                 displayMessage( "\nOpponent: ");
                  for(int i=1; i<tokens.length; i++) 
                     displayMessage( tokens[i] +" " );
            }  
+	 if(tokens[0].equals("YOURSHOT")){  
+		SquareType result = SquareType.parseShip(tokens[1]);
+		if(!result.isShip()){
+			displayMessage( "You missed");
+			battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		}
+		else {
+			displayMessage( "You hit the " + result.name);
+			battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		}
+	  }
+	 if(tokens[0].equals("HISSHOT")){  
+		SquareType result = SquareType.parseShip(tokens[1]);
+		if(!result.isShip()){
+			displayMessage( "Opponent Miss");
+			battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		}
+		else {
+			displayMessage( "Your opponent hit your " + result.name);
+			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		}
+	}
       } while(!tokens[0].equals("EXIT")); 
    } // end method processConnection
 
