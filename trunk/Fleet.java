@@ -13,7 +13,7 @@ public class Fleet
 public boolean addShip(Ship newShip)
 	{
 		//cant add a ship made out of water
-		if (newShip.shipType == SquareType.WATER) return false;
+		if ( newShip.shipType.isWater() ) return false;
 
 		//cant add a ship of the same kind as already exists
 		for(Ship s : ships) 
