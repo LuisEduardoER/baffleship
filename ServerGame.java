@@ -22,11 +22,11 @@ public class ServerGame
 		server=s;
 		gamestate=GameState.WAITING;
 
-		for (int x=0;x<10;x++) for (int y=0;y<10;y++)
+		/*for (int x=0;x<10;x++) for (int y=0;y<10;y++)
 		{
 			boardA[x][y] = new Square();
 			boardB[x][y] = new Square();
-		}
+		}*/
 	}
 
 	public void inputFromPlayer(char player, String message)
@@ -40,7 +40,9 @@ public class ServerGame
 
 		//we cant use switch on strings, sadly
 
-		if ( command == "CHAT" ) 
+		System.out.println("command from "+player+" is "+command);
+
+		if ( command.equals("CHAT") )
 		{
 			if ( messageLength == 1 ) return; //empty chats not allowed
 
@@ -50,7 +52,7 @@ public class ServerGame
 			return;
 		}
 		
-		if ( command == "READY" ) 
+		if ( command.equals("READY") ) 
 		{
 			if ( (player == 'A') && ( fleetA.numShips() == 5 ) ) readyA =true; 
 			if ( (player == 'B') && ( fleetB.numShips() == 5 ) ) readyB =true;
@@ -58,14 +60,14 @@ public class ServerGame
 			if ( ( gamestate == GameState.WAITING ) && readyA && readyB ) gamestate = GameState.TURN_A;
 		}
 
-		if ( command == "PLACE" )
+		if ( command.equals("PLACE") ) 
 		{
 			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to place a ship: "+message);
 			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to place a ship: "+message);
 		}
 
 
-		if ( command == "SHOOT" ) 
+		if ( command.equals("SHOOT") ) 
 		{
 			server.sendToPlayer('A', "CHAT Player " + player+ " attempted to shoot: "+message);
 			server.sendToPlayer('B', "CHAT Player " + player+ " attempted to shoot: "+message);
