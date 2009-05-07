@@ -124,6 +124,16 @@ public class Client
 			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
 			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
+	    if(tokens[0].equals("GAMEOVER")){  
+	        if(tokens[1].equals("WIN"))
+	         displayMessage( Color.red, "\nYGame Over. You Win!");
+	        if(tokens[1].equals("Lose"))
+	         displayMessage( Color.red, "\nYGame Over. You Lose.");
+	   }
+	   if(tokens[0].equals("SUNK")){  
+	    String sunkShip = "\nYou Sunk the " + tokens[1];
+	    displayMessage(Color.red, sunkShip);
+	       }
 	}
       } while(!tokens[0].equals("EXIT")); 
    } // end method processConnection
