@@ -24,7 +24,7 @@ public enum Direction
   	public Direction CounterClockwise() { return intToDir( this.ordinal() +3 ); }	
  	public Direction Opposite() { return intToDir( this.ordinal() +2 ); }	
 
-	private Direction intToDir(int i)
+	public static Direction intToDir(int i)
 	{
 		switch (i%4)
 		{
