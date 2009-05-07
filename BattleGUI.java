@@ -270,25 +270,25 @@ class BattleGUI extends JFrame implements ActionListener
 	public void opponentHitShip(int x, int y)
 	{
 		bottomArray[x][y].setIcon(hitIcon);
-		p.start(sounds[0]);createSounds();
+		p.start(sounds[1]);createSounds();
 	}
 
 	public void opponentMissShip(int x, int y)
 	{
 		bottomArray[x][y].setIcon(missIcon);
-		p.start(sounds[1]);createSounds();
+		p.start(sounds[0]);createSounds();
 	}
 
 	public void yourShotMissed(int x, int y)
 	{
 		topArray[x][y].setIcon(missIcon);
-		p.start(sounds[1]);createSounds();
+		p.start(sounds[0]);createSounds();
 	}
 
 	public void yourShotHit(int x, int y)
 	{
 		topArray[x][y].setIcon(hitIcon);
-		p.start(sounds[0]);createSounds();
+		p.start(sounds[1]);createSounds();
 	}
 
 
