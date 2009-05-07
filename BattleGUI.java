@@ -58,6 +58,14 @@ class BattleGUI extends JFrame implements ActionListener
 	int xLoc = 0;
 	int yLoc = 0;
 	
+	boolean carrierPlaced = false;
+	boolean bshipPlaced = false;
+	boolean cruiserPlaced = false;
+	boolean subPlaced = false;
+	boolean destroyerPlaced = false;
+	
+	Fleet fleet = new Fleet();
+	
 		//==========================================ICONS===============
 		ImageIcon carrierIcon = createImageIcon("carrier.jpg");
 		ImageIcon bshipIcon = createImageIcon("battleship.jpg");
@@ -71,7 +79,7 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon carrierIconMiddleNS = createImageIcon("carrier2NS.jpg");
 		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
 		ImageIcon carrierIconEndNS = createImageIcon("carrier4NS.jpg");
-		ImageIcon waterIcon = createImageIcon("Water.JPG");
+		ImageIcon waterIcon = createImageIcon("water.jpg");
 		ImageIcon hitIcon = createImageIcon("explosion.png");
 		ImageIcon missIcon = createImageIcon("miss.jpg");
 
@@ -211,44 +219,85 @@ class BattleGUI extends JFrame implements ActionListener
 				//System.out.println(x+", "+y);
 			}
 			else{
-				location = 0;
-				if( (j < yLoc) && (i == xLoc)) dir = "north";
-				if( (j > yLoc) && (i == xLoc)) dir = "south";
-				if( (i > xLoc) && (j == yLoc)) dir = "east";
-				if( (i < xLoc) && (j == yLoc)) dir = "west";
-				System.out.println(dir);
-				if(shipType == carrierLabel){
-					carrierLabel.setVisible(false);
-					placeShip(xLoc, yLoc, dir, "carrier");
-					client.sendData( "PLACE " + "CARRIER " + " " + xLoc + " " + yLoc + " " + dir);
-				}
+				    location = 0;
+				    if( (j < yLoc) && (i == xLoc)) dir = "north";
+				    if( (j > yLoc) && (i == xLoc)) dir = "south";
+				    if( (i > xLoc) && (j == yLoc)) dir = "east";
+				    if( (i < xLoc) && (j == yLoc)) dir = "west";
+				    System.out.println(dir);
 
-				if(shipType == battleShipButton){		
-					battleShipButton.setVisible(false);
-					placeShip(xLoc, yLoc, dir, "battle");
-					client.sendData( "PLACE " + "BSHIP " + " " + xLoc + " " + yLoc + " " + dir);
-			
-				}
-
-				if(shipType == cruiserButton){		
-					cruiserButton.setVisible(false);
-					placeShip(xLoc, yLoc, dir, "cruiser");
-					client.sendData( "PLACE " + "CRUISER " + " " + xLoc + " " + yLoc + " " + dir);
-				}
-
-				if(shipType == subButton){
-					subButton.setVisible(false);		
-					placeShip(xLoc, yLoc, dir, "sub");
-					client.sendData( "PLACE " + "SUB " + " " + xLoc + " " + yLoc + " " + dir);
-				}
-
-				if(shipType == destroyerButton){
-					destroyerButton.setVisible(false);
-					placeShip(xLoc, yLoc, dir, "destroyer");
-					client.sendData( "PLACE " + "DESTROYER " + " " + xLoc + " " + yLoc + " " + dir);
-				}
-			}		        
-		}
+				        if(shipType == carrierLabel){
+				            if(carrierPlaced) return;
+    				        else{
+				                Ship carrier = new Ship(SquareType.CARRIER, new Point(xLoc, yLoc), Direction.parseDirection(dir));
+				                if(fleet.addShip(carrier))
+				                {
+					                carrierLabel.setVisible(false);
+					                carrierPlaced = true;
+					                placeShip(xLoc, yLoc, dir, "carrier");
+					                client.sendData( "PLACE " + "CARRIER " + " " + xLoc + " " + yLoc + " " + dir);
+					            }
+				            }
+				        }
+                  
+                  
+				        if(shipType == battleShipButton){		
+				            if(bshipPlaced) return;
+            				else{
+				                Ship battleShip = new Ship(SquareType.BSHIP, new Point(xLoc, yLoc), Direction.parseDirection(dir));
+				                if(fleet.addShip(battleShip))
+				                {
+					                battleShipButton.setVisible(false);
+					                bshipPlaced = true;
+					                placeShip(xLoc, yLoc, dir, "battle");
+					                client.sendData( "PLACE " + "BSHIP " + " " + xLoc + " " + yLoc + " " + dir);
+					            }	
+				            }
+				        }
+                    
+				        if(shipType == cruiserButton){	
+				            if(cruiserPlaced) return;
+				            else{	
+				                Ship cruiserShip = new Ship(SquareType.CRUISER, new Point(xLoc, yLoc), Direction.parseDirection(dir));
+				                if(fleet.addShip(cruiserShip))
+				                {
+					                cruiserButton.setVisible(false);
+					                cruiserPlaced = true;
+					                placeShip(xLoc, yLoc, dir, "cruiser");
+					                client.sendData( "PLACE " + "CRUISER " + " " + xLoc + " " + yLoc + " " + dir);
+					            }
+				            }
+				        }
+                 
+				        if(shipType == subButton){
+				           if(subPlaced) return;
+				           else{
+				               Ship subShip = new Ship(SquareType.SUB, new Point(xLoc, yLoc), Direction.parseDirection(dir));
+				               if(fleet.addShip(subShip))
+				               {
+					                subButton.setVisible(false);
+					                subPlaced = true;		
+					                placeShip(xLoc, yLoc, dir, "sub");
+					                client.sendData( "PLACE " + "SUB " + " " + xLoc + " " + yLoc + " " + dir);
+					           }
+				            }
+				         }
+                   
+				        if(shipType == destroyerButton){
+				            if(destroyerPlaced) return;
+        				    else{
+				                Ship destroyerShip = new Ship(SquareType.DESTROYER, new Point(xLoc, yLoc), Direction.parseDirection(dir));
+				                if(fleet.addShip(destroyerShip))
+				                {
+					                destroyerButton.setVisible(false);
+					                destroyerPlaced = true;
+            				        placeShip(xLoc, yLoc, dir, "destroyer");
+					                client.sendData( "PLACE " + "DESTROYER " + " " + xLoc + " " + yLoc + " " + dir);
+					            }
+				            }
+				        }		        
+		            }
+		   }
 	}
 
 		/** Returns an ImageIcon, or null if the path was invalid. */
