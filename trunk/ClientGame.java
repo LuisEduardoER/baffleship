@@ -5,19 +5,9 @@ import java.awt.Point;
 
 public class ClientGame
 {
-/*	private Server server;
+	private Server server;
 
-	//track what squares have been shot at
-	private boolean boardA[][] = new boolean[10][10];
-	private boolean boardB[][] = new boolean[10][10];
-
-	private Fleet fleetA = new Fleet();
-	private Fleet fleetB = new Fleet();
-
-	boolean readyA =false;
-	boolean readyB =false;
-
-	private GameState gamestate;
+	private Fleet myFleet = new Fleet();
 
 	public ServerGame(Server s)
 	{
