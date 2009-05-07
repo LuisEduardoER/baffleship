@@ -51,6 +51,13 @@ public class Node
 		}
 	}
 
+	public void setNonCurrent()
+	{
+		awake=false;
+		current=false;
+		System.out.println("Node "+name+" at location "+location+ " is no longer Current.");
+	}
+
 	public void run()
 	{
 		if ( awake && isAlive() )
