@@ -129,11 +129,12 @@ public class Client
 	         displayMessage( Color.red, "\nYGame Over. You Win!");
 	         battleGui.youWin();
 	        }
-           if(tokens[1].equals("LOSE"))
+           if(tokens[1].equals("LOSE")){
 	         displayMessage( Color.red, "\nYGame Over. You Lose.");
 	          battleGui.youLose();
 	        }
-	   }
+	     }
+
 	   if(tokens[0].equals("SUNK")){  
 	    String sunkShip = "\nYou Sunk the " + tokens[1];
 	    displayMessage(Color.red, sunkShip);
