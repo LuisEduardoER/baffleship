@@ -127,7 +127,7 @@ public class Client
 	    if(tokens[0].equals("GAMEOVER")){  
 	        if(tokens[1].equals("WIN"))
 	         displayMessage( Color.red, "\nYGame Over. You Win!");
-	        if(tokens[1].equals("Lose"))
+	        if(tokens[1].equals("LOSE"))
 	         displayMessage( Color.red, "\nYGame Over. You Lose.");
 	   }
 	   if(tokens[0].equals("SUNK")){  
