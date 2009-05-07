@@ -97,12 +97,21 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		try{			
 			sounds[0] = new AudioStream(new FileInputStream("spash.wav")); 		
-			sounds[1] = new AudioStream(new FileInputStream("bomb-03.wav")); 							
+			sounds[1] = new AudioStream(new FileInputStream("bomb-03.wav")); 
+			sounds[2] = new AudioStream(new FileInputStream("youwin.wav"));
+			sounds[3] = new AudioStream(new FileInputStream("youlose.wav"));							
 		}
 		catch(IOException IOE){}
 	}
 	 
-
+   public void youWin(){
+        p.start(sounds[2]);createSounds();
+        System.out.println("you win");
+    }
+    
+    public void youLose(){
+        p.start(sounds[3]);createSounds();
+    }
 
 	void showOpponentBoard()
 	{
