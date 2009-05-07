@@ -11,7 +11,7 @@ public enum SquareType
 	WATER("water",Color.BLUE, Color.CYAN, false,1),
 
 	CARRIER("Carrier",Color.RED, Color.ORANGE, true,5),
-	BSHIP("Battleship",Color.GREEN, Color.YELLOW, true,4),
+	BSHIP("Baffleship",Color.GREEN, Color.YELLOW, true,4),
 	CRUISER("Cruiser",Color.WHITE, Color.GRAY, true,3),
 	SUB("Submarine",Color.MAGENTA, Color.PINK, true,3),
 	DESTROYER("Destroyer",Color.PINK, Color.RED, true,2);
