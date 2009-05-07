@@ -125,10 +125,14 @@ public class Client
 			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 	    if(tokens[0].equals("GAMEOVER")){  
-	        if(tokens[1].equals("WIN"))
+	        if(tokens[1].equals("WIN")){
 	         displayMessage( Color.red, "\nYGame Over. You Win!");
-	        if(tokens[1].equals("LOSE"))
+	         battleGui.youWin();
+	        }
+           if(tokens[1].equals("LOSE"))
 	         displayMessage( Color.red, "\nYGame Over. You Lose.");
+	          battleGui.youLose();
+	        }
 	   }
 	   if(tokens[0].equals("SUNK")){  
 	    String sunkShip = "\nYou Sunk the " + tokens[1];
