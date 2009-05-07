@@ -21,8 +21,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
-//import sun.audio.AudioPlayer;
-//import sun.audio.AudioStream;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import  java.io.*;
 
@@ -80,28 +80,20 @@ class BattleGUI extends JFrame implements ActionListener
 		JButton cruiserButton = new JButton(cruiserIcon);
 		JButton subButton = new JButton(subIcon);
 		JButton destroyerButton = new JButton(destroyerIcon);
-
-
-	//Attach the drag source
-    	//JLabelDragSource cruiserdragSource = new JLabelDragSource(label);
 	
-	/*
+	
 	AudioStream sounds[] = new AudioStream[10];
 	AudioPlayer p = AudioPlayer.player;
 
  	void createSounds()
 	{
 		try{			
-			sounds[0] = new AudioStream(new FileInputStream("sounds/laser.wav")); 		
-			sounds[1] = new AudioStream(new FileInputStream("sounds/correct.wav")); 		
-			sounds[2] = new AudioStream(new FileInputStream("sounds/incorrect.wav")); 		
-			sounds[3] = new AudioStream(new FileInputStream("sounds/win.wav"));
-			sounds[4] = new AudioStream(new FileInputStream("sounds/lose.wav"));
-			sounds[5] = new AudioStream(new FileInputStream("sounds/cheat.wav")); 						
+			sounds[0] = new AudioStream(new FileInputStream("spash.wav")); 		
+			sounds[1] = new AudioStream(new FileInputStream("bomb-03.wav")); 							
 		}
 		catch(IOException IOE){}
 	}
-	 */
+	 
 
 
 	void showOpponentBoard()
@@ -278,27 +270,31 @@ class BattleGUI extends JFrame implements ActionListener
 	public void opponentHitShip(int x, int y)
 	{
 		bottomArray[x][y].setIcon(hitIcon);
+		p.start(sounds[0]);createSounds();
 	}
 
 	public void opponentMissShip(int x, int y)
 	{
 		bottomArray[x][y].setIcon(missIcon);
+		p.start(sounds[1]);createSounds();
 	}
 
 	public void yourShotMissed(int x, int y)
 	{
 		topArray[x][y].setIcon(missIcon);
+		p.start(sounds[1]);createSounds();
 	}
 
 	public void yourShotHit(int x, int y)
 	{
 		topArray[x][y].setIcon(hitIcon);
+		p.start(sounds[0]);createSounds();
 	}
 
 
 	public JPanel createContentPane()
 	{
-	
+	    createSounds();
 		//bottom panel
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
