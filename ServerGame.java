@@ -129,10 +129,13 @@ public class ServerGame
 				SquareType result = fleetB.shoot(new Point(x,y) );
 		
 				server.sendToPlayer('A', "YOURSHOT "+result+" "+x+" "+y);
-				server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
-					
+
+				//if that square had not previously been guessed
+				//we need to notify the other player,
+				//mark it as previously guessed, and check for win					
 				if ( ! boardB[x][y] )
 				{
+					server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
 					boardB[x][y]=true;
 					gamestate= GameState.TURN_B;
 					checkVictory();
@@ -149,10 +152,13 @@ public class ServerGame
 				SquareType result = fleetA.shoot(new Point(x,y) );
 			
 				server.sendToPlayer('B', "YOURSHOT "+result+" "+x+" "+y);
-				server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
-					
+
+				//if that square had not previously been guessed
+				//we need to notify the other player,
+				//mark it as previously guessed, and check for win					
 				if ( ! boardA[x][y] )
 				{
+					server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
 					boardA[x][y]=true;
 					gamestate= GameState.TURN_A;
 					checkVictory();
