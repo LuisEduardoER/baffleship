@@ -65,9 +65,12 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon subIcon = createImageIcon("sub.jpg");
 		ImageIcon destroyerIcon = createImageIcon("destroyer.jpg");
 
-		ImageIcon carrierIconFront = createImageIcon("carrier1.jpg");
+		ImageIcon carrierIconFront = createImageIcon("carrier1.jpg");	
+		ImageIcon carrierIconFrontNS = createImageIcon("carrier1NS.jpg");
 		ImageIcon carrierIconMiddle = createImageIcon("carrier2.jpg");
+		ImageIcon carrierIconMiddleNS = createImageIcon("carrier2NS.jpg");
 		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
+		ImageIcon carrierIconEndNS = createImageIcon("carrier4NS.jpg");
 		ImageIcon waterIcon = createImageIcon("Water.JPG");
 		ImageIcon hitIcon = createImageIcon("explosion.png");
 		ImageIcon missIcon = createImageIcon("miss.jpg");
@@ -134,14 +137,14 @@ class BattleGUI extends JFrame implements ActionListener
 		if(dir.equalsIgnoreCase("north")){
 			if( i+2 > y){
 				y = 0;
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){	bottomArray[x][++y].setIcon(carrierIconMiddle);}
-				bottomArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFrontNS);
+				for(int j=0; j<i; j++){	bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
+				bottomArray[x][++y].setIcon(carrierIconEndNS);
 			}
 			else{
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){	bottomArray[x][--y].setIcon(carrierIconMiddle);}
-				bottomArray[x][--y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconEndNS);
+				for(int j=0; j<i; j++){	bottomArray[x][--y].setIcon(carrierIconMiddleNS);}
+				bottomArray[x][--y].setIcon(carrierIconFrontNS);
 			}
 		}
 		if(dir.equalsIgnoreCase("east")){
@@ -160,14 +163,14 @@ class BattleGUI extends JFrame implements ActionListener
 		if(dir.equalsIgnoreCase("south")){
 			if( i+2 > 10-y){
 				y = 10 -(i+2);
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddle);}
-				bottomArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFrontNS);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
+				bottomArray[x][++y].setIcon(carrierIconEndNS);
 			}
 			else{
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddle);}
-				bottomArray[x][++y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(carrierIconFrontNS);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
+				bottomArray[x][++y].setIcon(carrierIconEndNS);
 			}
 		}
 		if(dir.equalsIgnoreCase("west")){
@@ -178,9 +181,9 @@ class BattleGUI extends JFrame implements ActionListener
 				bottomArray[++x][y].setIcon(carrierIconEnd);
 			}
 			else{
-				bottomArray[x][y].setIcon(carrierIconFront);
+				bottomArray[x][y].setIcon(carrierIconEnd);
 				for(int j=0; j<i; j++){bottomArray[--x][y].setIcon(carrierIconMiddle);}
-				bottomArray[--x][y].setIcon(carrierIconEnd);
+				bottomArray[--x][y].setIcon(carrierIconFront);
 			}
 		}
 	}
@@ -200,46 +203,7 @@ class BattleGUI extends JFrame implements ActionListener
 	
 		if((source == carrierLabel)  || (source == battleShipButton) || (source == cruiserButton) || (source == subButton) || (source == 				destroyerButton)){
 			shipType = source;
-			
-			/*
-			String coords = JOptionPane.showInputDialog(null, "Enter coords of ship");
-			String[] tokens;
-           		tokens = coords.split(delims);
-        		x = Integer.parseInt(tokens[0]);
-			y = Integer.parseInt(tokens[1]);
-			dir = JOptionPane.showInputDialog(null, "Enter direction of ship");*/
 		}	
-		/*
-		if(source == carrierLabel){
-			carrierLabel.setVisible(false);
-			placeShip(x, y, dir, "carrier");
-			client.sendData( "PLACE " + "CARRIER " + " " + x + " " + y + " " + dir);
-		}
-
-		if(source == battleShipButton){		
-			battleShipButton.setVisible(false);
-			placeShip(x, y, dir, "battle");
-			client.sendData( "PLACE " + "BSHIP " + " " + x + " " + y + " " + dir);
-			
-		}
-
-		if(source == cruiserButton){		
-			cruiserButton.setVisible(false);
-			placeShip(x, y, dir, "cruiser");
-			client.sendData( "PLACE " + "CRUISER " + " " + x + " " + y + " " + dir);
-		}
-
-		if(source == subButton){
-			subButton.setVisible(false);		
-			placeShip(x, y, dir, "sub");
-			client.sendData( "PLACE " + "SUB " + " " + x + " " + y + " " + dir);
-		}
-
-		if(source == destroyerButton){
-			destroyerButton.setVisible(false);
-			placeShip(x, y, dir, "destroyer");
-			client.sendData( "PLACE " + "DESTROYER " + " " + x + " " + y + " " + dir);
-		}	*/	        
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++) if(source == topArray[i][j])
 		{
