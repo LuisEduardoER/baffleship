@@ -57,11 +57,13 @@ public class BattleMain extends JFrame
 			//com.sun.awt.AWTUtilities.setWindowOpaque(frame, false);
 			frame.setVisible(true);
 
-			if ( args.length == 0 )
-         			client = new Client( "127.0.0.1", 44771, menu ); // connect to localhost
-     			 else
-        			 client = new Client( args[ 0 ] , 44771, menu); // use args to connect
-			//Client client = new Client("127.0.0.1", 44771, menu);
+			int port = 44771; //default port
+			try { port= Integer.parseInt(args[1]); } catch (Exception e) {;}
+
+			String host="127.0.0.1";  //default to localhost
+			try { host= new String(args[0] ); } catch (Exception e) {;}
+
+        		client = new Client( host, port, menu); // use args to connect
 			menu.setClient(client);
 			client.runClient();
 	}
