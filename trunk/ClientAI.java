@@ -33,6 +33,7 @@ public class ClientAI
 
 	private boolean shots[][] = new boolean[10][10];
 	private java.util.List<Point> shotQ = new ArrayList<Point>();
+	int minQsize=17;
 	
 	Random rrr = new Random(); 
 	
@@ -133,6 +134,7 @@ public class ClientAI
 			displayMessage( Color.red, "\nYou missed");
 		}
 		else {
+				minQsize--;
 			displayMessage( Color.red, "\nYou hit the " + result.name);
 			if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
 			Point tempP = new Point( Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]) );
@@ -259,7 +261,7 @@ private Direction randDir()
 
 private void Shoot()
 {
-	if ( shotQ.size()<5 ) shotQ.add( new Point(rrr.nextInt(10),rrr.nextInt(10)  ));
+	if ( shotQ.size()<minQsize ) shotQ.add( new Point(rrr.nextInt(10),rrr.nextInt(10)  ));
 
 	Point tempP=shotQ.remove(rrr.nextInt(shotQ.size()));
 	int x=(int)tempP.getX();
