@@ -3,6 +3,7 @@
 
 
 import java.awt.*;
+import java.util.Random;
 
 
 public enum SquareType
@@ -34,6 +35,20 @@ public enum SquareType
 	{
 		try { return valueOf(s.toUpperCase() ); } 
 			catch (Exception e) { return null; }
+        }
+
+	public static SquareType randomShip()
+	{
+
+		switch ( (new Random()).nextInt(5) )
+		{
+			case 0: return CARRIER;
+			case 1: return BSHIP;
+			case 2: return CRUISER;
+			case 3: return SUB;
+			default: return DESTROYER; //needed to compile but should never happen
+		}			
+
         }
 
 
