@@ -19,6 +19,7 @@ import java.net.*;
 import java.io.*;
 import java.util.Random;
 import java.awt.Point;
+import java.util.*;
 
 
 public class ClientAI
@@ -30,6 +31,9 @@ public class ClientAI
 	private int port;	//port # on host
    	private Socket client; // socket to communicate with server
 
+	private boolean shots[][] = new boolean[10][10];
+	private java.util.List<Point> shotQ = new ArrayList<Point>();
+	
 	Random rrr = new Random(); 
 	
 	String delims = "[ ]+";
@@ -118,23 +122,33 @@ public class ClientAI
             message =  input.readLine(); // read new message
             tokens = message.split(delims);
             
-          if(tokens[0].equals("CHAT")){
-                displayMessage( Color.green, "\nOpponent: "+message);
-           }  
+          if(tokens[0].equals("CHAT")){ displayMessage( Color.green, "\nOpponent: "+message); }  
 
-	 if(tokens[0].equals("YOURSHOT")){  
+	 if(tokens[0].equals("YOURSHOT"))
+	 {  
 		SquareType result = SquareType.parseShip(tokens[1]);
-		if(!result.isShip()){
+		shots[Integer.parseInt(tokens[2])] [Integer.parseInt(tokens[3])] =true;
+		
+		if(result.isWater()){
 			displayMessage( Color.red, "\nYou missed");
 		}
 		else {
 			displayMessage( Color.red, "\nYou hit the " + result.name);
-		if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
+			if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
+			Point tempP = new Point( Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]) );
+			shotQ.add( Direction.Move(tempP, Direction.NORTH, 1));
+			shotQ.add(Direction.Move(tempP, Direction.SOUTH, 1));
+			shotQ.add(Direction.Move(tempP, Direction.EAST, 1));
+			shotQ.add(Direction.Move(tempP, Direction.WEST, 1));			
 		}
-	  }
+	}
+	
+	if(tokens[0].equals("YOURTURN")) Shoot();
+	
+	
 	 if(tokens[0].equals("HISSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
-		if(!result.isShip())
+		if(result.isWater())
 		{
 			displayMessage( Color.red, "\nOpponent Miss");
 		if (rrr.nextInt(10) ==0) sendData( "CHAT HAHA U SUX");
@@ -144,6 +158,8 @@ public class ClientAI
 			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
 		if (rrr.nextInt(3) ==0) sendData( "CHAT OMG U HAX IMA GONNA GET U BANED");
 		}
+		
+		Shoot();
 
 
 	   }
@@ -154,20 +170,19 @@ public class ClientAI
 	sendData( "CHAT I SUNK YOUR MOM ");
 	}
 
-	//now make a randDUMB shot 
-	sendData( "SHOOT " + " " + rrr.nextInt(10)  + " " + rrr.nextInt(10)  );
-
-	//and possibly one or more random comments
-	if (rrr.nextInt(40) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
-	if (rrr.nextInt(40) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
-	if (rrr.nextInt(80) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
-	if (rrr.nextInt(40) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
-	if (rrr.nextInt(40) ==0) sendData( "CHAT Cough if you have swine flu");
-	if (rrr.nextInt(40) ==0) sendData( "CHAT ITS OVER 9000");
-	if (rrr.nextInt(40) ==0) sendData( "CHAT random is as random does");
+	//now possibly make one or more random comments
+	if (rrr.nextInt(50) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
+	if (rrr.nextInt(60) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
+	if (rrr.nextInt(100) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
+	if (rrr.nextInt(80) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
+	if (rrr.nextInt(80) ==0) sendData( "CHAT Cough if you have swine flu");
+	if (rrr.nextInt(80) ==0) sendData( "CHAT ITS OVER 9000");
+	if (rrr.nextInt(80) ==0) sendData( "CHAT random is as random does");
 
 	
-      } while(!tokens[0].equals("GAMEOVER")); 
+      } while(! (tokens[0].equals("GAMEOVER"))); 
+	  
+	  sendData( "CHAT DIAF loser");
 
 
    } // end method processConnection
@@ -193,11 +208,11 @@ public class ClientAI
    public void sendData( String message )
    {
 	output.flush();
-	try { Thread.sleep(1000); } catch (Exception e) {;}
+	try { Thread.sleep(800); } catch (Exception e) {;}
         output.println(message);
 	output.flush();
 	System.out.println("Sending: "+message);
-	try { Thread.sleep(1000); } catch (Exception e) {;}
+	try { Thread.sleep(800); } catch (Exception e) {;}
   
    } // end method sendData
 
@@ -217,7 +232,7 @@ private void placePieces()
 	//now send the fleet
 	for(Ship s : myFleet.ships) sendData("PLACE " + s.shipType + " " + (int)s.startLocation.getX() + " " + (int)s.startLocation.getY() + " " + s.facing);
 
-	sendData("READY");
+	Shoot(); //can't hurt
 }
 
 private Point randPoint()
@@ -230,6 +245,19 @@ private Direction randDir()
 	return Direction.intToDir(rrr.nextInt(4));
 }
 
+private void Shoot()
+{
+	if ( shotQ.size()<3 ) shotQ.add( new Point(rrr.nextInt(10),rrr.nextInt(10)  ));
+
+	Point tempP=shotQ.remove(rrr.nextInt(shotQ.size()));
+	int x=(int)tempP.getX();
+	int y=(int)tempP.getY();
+	
+	if ( (x<0)||(y<0)||(x>9)||(y>9)) { Shoot(); return; }
+	if (shots[x][y]) { Shoot(); return; }
+	
+	sendData( "SHOOT " + x  + " " + y  );
+}
 
 
   
