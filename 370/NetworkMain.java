@@ -12,11 +12,12 @@ public class NetworkMain extends JFrame
 {
 	Network n = new Network();
 	DrawNetwork d;
+	Random generator = new Random();
 	NetworkMain()
 	{
 		super("Node");		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	setSize(500,500);
+	    	setSize(1000,1000);
        		createNetwork();
 		add(d);
 	        setVisible(true);
@@ -24,57 +25,43 @@ public class NetworkMain extends JFrame
 	}
 	
 	public void createNetwork()
-	{	    
-	    	n.addNode("Node 1", new Point2D.Float(5, 5));
-		n.addNode("Node 2", new Point2D.Float(50, 50));
-		n.addNode("Node 3", new Point2D.Float(100, 100)); 
-		n.addNode("Node 3", new Point2D.Float(200, 200));
-		n.addNode("Node 4", new Point2D.Float(300, 300));
-		n.addNode("Node 5", new Point2D.Float(400, 400));
-		n.addNode("Node 6", new Point2D.Float(100, 300));
-		n.addNode("Node 7", new Point2D.Float(300, 100));
-		n.addNode("Node 8", new Point2D.Float(200, 400));
-		n.addNode("Node 9", new Point2D.Float(400, 200));
+	{	
+		int randX;
+		int randY;	
+		Node node;
+		for(int i = 1; i <= 20; i++)
+		{
+			randX = generator.nextInt( 999 );    
+			randY = generator.nextInt( 999 );   
+			String name = "Node "+ i;
+			Point p = new Point (randX, randY);
+			while (n.closestInRange(p).distance(p) < 50){
+				randX = generator.nextInt( 999 );    
+				randY = generator.nextInt( 999 );   
+				p = new Point (randX, randY);
+			}
+			n.addNode(new Node( name, n, p ));
+		}
+		
 		d = new DrawNetwork(n);
    	 }
     
-    public void alterNetwork(){
-    
-        n.nodes.get(1).setCurrent();
-        d.repaint();
-        
-        try{Thread.sleep(1000);}
-        catch(Exception e){}
-        
-	n.nodes.get(1).setNonCurrent();
-        n.nodes.get(2).setCurrent();
-        d.repaint();
-        
-        try{Thread.sleep(1000);}
-        catch(Exception e){}
-        
-	n.nodes.get(2).setNonCurrent();
-        n.nodes.get(3).setCurrent();      
-        d.repaint();
-        
-        try{Thread.sleep(1000);}
-        catch(Exception e){}
-        
-	n.nodes.get(3).setNonCurrent();
-        n.nodes.get(4).setCurrent();
-        d.repaint();
-        
-        try{Thread.sleep(1000);}
-        catch(Exception e){}
-        
-	n.nodes.get(4).setNonCurrent();
-        n.nodes.get(5).setCurrent();
-        d.repaint();
-        
-        try{Thread.sleep(1000);}
-        catch(Exception e){}
-    }
+    	public void alterNetwork()
+	{
+		for(Node node : n.nodes)
+		{
+			n.closestInRange(node.location).setCurrent();
+			d.repaint();
 
+			try{Thread.sleep(1000);}
+			catch(Exception e){}
+
+			n.closestInRange(node.location).setNonCurrent();
+
+		}
+	}
+		
+	
 
 
 	public static void main(String [] args)
