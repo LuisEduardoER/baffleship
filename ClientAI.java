@@ -124,6 +124,7 @@ public class ClientAI
                  for(int i=1; i<tokens.length; i++) 
                     displayMessage( Color.black, tokens[i] +" " );
            }  
+
 	 if(tokens[0].equals("YOURSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
 		if(!result.isShip()){
@@ -133,34 +134,47 @@ public class ClientAI
 		else {
 			displayMessage( Color.red, "\nYou hit the " + result.name);
 			battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
 		}
 	  }
 	 if(tokens[0].equals("HISSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
-		if(!result.isShip()){
+		if(!result.isShip())
+		{
 			displayMessage( Color.red, "\nOpponent Miss");
 			battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		if (rrr.nextInt(10) ==0) sendData( "CHAT HAHA U SUX");
 		}
-		else {
+		else
+		{
 			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
 			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		if (rrr.nextInt(3) ==0) sendData( "CHAT OMG U HAX IMA GONNA GET U BANED");
 		}
-	    if(tokens[0].equals("GAMEOVER")){  
-	        if(tokens[1].equals("WIN")){
-	         displayMessage( Color.red, "\nYGame Over. You Win!");
-	         battleGui.youWin();
-	        }
-           if(tokens[1].equals("LOSE"))
-	         displayMessage( Color.red, "\nYGame Over. You Lose.");
-	          battleGui.youLose();
-	        }
+
+
 	   }
-	   if(tokens[0].equals("SUNK")){  
+	   if(tokens[0].equals("SUNK"))
+	{  
 	    String sunkShip = "\nYou Sunk the " + tokens[1];
 	    displayMessage(Color.red, sunkShip);
-	       }
+	sendData( "CHAT I SUNK YOUR MOM ");
+	}
+
+	//now make a randDUMB shot 
+	sendData( "SHOOT " + " " + rrr.nextInt(10)  + " " + rrr.nextInt(10)  );
+
+	//and possibly one or more random comments
+	if (rrr.nextInt(40) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
+	if (rrr.nextInt(20) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
+	if (rrr.nextInt(50) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
+	if (rrr.nextInt(20) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
+	if (rrr.nextInt(40) ==0) sendData( "CHAT Cough if you have swine flu");
+	if (rrr.nextInt(20) ==0) sendData( "CHAT It will take you over 9000 shots to win");
 	
-      } while(!tokens[0].equals("EXIT")); 
+      } while(!tokens[0].equals("GAMEOVER")); 
+
+
    } // end method processConnection
 
    // close streams and socket
