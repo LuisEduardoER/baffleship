@@ -53,7 +53,7 @@ public class Client
       } // end try
       catch ( EOFException eofException ) 
       {
-         displayMessage(Color.black,  "\nClient terminated connection" );
+         displayMessage("\nClient terminated connection" );
       } // end catch
       catch ( IOException ioException ) 
       {
@@ -68,13 +68,13 @@ public class Client
    // connect to server
    private void connectToServer() throws IOException
    {      
-      displayMessage( Color.black, "Attempting connection\n" );
+      displayMessage(  "Attempting connection\n" );
 
       // create Socket to make connection to server
       client = new Socket( InetAddress.getByName( chatServer ), port );
 
       // display connection information
-      displayMessage( Color.black, "Connected to: " + 
+      displayMessage(  "Connected to: " + 
          client.getInetAddress().getHostName() );
    } // end method connectToServer
 
@@ -101,19 +101,19 @@ public class Client
                 
               if(tokens[0].equals("CHAT"))
               {
-                     displayMessage( Color.green, "\nOpponent: ");
+                     displayMessage(  "\nOpponent: ");
                      for(int i=1; i<tokens.length; i++) 
-                        displayMessage( Color.black, tokens[i] +" " );
+                        displayMessage( tokens[i] +" " );
               }  
 	         if(tokens[0].equals("YOURSHOT"))
 	         {  
 		            SquareType result = SquareType.parseShip(tokens[1]);
 		            if(!result.isShip()){
-			            displayMessage( Color.red, "\nYou missed");
+			            displayMessage(  "\nYou missed");
 			            battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		            }
 		            else {
-			            displayMessage( Color.red, "\nYou hit the " + result.name);
+			            displayMessage(  "\nYou hit the " + result.name);
 			            battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		            }
 	          }
@@ -122,12 +122,12 @@ public class Client
 		            SquareType result = SquareType.parseShip(tokens[1]);
 		            if(!result.isShip())
 		            {
-			            displayMessage( Color.red, "\nOpponent Miss");
+			            displayMessage( "\nOpponent Miss");
 			            battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		            }
 		            else 
 		            {
-			            displayMessage( Color.red, "\nYour opponent hit your " + result.name);
+			            displayMessage( "\nYour opponent hit your " + result.name);
 			            battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		            }
 	         }
@@ -135,12 +135,12 @@ public class Client
 	        { 
 	                if(tokens[1].equals("WIN"))
 	                {
-	                    displayMessage( Color.red, "\nYGame Over. You Win!");
+	                    displayMessage(  "\nYGame Over. You Win!");
 	                    battleGui.youWin();
 	                }
                    if(tokens[1].equals("LOSE"))
                    {
-	                    displayMessage( Color.red, "\nYGame Over. You Lose.");
+	                    displayMessage( "\nYGame Over. You Lose.");
 	                    battleGui.youLose();
 	               }
 	         }
@@ -148,7 +148,7 @@ public class Client
 	       if(tokens[0].equals("SUNK"))
 	       {  
 	            String sunkShip = "\nYou Sunk the " + tokens[1];
-	            displayMessage(Color.red, sunkShip);
+	            displayMessage( sunkShip);
 	       }
 	
       } while(!tokens[0].equals("EXIT")); 
@@ -157,7 +157,7 @@ public class Client
    // close streams and socket
    private void closeConnection() 
    {
-      displayMessage( Color.red, "\nClosing connection" );
+      displayMessage(  "\nClosing connection" );
  
       try 
       {
@@ -179,22 +179,21 @@ public class Client
 	   String[] tokens = message.split(delims);
             
             if(tokens[0].equals("CHAT")){
-                displayMessage( Color.green, "\nYou: ");
+                displayMessage(  "\nYou: ");
                  for(int i=1; i<tokens.length; i++) 
-                    displayMessage( Color.black, tokens[i] +" " );
+                    displayMessage(  tokens[i] +" " );
            }  
   
    } // end method sendData
 
    // manipulates displayArea in the event-dispatch thread
-   private void displayMessage( final Color c, final String messageToDisplay )
+   private void displayMessage(  final String messageToDisplay )
    {
       SwingUtilities.invokeLater(
          new Runnable()
          {
             public void run() // updates displayArea
             {
-		battleGui.displayArea.setForeground(c);
                battleGui.displayArea.append( messageToDisplay );
             } // end method run
          }  // end anonymous inner class
