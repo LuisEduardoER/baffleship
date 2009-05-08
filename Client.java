@@ -102,8 +102,13 @@ public class Client
               if(tokens[0].equals("CHAT"))
               {
                      displayMessage(  "\nOpponent: ");
-                     for(int i=1; i<tokens.length; i++) 
-                        displayMessage( tokens[i] +" " );
+                     for(int i=1; i<tokens.length; i++)
+			{ 
+                        	displayMessage( tokens[i] +" " );
+				if ( i%8  == 0 ) displayMessage( "\n" );
+
+			}
+				
               }  
 	         if(tokens[0].equals("YOURSHOT"))
 	         {  
@@ -135,12 +140,12 @@ public class Client
 	        { 
 	                if(tokens[1].equals("WIN"))
 	                {
-	                    displayMessage(  "\nYGame Over. You Win!");
+	                    displayMessage(  "\nGame Over. You Win!");
 	                    battleGui.youWin();
 	                }
                    if(tokens[1].equals("LOSE"))
                    {
-	                    displayMessage( "\nYGame Over. You Lose.");
+	                    displayMessage( "\nGame Over. You Lose.");
 	                    battleGui.youLose();
 	               }
 	         }

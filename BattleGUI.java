@@ -72,7 +72,7 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon cruiserIcon = createImageIcon("pictures/cruiser.png");
 		ImageIcon subIcon = createImageIcon("pictures/sub.png");
 		ImageIcon destroyerIcon = createImageIcon("pictures/destroyer.png");
-
+/*
 		ImageIcon carrierIconFront = createImageIcon("pictures/ship4-1-r.png");	
 		ImageIcon carrierIconFrontNS = createImageIcon("pictures/ship4-1.png");
 		ImageIcon carrierIconMiddle = createImageIcon("pictures/ship4-2-r.png");
@@ -92,7 +92,7 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon subIconMiddle = createImageIcon("pictures/ship2-3-r.png");
 		ImageIcon subIconMiddleNS = createImageIcon("pictures/ship2-3.png");
 		ImageIcon subIconEnd = createImageIcon("pictures/ship2-2-r.png");
-		ImageIcon subIconEndNS = createImageIcon("pictures/ship2-2.png");
+		ImageIcon subIconEndNS = createImageIcon("pictures/ship2-2.png");*/
 		
 		ImageIcon waterIcon = createImageIcon("pictures/sea.png");
 		ImageIcon hitIcon = createImageIcon("pictures/hit.png");
@@ -152,62 +152,18 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		int i=0; //number of middle pieces
 		int direction = 0;
+
+		SquareType shipType = SquareType.parseShip(ship);
+
+		ImageIcon front= createImageIcon(shipType.frontH);
+		ImageIcon middle= createImageIcon(shipType.middleH);
+		ImageIcon end= createImageIcon(shipType.backH);
+		ImageIcon frontNS= createImageIcon(shipType.frontV);
+		ImageIcon middleNS= createImageIcon(shipType.middleV);
+		ImageIcon endNS= createImageIcon(shipType.backV);
+		i=shipType.length-2;		
 		
-		ImageIcon front= createImageIcon("carrier.jpg");
-		ImageIcon middle= createImageIcon("carrier.jpg");
-		ImageIcon end= createImageIcon("carrier.jpg");
-		ImageIcon frontNS= createImageIcon("carrier.jpg");
-		ImageIcon middleNS= createImageIcon("carrier.jpg");
-		ImageIcon endNS= createImageIcon("carrier.jpg");
-		
-		bottomArray[x][y].setIcon(carrierIconFront);
-		if(ship.equals("CARRIER")){
-		     i = 3;
-		     front = carrierIconFront;
-		     middle = carrierIconMiddle;
-		     end = carrierIconEnd;
-		     frontNS = carrierIconFrontNS;
-		     middleNS = carrierIconMiddleNS;
-		     endNS = carrierIconEndNS;
-	     }
-		if(ship.equals("BSHIP")) {
-		     i = 2;
-		     front = battleIconFront;
-		     middle = battleIconMiddle;
-		     end = battleIconEnd;
-		     frontNS = battleIconFrontNS;
-		     middleNS = battleIconMiddleNS;
-		     endNS = battleIconEndNS;
-	     }
-		if(ship.equals("CRUISER")){
-		     i = 1;
-		     front = battleIconFront;
-		     middle = battleIconMiddle;
-		     end = battleIconEnd;
-		     frontNS = battleIconFrontNS;
-		     middleNS = battleIconMiddleNS;
-		     endNS = battleIconEndNS;
-	     }
-		if(ship.equals("SUB")){
-		     i = 1;
-		     front = subIconFront;
-		     middle = subIconMiddle;
-		     end = subIconEnd;
-		     frontNS = subIconFrontNS;
-		     middleNS = subIconMiddleNS;
-		     endNS = subIconEndNS;
-	     }
-		if(ship.equals("DESTROYER")){
-		     i = 0;
-			 front = battleIconFront;
-		     middle = battleIconMiddle;
-		     end = battleIconEnd;
-		     frontNS = battleIconFrontNS;
-		     middleNS = battleIconMiddleNS;
-		     endNS = battleIconEndNS;
-	     }
-		
-		if(dir.equalsIgnoreCase("north")){
+		if(dir.equalsIgnoreCase("north") ){
 			if( i+2 > y){
 				y = 0;
 				client.sendData( "PLACE " + ship + " " + x + " " + y + " " + "south");
