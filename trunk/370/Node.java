@@ -14,6 +14,13 @@ public class Node
 	public final Point2D location;
 	private float energy;		//0 or less is dead
 
+	//static: distance between two points
+	public static float distance(Point2D p, Point2D q)
+	{
+		return (float) Math.sqrt( Math.pow( ( p.getX() - q.getX() ),2) + Math.pow( ( p.getY() - q.getY() ),2) );
+	}
+
+	//constructor
 	Node (String _name, Network _network, Point2D p)
 	{
 		name=_name;
@@ -23,24 +30,23 @@ public class Node
 		energy = maxEnergy;
 		System.out.println("Created new node "+name+" at location "+location);
 	}
-
-	public static float distance(Point2D p, Point2D q)
-	{
-		return (float) Math.sqrt( Math.pow( ( p.getX() - q.getX() ),2) + Math.pow( ( p.getY() - q.getY() ),2) );
-	}
-
+		
+	//distance from this node to a point
 	public float distance(Point2D p)
 	{
 		return distance(location,p);
 	}
 
+	// true if the given point is in range of this node
 	public boolean inRange(Point2D p)
 	{
 		return ( detectionRange >= distance(p) );
 	}
 
+	//wake self up
 	public void wakeup() { if (isAlive()) { awake=true; System.out.println("Waking up node "+name+" at location "+location); } }
 
+	
 	public void setCurrent()
 	{
 		if (isAlive())

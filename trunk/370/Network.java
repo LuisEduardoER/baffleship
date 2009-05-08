@@ -12,15 +12,12 @@ public class Network
 	private Point2D previousLocation;
 
 
-
-
-
-
 	public void addNode(String name, Point2D p)
 	{
 		nodes.add(new Node(name, this, p));
 	}
 
+	//returns a list of nodes in range of a certain point
 	public ArrayList<Node> inRange(Point2D p)
 	{
 		java.util.ArrayList<Node> temp = new ArrayList<Node>();	
@@ -28,6 +25,7 @@ public class Network
 		return temp;
 	}
 
+	//return node closest to a given point
 	public Node closestInRange(Point2D p)
 	{
 		Node tempNode=null;
@@ -44,8 +42,10 @@ public class Network
 		return tempNode;
 	}
 
+	//used by individual nodes to make list of nodes to wake up next
 	public void wakeupNextTick(Node n) { nodesToAwaken.add(n); }
 
+	//
 	private void wakeupNodes()
 	{
 		for(Node n : nodesToAwaken) n.wakeup();
