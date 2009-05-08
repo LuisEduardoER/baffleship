@@ -93,53 +93,64 @@ public class Client
    private void processConnection() throws IOException
    {
      String[] tokens;
-      do // process messages sent from server
-      {      
-            message =  input.readLine(); // read new message
-            tokens = message.split(delims);
-            
-          if(tokens[0].equals("CHAT")){
-                displayMessage( Color.green, "\nOpponent: ");
-                 for(int i=1; i<tokens.length; i++) 
-                    displayMessage( Color.black, tokens[i] +" " );
-           }  
-	 if(tokens[0].equals("YOURSHOT")){  
-		SquareType result = SquareType.parseShip(tokens[1]);
-		if(!result.isShip()){
-			displayMessage( Color.red, "\nYou missed");
-			battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
-		}
-		else {
-			displayMessage( Color.red, "\nYou hit the " + result.name);
-			battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
-		}
-	  }
-	 if(tokens[0].equals("HISSHOT")){  
-		SquareType result = SquareType.parseShip(tokens[1]);
-		if(!result.isShip()){
-			displayMessage( Color.red, "\nOpponent Miss");
-			battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
-		}
-		else {
-			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
-			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
-		}
-	    if(tokens[0].equals("GAMEOVER")){  
-	        if(tokens[1].equals("WIN")){
-	         displayMessage( Color.red, "\nYGame Over. You Win!");
-	         battleGui.youWin();
-	        }
-           if(tokens[1].equals("LOSE")){
-	         displayMessage( Color.red, "\nYGame Over. You Lose.");
-	          battleGui.youLose();
-	        }
-	     }
+          do // process messages sent from server
+          {      
+                message =  input.readLine(); // read new message
+                tokens = message.split(delims);
+                System.out.println(tokens[0]);
+                
+              if(tokens[0].equals("CHAT"))
+              {
+                     displayMessage( Color.green, "\nOpponent: ");
+                     for(int i=1; i<tokens.length; i++) 
+                        displayMessage( Color.black, tokens[i] +" " );
+              }  
+	         if(tokens[0].equals("YOURSHOT"))
+	         {  
+		            SquareType result = SquareType.parseShip(tokens[1]);
+		            if(!result.isShip()){
+			            displayMessage( Color.red, "\nYou missed");
+			            battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		            }
+		            else {
+			            displayMessage( Color.red, "\nYou hit the " + result.name);
+			            battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		            }
+	          }
+	         if(tokens[0].equals("HISSHOT"))
+	         {  
+		            SquareType result = SquareType.parseShip(tokens[1]);
+		            if(!result.isShip())
+		            {
+			            displayMessage( Color.red, "\nOpponent Miss");
+			            battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		            }
+		            else 
+		            {
+			            displayMessage( Color.red, "\nYour opponent hit your " + result.name);
+			            battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
+		            }
+	         }
+	        if(tokens[0].equals("GAMEOVER"))
+	        { 
+	                if(tokens[1].equals("WIN"))
+	                {
+	                    displayMessage( Color.red, "\nYGame Over. You Win!");
+	                    battleGui.youWin();
+	                }
+                   if(tokens[1].equals("LOSE"))
+                   {
+	                    displayMessage( Color.red, "\nYGame Over. You Lose.");
+	                    battleGui.youLose();
+	               }
+	         }
 
-	   if(tokens[0].equals("SUNK")){  
-	    String sunkShip = "\nYou Sunk the " + tokens[1];
-	    displayMessage(Color.red, sunkShip);
+	       if(tokens[0].equals("SUNK"))
+	       {  
+	            String sunkShip = "\nYou Sunk the " + tokens[1];
+	            displayMessage(Color.red, sunkShip);
 	       }
-	}
+	
       } while(!tokens[0].equals("EXIT")); 
    } // end method processConnection
 

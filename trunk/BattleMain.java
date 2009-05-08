@@ -20,7 +20,7 @@ public class BattleMain extends JFrame
 			frame.setContentPane(menu.createContentPane());
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			//com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.70f);
-			frame.setSize(800,600);
+			frame.setSize(800,700);
 
 			//place frame in middle of screen
 			int x = (screenSize.width - frame.getWidth()) / 2;  

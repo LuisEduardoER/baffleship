@@ -73,12 +73,12 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon subIcon = createImageIcon("sub.jpg");
 		ImageIcon destroyerIcon = createImageIcon("destroyer.jpg");
 
-		ImageIcon carrierIconFront = createImageIcon("carrier1.jpg");	
-		ImageIcon carrierIconFrontNS = createImageIcon("carrier1NS.jpg");
-		ImageIcon carrierIconMiddle = createImageIcon("carrier2.jpg");
-		ImageIcon carrierIconMiddleNS = createImageIcon("carrier2NS.jpg");
-		ImageIcon carrierIconEnd = createImageIcon("carrier4.jpg");
-		ImageIcon carrierIconEndNS = createImageIcon("carrier4NS.jpg");
+		ImageIcon carrierIconFront = createImageIcon("pictures/ship4-1-r.png");	
+		ImageIcon carrierIconFrontNS = createImageIcon("pictures/ship4-1.png");
+		ImageIcon carrierIconMiddle = createImageIcon("pictures/ship4-2-r.png");
+		ImageIcon carrierIconMiddleNS = createImageIcon("pictures/ship4-2.png");
+		ImageIcon carrierIconEnd = createImageIcon("pictures/ship4-4-r.png");
+		ImageIcon carrierIconEndNS = createImageIcon("pictures/ship4-4.png");
 		ImageIcon waterIcon = createImageIcon("water.jpg");
 		ImageIcon hitIcon = createImageIcon("explosion.png");
 		ImageIcon missIcon = createImageIcon("miss.jpg");
@@ -105,11 +105,12 @@ class BattleGUI extends JFrame implements ActionListener
 	}
 	 
    public void youWin(){
+       try{ Thread.sleep(1500);} catch(Exception e){}
         p.start(sounds[2]);createSounds();
-        System.out.println("you win");
     }
     
     public void youLose(){
+       try{ Thread.sleep(1500);}catch(Exception e){}
         p.start(sounds[3]);createSounds();
     }
 
@@ -360,12 +361,13 @@ class BattleGUI extends JFrame implements ActionListener
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(Color.white);
-
+        Border border1 = new LineBorder(Color.BLACK, 3);
 
 		JPanel textPanel = new JPanel(new BorderLayout());
 		textPanel.setBackground(Color.yellow);
-		textPanel.setSize(400, 400);
+		textPanel.setSize(400, 600);
 		textPanel.setLocation(350,50);	
+		textPanel.setBorder(border1);
 		
 
 		enterField = new JTextField(); // create enterField
@@ -426,7 +428,7 @@ class BattleGUI extends JFrame implements ActionListener
        		JPanel buttonPanel = new JPanel();     
        		buttonPanel.setLayout(null);
        		buttonPanel.setLocation(000, 000);
-      		buttonPanel.setSize(500,600);
+      		buttonPanel.setSize(500,700);
        		panel.add(buttonPanel);	
  
 
@@ -434,29 +436,12 @@ class BattleGUI extends JFrame implements ActionListener
 		buttonPanel.setForeground(Color.black);
 		
 		Border border = new LineBorder(Color.BLACK, 1);
-		
-		final JPopupMenu menu = new JPopupMenu();
-    
-		// Create and add a menu item
-		JMenuItem dropBomb = new JMenuItem("Drop Bomb Here");
-		//dropBomb.addActionListener(new MenuActionListener());
-		menu.add(dropBomb);
-
-    
-        	button1.setLocation(20,275);
-        	button1.setSize(100,25);
-		button1.setVisible(true);
-		button1.setForeground(Color.black);
-		button1.setBackground(Color.white);
-		button1.setBorder(border);
-		button1.addActionListener(this);
-		buttonPanel.add(button1);
 
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
 		{		
 			bottomArray[i][j] = new JButton(waterIcon);
-			bottomArray[i][j].setLocation(20+24*i,325+24*j);
-			bottomArray[i][j].setSize(25,25);
+			bottomArray[i][j].setLocation(20+31*i,340+31*j);
+			bottomArray[i][j].setSize(32,32);
 			bottomArray[i][j].setVisible(true);
 			bottomArray[i][j].setForeground(Color.white);
 			bottomArray[i][j].setBackground(Color.white);
@@ -468,28 +453,14 @@ class BattleGUI extends JFrame implements ActionListener
 		for(int i=0;i<10;i++) for(int j=0;j<10;j++)
 		{			
 			topArray[i][j] = new JButton(waterIcon);
-			topArray[i][j].setLocation(20+24*i,50+24*j);
-			topArray[i][j].setSize(25,25);
+			topArray[i][j].setLocation(20+31*i,10+31*j);
+			topArray[i][j].setSize(32,32);
 			topArray[i][j].setVisible(false);
 			topArray[i][j].setBackground(Color.white);
 			topArray[i][j].setBackground(Color.white);
 			topArray[i][j].setBorder(border);
 			topArray[i][j].addActionListener(this);
-
-		    // Set the component to show the popup menu
-		    topArray[i][j].addMouseListener(new MouseAdapter() {
-		        public void mousePressed(MouseEvent evt) {
-		            if (evt.isPopupTrigger()) {
-		                menu.show(evt.getComponent(), evt.getX(), evt.getY());
-		            }
-		        }
-		        public void mouseReleased(MouseEvent evt) {
-		            if (evt.isPopupTrigger()) {
-		                menu.show(evt.getComponent(), evt.getX(), evt.getY());
-		            }
-		        }
-		    });
-				buttonPanel.add(topArray[i][j]);
+			buttonPanel.add(topArray[i][j]);
 		}
 
 
