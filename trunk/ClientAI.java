@@ -158,12 +158,12 @@ public class ClientAI
 	sendData( "SHOOT " + " " + rrr.nextInt(10)  + " " + rrr.nextInt(10)  );
 
 	//and possibly one or more random comments
-	if (rrr.nextInt(40) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
-	if (rrr.nextInt(20) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
+	if (rrr.nextInt(20) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
+	if (rrr.nextInt(40) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
 	if (rrr.nextInt(50) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
 	if (rrr.nextInt(20) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
 	if (rrr.nextInt(40) ==0) sendData( "CHAT Cough if you have swine flu");
-	if (rrr.nextInt(20) ==0) sendData( "CHAT It will take you over 9000 shots to win");
+	if (rrr.nextInt(20) ==0) sendData( "CHAT ITS OVER 9000");
 	
       } while(!tokens[0].equals("GAMEOVER")); 
 
