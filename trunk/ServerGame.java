@@ -14,9 +14,6 @@ public class ServerGame
 	private Fleet fleetA = new Fleet();
 	private Fleet fleetB = new Fleet();
 
-	boolean readyA =false;
-	boolean readyB =false;
-
 	private GameState gamestate;
 
 	public ServerGame(Server s)
@@ -55,19 +52,6 @@ public class ServerGame
 			return;
 		}
 		
-		if ( command.equals("READY") ) 
-		{
-			if ( (player == 'A') && ( fleetA.numShips() == 5 ) ) readyA =true; 
-			if ( (player == 'B') && ( fleetB.numShips() == 5 ) ) readyB =true;
-
-			if ( ( gamestate == GameState.WAITING ) && readyA && readyB )
-			{
-				gamestate = GameState.TURN_A;
-				server.sendToPlayer('A',"START");
-				server.sendToPlayer('B',"START");
-				server.sendToPlayer('A',"YOURTURN");
-			}
-		}
 
 
 		/* 
@@ -106,6 +90,15 @@ public class ServerGame
 			//if the fleet rejects it, too bad 
 			if (player == 'A') fleetA.addShip(newShip); 
 			if (player == 'B') fleetB.addShip(newShip);
+
+			//now test if the boards are full, and if so start the game
+			if ( ( fleetA.numShips() == 5 )  && ( fleetB.numShips() == 5 ) && ( gamestate == GameState.WAITING ) )
+			{
+				gamestate = GameState.TURN_A;
+				server.sendToPlayer('A',"START");
+				server.sendToPlayer('B',"START");
+				server.sendToPlayer('A',"YOURTURN");
+			}
 
 			return;
 		}
