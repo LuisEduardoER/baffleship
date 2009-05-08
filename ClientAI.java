@@ -136,11 +136,23 @@ public class ClientAI
 			displayMessage( Color.red, "\nYou hit the " + result.name);
 			if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
 			Point tempP = new Point( Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]) );
-			shotQ.add( Direction.Move(tempP, Direction.NORTH, 1));
-			shotQ.add(Direction.Move(tempP, Direction.SOUTH, 1));
-			shotQ.add(Direction.Move(tempP, Direction.EAST, 1));
-			shotQ.add(Direction.Move(tempP, Direction.WEST, 1));			
-		}
+			tempP=Direction.Move(tempP, Direction.NORTH, 1);
+			shotQ.add( tempP );
+			tempP=Direction.Move(tempP, Direction.EAST, 1);
+			pruneQ(tempP);
+			tempP=Direction.Move(tempP, Direction.SOUTH, 1);
+			shotQ.add( tempP );
+			tempP=Direction.Move(tempP, Direction.SOUTH, 1);
+			pruneQ(tempP);
+			tempP=Direction.Move(tempP, Direction.WEST, 1);
+			shotQ.add( tempP );
+			tempP=Direction.Move(tempP, Direction.WEST, 1);
+			pruneQ(tempP);
+			tempP=Direction.Move(tempP, Direction.NORTH, 1);
+			shotQ.add( tempP );
+			tempP=Direction.Move(tempP, Direction.NORTH, 1);
+			pruneQ(tempP);
+			}
 	}
 	
 	if(tokens[0].equals("YOURTURN")) Shoot();
@@ -247,7 +259,7 @@ private Direction randDir()
 
 private void Shoot()
 {
-	if ( shotQ.size()<3 ) shotQ.add( new Point(rrr.nextInt(10),rrr.nextInt(10)  ));
+	if ( shotQ.size()<5 ) shotQ.add( new Point(rrr.nextInt(10),rrr.nextInt(10)  ));
 
 	Point tempP=shotQ.remove(rrr.nextInt(shotQ.size()));
 	int x=(int)tempP.getX();
@@ -259,6 +271,10 @@ private void Shoot()
 	sendData( "SHOOT " + x  + " " + y  );
 }
 
+private void pruneQ(Point p)
+{
+	for(int i=0;i<shotQ.size();i++) if (shotQ.get(i).equals(p)) shotQ.remove(i);
+}
 
   
 } // end class Client
