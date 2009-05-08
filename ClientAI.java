@@ -164,6 +164,8 @@ public class ClientAI
 	if (rrr.nextInt(40) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
 	if (rrr.nextInt(40) ==0) sendData( "CHAT Cough if you have swine flu");
 	if (rrr.nextInt(40) ==0) sendData( "CHAT ITS OVER 9000");
+	if (rrr.nextInt(40) ==0) sendData( "CHAT random is as random does");
+
 	
       } while(!tokens[0].equals("GAMEOVER")); 
 
@@ -190,10 +192,12 @@ public class ClientAI
    // send message to server
    public void sendData( String message )
    {
-         output.println(message);
+	output.flush();
+	try { Thread.sleep(1000); } catch (Exception e) {;}
+        output.println(message);
 	output.flush();
 	System.out.println("Sending: "+message);
-	try { Thread.sleep(2000); } catch (Exception e) {;}
+	try { Thread.sleep(1000); } catch (Exception e) {;}
   
    } // end method sendData
 
