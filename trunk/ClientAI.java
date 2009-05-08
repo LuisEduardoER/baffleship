@@ -29,7 +29,7 @@ public class ClientAI
 	private String chatServer; // host server for this application
 	private int port;	//port # on host
    	private Socket client; // socket to communicate with server
-	BattleGUI battleGui;
+
 	Random rrr = new Random(); 
 	
 	String delims = "[ ]+";
@@ -53,7 +53,6 @@ public class ClientAI
 
 
 
-   // initialize chatServer and set up GUI
    public ClientAI( String host , int p)
    {
 	chatServer = host; 
@@ -120,20 +119,16 @@ public class ClientAI
             tokens = message.split(delims);
             
           if(tokens[0].equals("CHAT")){
-                displayMessage( Color.green, "\nOpponent: ");
-                 for(int i=1; i<tokens.length; i++) 
-                    displayMessage( Color.black, tokens[i] +" " );
+                displayMessage( Color.green, "\nOpponent: "+message);
            }  
 
 	 if(tokens[0].equals("YOURSHOT")){  
 		SquareType result = SquareType.parseShip(tokens[1]);
 		if(!result.isShip()){
 			displayMessage( Color.red, "\nYou missed");
-			battleGui.yourShotMissed(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		}
 		else {
 			displayMessage( Color.red, "\nYou hit the " + result.name);
-			battleGui.yourShotHit(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		if (rrr.nextInt(2) ==0) sendData( "CHAT I HIT UR MOM");
 		}
 	  }
@@ -142,13 +137,11 @@ public class ClientAI
 		if(!result.isShip())
 		{
 			displayMessage( Color.red, "\nOpponent Miss");
-			battleGui.opponentMissShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		if (rrr.nextInt(10) ==0) sendData( "CHAT HAHA U SUX");
 		}
 		else
 		{
 			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
-			battleGui.opponentHitShip(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]));
 		if (rrr.nextInt(3) ==0) sendData( "CHAT OMG U HAX IMA GONNA GET U BANED");
 		}
 
@@ -197,9 +190,10 @@ public class ClientAI
    // send message to server
    public void sendData( String message )
    {
-         output.print(message);
+         output.println(message);
 	output.flush();
 	System.out.println("Sending: "+message);
+	try { Thread.sleep(2000); } catch (Exception e) {;}
   
    } // end method sendData
 
@@ -212,15 +206,12 @@ private void placePieces()
 	//fill up a fleet	
 	while (myFleet.numShips() <5)
 	{
-		myFleet.addShip( new Ship(SquareType.CARRIER, randPoint(), randDir() ) );
-		myFleet.addShip( new Ship(SquareType.BSHIP, randPoint(), randDir() ) );
-		myFleet.addShip( new Ship(SquareType.CRUISER, randPoint(), randDir() ) );
-		myFleet.addShip( new Ship(SquareType.SUB, randPoint(), randDir() ) );
-		myFleet.addShip( new Ship(SquareType.DESTROYER, randPoint(), randDir() ) );
+		tempShip = new Ship(SquareType.randomShip(), randPoint(), randDir() );
+		if ( ! tempShip.outOfBounds(0,0,9,9) )  myFleet.addShip( tempShip );
 	}
 
 	//now send the fleet
-	for(Ship s : myFleet.ships) sendData("PLACE " + s.shipType + " " + s.startLocation.getX() + " " + s.startLocation.getY() + " " + s.facing);
+	for(Ship s : myFleet.ships) sendData("PLACE " + s.shipType + " " + (int)s.startLocation.getX() + " " + (int)s.startLocation.getY() + " " + s.facing);
 
 	sendData("READY");
 }
@@ -234,6 +225,7 @@ private Direction randDir()
 {
 	return Direction.intToDir(rrr.nextInt(4));
 }
+
 
 
   
