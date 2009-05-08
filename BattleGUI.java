@@ -67,11 +67,11 @@ class BattleGUI extends JFrame implements ActionListener
 	Fleet fleet = new Fleet();
 	
 		//==========================================ICONS===============
-		ImageIcon carrierIcon = createImageIcon("carrier.jpg");
-		ImageIcon bshipIcon = createImageIcon("battleship.jpg");
-		ImageIcon cruiserIcon = createImageIcon("cruiser.jpg");
-		ImageIcon subIcon = createImageIcon("sub.jpg");
-		ImageIcon destroyerIcon = createImageIcon("destroyer.jpg");
+		ImageIcon carrierIcon = createImageIcon("pictures/carrier.png");
+		ImageIcon bshipIcon = createImageIcon("pictures/battleship.png");
+		ImageIcon cruiserIcon = createImageIcon("pictures/cruiser.png");
+		ImageIcon subIcon = createImageIcon("pictures/sub.png");
+		ImageIcon destroyerIcon = createImageIcon("pictures/destroyer.png");
 
 		ImageIcon carrierIconFront = createImageIcon("pictures/ship4-1-r.png");	
 		ImageIcon carrierIconFrontNS = createImageIcon("pictures/ship4-1.png");
@@ -95,7 +95,7 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon subIconEndNS = createImageIcon("pictures/ship2-2.png");
 		
 		ImageIcon waterIcon = createImageIcon("pictures/sea.png");
-		ImageIcon hitIcon = createImageIcon("explosion.png");
+		ImageIcon hitIcon = createImageIcon("pictures/hit.png");
 		ImageIcon missIcon = createImageIcon("pictures/water.png");
 
 		JButton carrierLabel = new JButton(carrierIcon);
@@ -455,35 +455,41 @@ class BattleGUI extends JFrame implements ActionListener
 		
 		panel.add(textPanel);
 	
+	    Border shipBorder = new LineBorder(Color.white, 1);
 
 		//ship buttons
-		carrierLabel.setSize(125, 25);
-		carrierLabel.setLocation(20, 20);
+		carrierLabel.setSize(160, 25);
+		carrierLabel.setLocation(20, 70);
 		carrierLabel.setVisible(true);
+		carrierLabel.setBorder(shipBorder);
 		carrierLabel.addActionListener(this);
 		panel.add(carrierLabel);
 		
-		battleShipButton.setSize(100, 25);
-		battleShipButton.setLocation(20, 70);
+		battleShipButton.setSize(128, 25);
+		battleShipButton.setLocation(20, 120);
 		battleShipButton.setVisible(true);
+		battleShipButton.setBorder(shipBorder);
 		battleShipButton.addActionListener(this);
 		panel.add(battleShipButton);
 
-		cruiserButton.setSize(75, 25);
-		cruiserButton.setLocation(20, 120);
+		cruiserButton.setSize(96, 25);
+		cruiserButton.setLocation(20, 170);
 		cruiserButton.setVisible(true);
+		cruiserButton.setBorder(shipBorder);
 		cruiserButton.addActionListener(this);
 		panel.add(cruiserButton);
 
-		subButton.setSize(75, 25);
-		subButton.setLocation(20, 170);
+		subButton.setSize(96, 25);
+		subButton.setLocation(20, 220);
 		subButton.setVisible(true);
+		subButton.setBorder(shipBorder);
 		subButton.addActionListener(this);
 		panel.add(subButton);
 
-		destroyerButton.setSize(50, 25);
-		destroyerButton.setLocation(20, 220);
+		destroyerButton.setSize(64, 25);
+		destroyerButton.setLocation(20, 270);
 		destroyerButton.setVisible(true);
+		destroyerButton.setBorder(shipBorder);
 		destroyerButton.addActionListener(this);
 		panel.add(destroyerButton);
 
