@@ -79,9 +79,24 @@ class BattleGUI extends JFrame implements ActionListener
 		ImageIcon carrierIconMiddleNS = createImageIcon("pictures/ship4-2.png");
 		ImageIcon carrierIconEnd = createImageIcon("pictures/ship4-4-r.png");
 		ImageIcon carrierIconEndNS = createImageIcon("pictures/ship4-4.png");
-		ImageIcon waterIcon = createImageIcon("water.jpg");
+		
+		ImageIcon battleIconFront = createImageIcon("pictures/ship3-1-r.png");	
+		ImageIcon battleIconFrontNS = createImageIcon("pictures/ship3-1.png");
+		ImageIcon battleIconMiddle = createImageIcon("pictures/ship3-2-r.png");
+		ImageIcon battleIconMiddleNS = createImageIcon("pictures/ship3-2.png");
+		ImageIcon battleIconEnd = createImageIcon("pictures/ship3-3-r.png");
+		ImageIcon battleIconEndNS = createImageIcon("pictures/ship3-3.png");
+		
+		ImageIcon subIconFront = createImageIcon("pictures/ship2-1-r.png");	
+		ImageIcon subIconFrontNS = createImageIcon("pictures/ship2-1.png");
+		ImageIcon subIconMiddle = createImageIcon("pictures/ship2-3-r.png");
+		ImageIcon subIconMiddleNS = createImageIcon("pictures/ship2-3.png");
+		ImageIcon subIconEnd = createImageIcon("pictures/ship2-2-r.png");
+		ImageIcon subIconEndNS = createImageIcon("pictures/ship2-2.png");
+		
+		ImageIcon waterIcon = createImageIcon("pictures/sea.png");
 		ImageIcon hitIcon = createImageIcon("explosion.png");
-		ImageIcon missIcon = createImageIcon("miss.jpg");
+		ImageIcon missIcon = createImageIcon("pictures/water.png");
 
 		JButton carrierLabel = new JButton(carrierIcon);
 		JButton battleShipButton = new JButton(bshipIcon);
@@ -137,71 +152,119 @@ class BattleGUI extends JFrame implements ActionListener
 	{
 		int i=0; //number of middle pieces
 		int direction = 0;
+		
+		ImageIcon front= createImageIcon("carrier.jpg");
+		ImageIcon middle= createImageIcon("carrier.jpg");
+		ImageIcon end= createImageIcon("carrier.jpg");
+		ImageIcon frontNS= createImageIcon("carrier.jpg");
+		ImageIcon middleNS= createImageIcon("carrier.jpg");
+		ImageIcon endNS= createImageIcon("carrier.jpg");
+		
 		bottomArray[x][y].setIcon(carrierIconFront);
-		if(ship.equals("CARRIER")){ i = 3; }
-		if(ship.equals("BSHIP")) {i = 2; }
-		if(ship.equals("CRUISER")){ i = 1; }
-		if(ship.equals("SUB")){ i = 1; }
-		if(ship.equals("DESTROYER")){ i = 0; }
+		if(ship.equals("CARRIER")){
+		     i = 3;
+		     front = carrierIconFront;
+		     middle = carrierIconMiddle;
+		     end = carrierIconEnd;
+		     frontNS = carrierIconFrontNS;
+		     middleNS = carrierIconMiddleNS;
+		     endNS = carrierIconEndNS;
+	     }
+		if(ship.equals("BSHIP")) {
+		     i = 2;
+		     front = battleIconFront;
+		     middle = battleIconMiddle;
+		     end = battleIconEnd;
+		     frontNS = battleIconFrontNS;
+		     middleNS = battleIconMiddleNS;
+		     endNS = battleIconEndNS;
+	     }
+		if(ship.equals("CRUISER")){
+		     i = 1;
+		     front = battleIconFront;
+		     middle = battleIconMiddle;
+		     end = battleIconEnd;
+		     frontNS = battleIconFrontNS;
+		     middleNS = battleIconMiddleNS;
+		     endNS = battleIconEndNS;
+	     }
+		if(ship.equals("SUB")){
+		     i = 1;
+		     front = subIconFront;
+		     middle = subIconMiddle;
+		     end = subIconEnd;
+		     frontNS = subIconFrontNS;
+		     middleNS = subIconMiddleNS;
+		     endNS = subIconEndNS;
+	     }
+		if(ship.equals("DESTROYER")){
+		     i = 0;
+			 front = battleIconFront;
+		     middle = battleIconMiddle;
+		     end = battleIconEnd;
+		     frontNS = battleIconFrontNS;
+		     middleNS = battleIconMiddleNS;
+		     endNS = battleIconEndNS;
+	     }
 		
 		if(dir.equalsIgnoreCase("north")){
 			if( i+2 > y){
 				y = 0;
 				client.sendData( "PLACE " + ship + " " + x + " " + y + " " + "south");
-				bottomArray[x][y].setIcon(carrierIconFrontNS);
-				for(int j=0; j<i; j++){	bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
-				bottomArray[x][++y].setIcon(carrierIconEndNS);
+				bottomArray[x][y].setIcon(frontNS);
+				for(int j=0; j<i; j++){	bottomArray[x][++y].setIcon(middleNS);}
+				bottomArray[x][++y].setIcon(endNS);
 			}
 			else{
 			    client.sendData( "PLACE " + ship + " " + x + " " + y + " " + dir);
-				bottomArray[x][y].setIcon(carrierIconEndNS);
-				for(int j=0; j<i; j++){	bottomArray[x][--y].setIcon(carrierIconMiddleNS);}
-				bottomArray[x][--y].setIcon(carrierIconFrontNS);
+				bottomArray[x][y].setIcon(endNS);
+				for(int j=0; j<i; j++){	bottomArray[x][--y].setIcon(middleNS);}
+				bottomArray[x][--y].setIcon(frontNS);
 			}
 		}
 		if(dir.equalsIgnoreCase("east")){
 			if( i+2 > (10-x)){
 				x = 10-(i+2);
 				client.sendData( "PLACE " + ship + " " + x + " " + y + " " + "west");
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
-				bottomArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(end);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(middle);}
+				bottomArray[++x][y].setIcon(front);
 			}
 			else{
 			    client.sendData( "PLACE " + ship + " " + x + " " + y + " " + dir);
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
-				bottomArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(end);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(middle);}
+				bottomArray[++x][y].setIcon(front);
 			}
 		}	
 		if(dir.equalsIgnoreCase("south")){
 			if( i+2 > 10-y){
 				y = 10 -(i+2);
 				client.sendData( "PLACE " + ship + " " + x + " " + y + " " + "north");
-				bottomArray[x][y].setIcon(carrierIconFrontNS);
-				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
-				bottomArray[x][++y].setIcon(carrierIconEndNS);
+				bottomArray[x][y].setIcon(frontNS);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(middleNS);}
+				bottomArray[x][++y].setIcon(endNS);
 			}
 			else{
 			    client.sendData( "PLACE " + ship + " " + x + " " + y + " " + dir);
-				bottomArray[x][y].setIcon(carrierIconFrontNS);
-				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(carrierIconMiddleNS);}
-				bottomArray[x][++y].setIcon(carrierIconEndNS);
+				bottomArray[x][y].setIcon(frontNS);
+				for(int j=0; j<i; j++){bottomArray[x][++y].setIcon(middleNS);}
+				bottomArray[x][++y].setIcon(endNS);
 			}
 		}
 		if(dir.equalsIgnoreCase("west")){
 			if( i+2 > x){
 				x = 0;
 				client.sendData( "PLACE " + ship + " " + x + " " + y + " " + "east");
-				bottomArray[x][y].setIcon(carrierIconFront);
-				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(carrierIconMiddle);}
-				bottomArray[++x][y].setIcon(carrierIconEnd);
+				bottomArray[x][y].setIcon(end);
+				for(int j=0; j<i; j++){bottomArray[++x][y].setIcon(middle);}
+				bottomArray[++x][y].setIcon(front);
 			}
 			else{
 			    client.sendData( "PLACE " + ship + " " + x + " " + y + " " + dir);
-				bottomArray[x][y].setIcon(carrierIconEnd);
-				for(int j=0; j<i; j++){bottomArray[--x][y].setIcon(carrierIconMiddle);}
-				bottomArray[--x][y].setIcon(carrierIconFront);
+				bottomArray[x][y].setIcon(front);
+				for(int j=0; j<i; j++){bottomArray[--x][y].setIcon(middle);}
+				bottomArray[--x][y].setIcon(end);
 			}
 		}
 	}
@@ -310,6 +373,7 @@ class BattleGUI extends JFrame implements ActionListener
 				            }
 				        }		        
 		            }
+		         if(fleet.numShips() == 5) showOpponentBoard();
 		   }
 	}
 
