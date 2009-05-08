@@ -40,8 +40,5 @@ public class Square
 	public void setGuessed() { guessed=true; }
 	public boolean isGuessed() { return guessed; }
 
-	//picture is based on the ship type
-	//you can't set picture (except indirecly by changing ship type)
-	public Color getPicture() { return endpiece ? squareType.endPicture : squareType.picture; }
 
 }
