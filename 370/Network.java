@@ -32,8 +32,8 @@ public class Network extends Thread
 		Node node;
 		for(int i = 1; i <= num; i++)
 		{
-			randX = generator.nextInt( 600 ) + 100;    
-			randY = generator.nextInt( 600 ) + 100;  
+			randX = generator.nextInt( 400 ) + 50;    
+			randY = generator.nextInt( 550 ) + 50;  
 			
 			String name = "Node "+ i;
 			
@@ -41,8 +41,8 @@ public class Network extends Thread
 			//if there is an node in range
 			if(closestInRange(p) != null){
 				while (closestInRange(p).distance(p) < 50){
-					randX = generator.nextInt( 600 ) + 100;    
-					randY = generator.nextInt( 600 ) + 100;   
+					randX = generator.nextInt( 400 ) + 50;    
+					randY = generator.nextInt( 550 ) + 50;   
 					p = new Point (randX, randY);
 				}
 			}
@@ -72,10 +72,12 @@ public class Network extends Thread
 		for(Node n : nodes)
 		{
 			float currentDistance= n.distance(p);
-			if ( (tempNode==null) || (currentDistance<closestDistance) )
-			{
-				tempNode=n;			
-				closestDistance=currentDistance;
+			if(n.location.getX() != p.getX()){
+			    if ( (tempNode==null) || (currentDistance<closestDistance) )
+			    {
+				    tempNode=n;			
+				    closestDistance=currentDistance;
+			    }
 			}
 		}
 		return tempNode;
@@ -92,13 +94,26 @@ public class Network extends Thread
 	public void run() 
 	{
 		try{
-			for(Node node :nodes)
+		    Node node = nodes.get(0);
+		    Node tempNode = node;
+			/*for(Node node :nodes)
 			{
 				closestInRange(node.location).setCurrent();
 				d.repaint();
-				sleep(1000);
+				sleep(500);
 				closestInRange(node.location).setNonCurrent();
+			}*/
+			for(int i = 1; i <= numNodes; i++)
+			{
+			    node.setCurrent();
+			    d.repaint();
+			    sleep(500);
+			    node.setNonCurrent();
+			    tempNode = closestInRange(node.location);
+			    System.out.println("tempNode: "+tempNode.name);
+			    node = tempNode;
 			}
+			
 		}catch (InterruptedException e) {}
 	}
 

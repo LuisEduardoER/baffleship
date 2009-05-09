@@ -8,7 +8,7 @@ public class Node
 	static final float maxEnergy = 100;
 
 	private Network network; //context
-	private String name; //mostly for debugging
+	public String name; //mostly for debugging
 	private boolean awake;
 	private boolean current=false;  //does this node consider itself to be the "current node"?
 	public final Point2D location;
