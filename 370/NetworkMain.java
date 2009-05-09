@@ -8,66 +8,73 @@ import java.util.Random;
 import  java.io.*;
 
 
-public class NetworkMain extends JFrame
+public class NetworkMain extends JFrame implements ActionListener
 {
-	Network n = new Network();
+	private JPanel canvas;
 	DrawNetwork d;
-	Random generator = new Random();
-	NetworkMain()
+	JButton start = new JButton("start");
+	JButton go = new JButton("go");
+	
+	public NetworkMain()
 	{
+		
 		super("Node");		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    	setSize(1000,1000);
-       		createNetwork();
+	    setSize(1000,1000);	
+		Network n = new Network( 5 );
+		d = n.getDrawNetwork();
+		
+		/*
+		JPanel buttonPanel = new JPanel();     
+       	buttonPanel.setLayout(null);
+       	buttonPanel.setLocation(000, 000);
+      	buttonPanel.setSize(200,200);
+  	
+		
+		start.addActionListener(this);
+		start.setLocation(10,10);
+		start.setSize(100, 25);
+		start.setVisible(true);
+		buttonPanel.add(start);
+		
+		go.addActionListener(this);
+		go.setLocation(10,10);
+		go.setSize(100, 25);
+		go.setVisible(false);
+		buttonPanel.add(go);
+		
+		add(buttonPanel);
+		*/
 		add(d);
-	        setVisible(true);
-	        alterNetwork();
+		setVisible(true);
+		n.alterNetwork();
+
 	}
 	
-	public void createNetwork()
-	{	
-		int randX;
-		int randY;	
-		Node node;
-		for(int i = 1; i <= 20; i++)
-		{
-			randX = generator.nextInt( 999 );    
-			randY = generator.nextInt( 999 );   
-			String name = "Node "+ i;
-			Point p = new Point (randX, randY);
-			while (n.closestInRange(p).distance(p) < 50){
-				randX = generator.nextInt( 999 );    
-				randY = generator.nextInt( 999 );   
-				p = new Point (randX, randY);
-			}
-			n.addNode(new Node( name, n, p ));
-		}
-		
-		d = new DrawNetwork(n);
-   	 }
-    
-    	public void alterNetwork()
+	//this doesn't work yet, i am working on it.
+	public void actionPerformed(ActionEvent evt)
 	{
-		for(Node node : n.nodes)
-		{
-			n.closestInRange(node.location).setCurrent();
-			d.repaint();
-
-			try{Thread.sleep(1000);}
-			catch(Exception e){}
-
-			n.closestInRange(node.location).setNonCurrent();
-
+		/*
+		Object source = evt.getSource();
+		if(source == start){
+			start.setVisible(false);
+			go.setVisible(true);
+			Network n = new Network( 5 );
+			network = n;
+			DrawNetwork d = n.getDrawNetwork();
+			add(d);
+			//n.alterNetwork();
 		}
-	}
 		
+		if(source == go){
+			network.alterNetwork();
+		}
+		*/
+	}
 	
-
-
-	public static void main(String [] args)
-	{
-		NetworkMain n = new NetworkMain();
+	public static void main(String [] args){
+		NetworkMain frame = new NetworkMain();
 	}
-
-
 }
+
+

@@ -12,6 +12,7 @@ public class DrawNetwork extends JPanel
 	DrawNetwork(Network n){
         network = n;
 	}
+	
 
 	public void paintComponent(Graphics comp)
 	{
