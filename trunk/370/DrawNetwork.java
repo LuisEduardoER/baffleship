@@ -10,7 +10,7 @@ public class DrawNetwork extends JPanel
 	Network network;
 
 	DrawNetwork(Network n){
-		this.setSize(800, 800);
+		this.setSize(500, 700);
 		this.setBackground(Color.white);
 		this.setLocation(200, 00);
 		this.setVisible(false);

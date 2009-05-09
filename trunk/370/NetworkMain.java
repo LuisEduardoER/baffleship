@@ -23,7 +23,7 @@ public class NetworkMain extends JFrame
 		frame.setContentPane(netPanel.createContentPane());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.70f);
-		frame.setSize(1000,1000);
+		frame.setSize(700,700);
 			
 		//place frame in middle of screen
 		int x = (screenSize.width - frame.getWidth()) / 2;  
@@ -56,7 +56,7 @@ class NetworkPanel extends JPanel implements ActionListener
 	public JPanel createContentPane()
 	{
 		panel.setLayout(null);
-		panel.setSize(500, 500);
+		panel.setSize(500, 700);
 		panel.setLocation(200, 0);
 		panel.setBackground(Color.white);
 		
@@ -71,7 +71,7 @@ class NetworkPanel extends JPanel implements ActionListener
        	buttonPanel.setLayout(null);
 		buttonPanel.setBorder(border1);
        	buttonPanel.setLocation(000, 000);
-      	buttonPanel.setSize(200,900);
+      	buttonPanel.setSize(200,600);
 		buttonPanel.setBackground(Color.white);	
 		
 		start.addActionListener(this);
