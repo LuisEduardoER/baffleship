@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
 
-public class Network
+public class Network extends Thread
 {
 	public java.util.List<Node> nodes = new ArrayList<Node>();
 
@@ -14,19 +14,26 @@ public class Network
 	private Point2D previousLocation;
 	
 	private DrawNetwork d;
+	private int numNodes;
 
 	//creates a random network of nodes
 	//currently just creates 20, this could be a
 	//command line argument or user choice
-	Network(int numNodes){
+	Network(int num){
+		numNodes = num;
+		createNetwork(numNodes);
+	}
+	
+	public void createNetwork(int num)
+	{
 		Random generator = new Random();
 		int randX = 0;;
 		int randY = 0;;	
 		Node node;
-		for(int i = 1; i <= numNodes; i++)
+		for(int i = 1; i <= num; i++)
 		{
-			randX = generator.nextInt( 800 ) + 100;    
-			randY = generator.nextInt( 800 ) + 100;  
+			randX = generator.nextInt( 600 ) + 100;    
+			randY = generator.nextInt( 600 ) + 100;  
 			
 			String name = "Node "+ i;
 			
@@ -34,13 +41,13 @@ public class Network
 			//if there is an node in range
 			if(closestInRange(p) != null){
 				while (closestInRange(p).distance(p) < 50){
-					randX = generator.nextInt( 999 ) + 100;    
-					randY = generator.nextInt( 999 ) + 100;   
+					randX = generator.nextInt( 600 ) + 100;    
+					randY = generator.nextInt( 600 ) + 100;   
 					p = new Point (randX, randY);
 				}
 			}
 			addNode(name, p);		
-		}	
+		}
 		d = new DrawNetwork(this);
 	}
 
@@ -81,19 +88,18 @@ public class Network
 	 
 	//goes through every node in the network
 	//setting current then non current.
-	public void alterNetwork()
+	//this function is automatically called from start()
+	public void run() 
 	{
-		for(Node node :nodes)
-		{
-			closestInRange(node.location).setCurrent();
-			d.repaint();
-
-			try{Thread.sleep(1000);}
-			catch(Exception e){}
-
-			closestInRange(node.location).setNonCurrent();
-
-		}
+		try{
+			for(Node node :nodes)
+			{
+				closestInRange(node.location).setCurrent();
+				d.repaint();
+				sleep(1000);
+				closestInRange(node.location).setNonCurrent();
+			}
+		}catch (InterruptedException e) {}
 	}
 
 	//used by individual nodes to make list of nodes to wake up next
