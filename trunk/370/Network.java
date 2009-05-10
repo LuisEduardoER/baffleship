@@ -72,13 +72,11 @@ public class Network extends Thread
 		for(Node n : nodes)
 		{
 			float currentDistance= n.distance(p);
-			if(n.location.getX() != p.getX()){
 			    if ( (tempNode==null) || (currentDistance<closestDistance) )
 			    {
 				    tempNode=n;			
 				    closestDistance=currentDistance;
 			    }
-			}
 		}
 		return tempNode;
 	}	
@@ -94,15 +92,17 @@ public class Network extends Thread
 	public void run() 
 	{
 		try{
-		    Node node = nodes.get(0);
-		    Node tempNode = node;
-			/*for(Node node :nodes)
+		    
+			for(Node node :nodes)
 			{
 				closestInRange(node.location).setCurrent();
 				d.repaint();
 				sleep(500);
 				closestInRange(node.location).setNonCurrent();
-			}*/
+			}
+			/*
+			Node node = nodes.get(0);
+		    Node tempNode = node;
 			for(int i = 1; i <= numNodes; i++)
 			{
 			    node.setCurrent();
@@ -112,7 +112,7 @@ public class Network extends Thread
 			    tempNode = closestInRange(node.location);
 			    System.out.println("tempNode: "+tempNode.name);
 			    node = tempNode;
-			}
+			}*/
 			
 		}catch (InterruptedException e) {}
 	}
