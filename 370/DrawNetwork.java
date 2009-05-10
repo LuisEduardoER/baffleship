@@ -3,16 +3,19 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.geom.*;
 import java.awt.event.*;
+import javax.swing.border.*;
 
 public class DrawNetwork extends JPanel
 {
 		
 	Network network;
+	Border border1 = new LineBorder(Color.BLACK, 3);
 
 	DrawNetwork(Network n){
-		this.setSize(500, 700);
+		this.setSize(500, 600);
+		//this.setBorder(border1);
 		this.setBackground(Color.white);
-		this.setLocation(200, 00);
+		this.setLocation(000,100);
 		this.setVisible(false);
         network = n;
 	}

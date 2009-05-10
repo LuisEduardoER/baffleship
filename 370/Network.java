@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.awt.*;
 
-public class Network extends Thread
+public class Network// extends Thread
 {
 	public java.util.List<Node> nodes = new ArrayList<Node>();
 
@@ -33,7 +33,7 @@ public class Network extends Thread
 		for(int i = 1; i <= num; i++)
 		{
 			randX = generator.nextInt( 400 ) + 50;    
-			randY = generator.nextInt( 550 ) + 50;  
+			randY = generator.nextInt( 500 ) + 50;  
 			
 			String name = "Node "+ i;
 			
@@ -42,7 +42,7 @@ public class Network extends Thread
 			if(closestInRange(p) != null){
 				while (closestInRange(p).distance(p) < 50){
 					randX = generator.nextInt( 400 ) + 50;    
-					randY = generator.nextInt( 550 ) + 50;   
+					randY = generator.nextInt( 500 ) + 50;   
 					p = new Point (randX, randY);
 				}
 			}
@@ -85,21 +85,34 @@ public class Network extends Thread
 	{
 		return d;
 	}
+	
+	public void update(int x, int y)
+	{
+		Point p = new Point(x, y);
+		Node closestNode = closestInRange(p);
+		if(!closestNode.isCurrent()){
+			for(Node node :nodes){
+				node.setNonCurrent();
+			}
+			closestNode.setCurrent();
+			d.repaint();
+		}
+	}
 	 
 	//goes through every node in the network
 	//setting current then non current.
 	//this function is automatically called from start()
 	public void run() 
 	{
-		try{
-		    
+		//try{
+		    /*
 			for(Node node :nodes)
 			{
 				closestInRange(node.location).setCurrent();
 				d.repaint();
 				sleep(500);
 				closestInRange(node.location).setNonCurrent();
-			}
+			}*/
 			/*
 			Node node = nodes.get(0);
 		    Node tempNode = node;
@@ -114,7 +127,7 @@ public class Network extends Thread
 			    node = tempNode;
 			}*/
 			
-		}catch (InterruptedException e) {}
+		//}catch (InterruptedException e) {}
 	}
 
 	//used by individual nodes to make list of nodes to wake up next
