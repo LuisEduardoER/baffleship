@@ -3,32 +3,29 @@ server says:			client SHOULD
 CHAT message			display this message as coming from the opponent
 
 
-DISCONNECTED			??not sure yet but we should try to detect if one player disconnects
-				and then tell the opponent so he knows to quit too
-
 START				game has started								
 
 
 YOURTURN			make a guess soon
 
 
+YOURSHOT squaretype X Y       update display accordingly
+
 HISSHOT squaretype X Y		update display accordingly
 
 
-GAMEOVER WIN			duh
-GAMEOVER LOSE			duh
+GAMEOVER WIN			
+GAMEOVER LOSE			
 
 
 
 
-
-//these probably won't be implemented
-(possible)			treat this like its own guess
-TIMEOUT --
-  forced guess X,Y
-  and result
-
+//these aren't implemented
 
 (possible)
-OPPONENT TIMEOUT		let the player know he is playing against
+TIMEOUT OPPONENT 		let the player know he is playing against
 				an AFK opponent
+
+TIMEOUT YOU            let you know you took too long
+
+				these should come with a random server-chosen shot and its result

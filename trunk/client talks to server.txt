@@ -1,16 +1,13 @@
-client says:		server possible responses:			
+client says:		server WILL:			
 --------------------------------------------------------------------
-
 
 CHAT message		(pass message to other clients)	
 
 
-PLACE S,X,Y,D		(none, place ship  if possible)
-			(cannot move ship once it has been place)
+PLACE S X Y D		(none, place ship if possible, otherwise silently ignore)
+			      (cannot move ship once it has been placed)
 
-READY			(none, start game if both players are ready)
-
-SHOOT X Y		ignore if illegal in any way
+SHOOT X Y		(ignore if illegal in any way)
 			YOURSHOT squaretype X Y
-			and send something to other player
+			to other player: HISSHOT squaretype X Y
 
