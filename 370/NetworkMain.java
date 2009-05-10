@@ -85,6 +85,7 @@ class NetworkPanel extends JPanel implements ActionListener
 		objectButton.addActionListener(this);
 		objectButton.setBackground(Color.white);
 		objectButton.setLocation(300,10);
+		objectButton.setEnabled(false);
 		objectButton.setSize(175, 25);
 		objectButton.setVisible(true);
 		buttonPanel.add(objectButton);
@@ -107,6 +108,7 @@ class NetworkPanel extends JPanel implements ActionListener
 		
 		if(source == objectButton){
 			objectButton.setEnabled(false);
+			start.setEnabled(false);
 			Ball b = new Ball(nodePanel, n);
 			b.start();
 		}
@@ -119,6 +121,7 @@ class NetworkPanel extends JPanel implements ActionListener
 		nodePanel.setVisible(true);
 		panel.add(nodePanel);
 		nodePanel.repaint();	
+		objectButton.setEnabled(true);
 	}
 	
 }
