@@ -37,6 +37,12 @@ class NetworkPanel extends JPanel implements ActionListener
 	
 	JPanel panel = new JPanel();
 	JButton start = new JButton("Make Network");
+String destinationString = "Destination";
+		String routeString = "Route";
+		String nbrString = "All_NBR";
+	JRadioButton destination = new JRadioButton(destinationString);
+	JRadioButton route = new JRadioButton(routeString);
+	JRadioButton all_nbr = new JRadioButton(nbrString);
 	JTextField textField = new JTextField(3);
 
 	JButton objectButton = new JButton("Create moving Object");
@@ -91,19 +97,17 @@ class NetworkPanel extends JPanel implements ActionListener
 		buttonPanel.add(objectButton);
 
 		//Create the radio buttons.
-		String destinationString = "Destination";
-		String routeString = "Route";
-		String nbrString = "All_NBR";
-		    JRadioButton destination = new JRadioButton(destinationString);
+		
+		    
 		    destination.setMnemonic(KeyEvent.VK_B);
 		    destination.setActionCommand(destinationString);
 		    destination.setSelected(true);
 
-		    JRadioButton route = new JRadioButton(routeString);
+		   
 		    route.setMnemonic(KeyEvent.VK_C);
 		    route.setActionCommand(routeString);
 
-		    JRadioButton all_nbr = new JRadioButton(nbrString);
+		    
 		    all_nbr.setMnemonic(KeyEvent.VK_D);
 		    all_nbr.setActionCommand(nbrString);
 
@@ -133,7 +137,7 @@ class NetworkPanel extends JPanel implements ActionListener
 	{
 		Object source = evt.getSource();
 		//e.getActionCommand() 
-		
+		System.out.println(evt.getActionCommand());
 		
 		if(source == start){
 			int num = 0;
@@ -143,6 +147,8 @@ class NetworkPanel extends JPanel implements ActionListener
 			if(num > 50 || num < 1) num = 0;
 			addNetwork(num);
 		}
+
+
 		/*
 		if(source == textField){
 			String text = textField.getText();
@@ -152,6 +158,7 @@ class NetworkPanel extends JPanel implements ActionListener
 		if(source == objectButton){
 			objectButton.setEnabled(false);
 			start.setEnabled(false);
+			//if(evt.getActionCommand() == destination) System.out.println("destination");
 			Ball b = new Ball(nodePanel, n);
 			b.start();
 		}
