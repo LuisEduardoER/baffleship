@@ -55,7 +55,7 @@ class NetworkPanel extends JPanel implements ActionListener
 		Border border1 = new LineBorder(Color.BLACK, 3);
 
 		
-		panel.setSize(500, 600);
+		panel.setSize(500, 700);
 		panel.setLocation(200, 0);
 		panel.setBackground(Color.white);	
 		
@@ -89,7 +89,40 @@ class NetworkPanel extends JPanel implements ActionListener
 		objectButton.setSize(175, 25);
 		objectButton.setVisible(true);
 		buttonPanel.add(objectButton);
+
+		//Create the radio buttons.
+		String destinationString = "Destination";
+		String routeString = "Route";
+		String nbrString = "All_NBR";
+		    JRadioButton destination = new JRadioButton(destinationString);
+		    destination.setMnemonic(KeyEvent.VK_B);
+		    destination.setActionCommand(destinationString);
+		    destination.setSelected(true);
+
+		    JRadioButton route = new JRadioButton(routeString);
+		    route.setMnemonic(KeyEvent.VK_C);
+		    route.setActionCommand(routeString);
+
+		    JRadioButton all_nbr = new JRadioButton(nbrString);
+		    all_nbr.setMnemonic(KeyEvent.VK_D);
+		    all_nbr.setActionCommand(nbrString);
+
+		 //Group the radio buttons.
+		    ButtonGroup group = new ButtonGroup();
+		    group.add(destination);
+		    group.add(route);
+		    group.add(all_nbr);
+
+		destination.addActionListener(this);
+		route.addActionListener(this);
+		all_nbr.addActionListener(this);
+
+		JPanel radioPanel = new JPanel(new GridLayout(1, 0));
+		radioPanel.add(destination);
+		radioPanel.add(route);
+		radioPanel.add(all_nbr);
 		
+		panel.add(radioPanel);
 		panel.add(buttonPanel);
 				
 		return panel;
@@ -99,6 +132,7 @@ class NetworkPanel extends JPanel implements ActionListener
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
+		//e.getActionCommand() 
 		
 		
 		if(source == start){
