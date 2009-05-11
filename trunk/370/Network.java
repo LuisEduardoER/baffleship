@@ -90,8 +90,9 @@ public class Network// extends Thread
 		return d;
 	}
 	
-	//gets coords of moving ball and updates the network
-	//if the closest node is not current
+
+	//receives coords of "ball" and updates network if the closest
+	//node to the ball is not currently active
 	public void update(int x, int y)
 	{
 		prevX = x;
@@ -113,8 +114,11 @@ public class Network// extends Thread
 	//goes through every node in the network
 	//setting current then non current.
 	//this function is automatically called from start()
-	
-	//this function isn't even used anymore but i'm keeping it just because
+
+
+	//actually this function isn't even used anymore but
+	//i'm keeping it just because
+
 	public void run() 
 	{
 		//try{
