@@ -49,9 +49,11 @@ class NetworkPanel extends JPanel implements ActionListener
 	{
 	}
 	
+
 	public JPanel createContentPane()
 	{
 		Border border1 = new LineBorder(Color.BLACK, 3);
+
 		
 		panel.setSize(500, 600);
 		panel.setLocation(200, 0);
@@ -59,9 +61,15 @@ class NetworkPanel extends JPanel implements ActionListener
 		
 		
 		JPanel buttonPanel = new JPanel();     
+<<<<<<< .mine
+       		buttonPanel.setLayout(null);
+       		buttonPanel.setLocation(000, 000);
+      		buttonPanel.setSize(500,100);
+=======
        	buttonPanel.setLayout(new GridLayout(1,3, 5, 5));
        	buttonPanel.setLocation(000, 000);
       	buttonPanel.setSize(500,100);
+>>>>>>> .r188
 		buttonPanel.setBackground(Color.white);	
 		
 		textField.addActionListener(this);
