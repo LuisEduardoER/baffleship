@@ -108,8 +108,8 @@ public class Network// extends Thread
 		nextX = x+predictedDistanceX;
 		nextY = y+predictedDistanceY;  */
 
-		nextX = x+x-prevX;
-		nextY = y+y-prevY; 
+		nextX = x+(x-prevX)*25;
+		nextY = y+(y-prevY)*25; 
 
 
 		System.out.println("predicted distance: "+"("+nextX+", "+nextY+")");
