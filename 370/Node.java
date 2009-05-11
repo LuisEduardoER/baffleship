@@ -4,7 +4,7 @@ import java.awt.geom.*;
 public class Node
 {
 
-	static final float detectionRange = 5;
+	static final float detectionRange = 50;
 	static final float maxEnergy = 100;
 
 	private Network network; //context
