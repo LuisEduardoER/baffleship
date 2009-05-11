@@ -18,7 +18,12 @@ public class Network// extends Thread
 	
 	private int prevX =1;
 	private int prevY =1;
-	private float slope = 1;
+	private float nextX =1;
+	private float nextY =1;
+	private float predictedDistanceX = 1;
+	private float predictedDistanceY = 1;
+	private float slopeX = 1;
+	private float slopeY = 1;
 
 	//creates a random network of nodes
 	//currently just creates 20, this could be a
@@ -95,12 +100,24 @@ public class Network// extends Thread
 	//node to the ball is not currently active
 	public void update(int x, int y)
 	{
-		prevX = x;
-		prevY = y;
-		if(prevX != x && prevY != y) slope = (x - prevX) / (y - prevY);
-		//System.out.println("slope of predicted path is: "+slope);
+		if(prevX != x && prevY != y) { slopeX = (x - prevX); slopeY = (y - prevY);}
+		predictedDistanceX = 100*slopeX;
+		predictedDistanceY = 100*slopeY;
+
+		nextX = x+predictedDistanceX;
+		nextY = y+predictedDistanceY;
+
+		System.out.println("predicted distance: "+"("+nextX+", "+nextY+")");
+		System.out.println("("+x+", "+y+") ("+prevX+", "+prevY+")");
+		System.out.println("slope of predicted path is: ("+slopeX+", "+slopeY+")");
+
 		Point p = new Point(x, y);
+		Point nextP = new Point((int)nextX, (int)nextY);
+
 		Node closestNode = closestInRange(p);
+		Node predictedNode = closestInRange(nextP);
+		predictedNode.wakeup();
+
 		if(!closestNode.isCurrent()){
 			for(Node node :nodes){
 				node.setNonCurrent();
@@ -108,6 +125,8 @@ public class Network// extends Thread
 			closestNode.setCurrent();
 			//d.repaint();
 		}
+		prevX = x;
+		prevY = y;
 		d.repaint();
 	}
 	 
