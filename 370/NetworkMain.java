@@ -21,6 +21,8 @@ public class NetworkMain extends JFrame
 		frame.setContentPane(netPanel.createContentPane());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(500,750);
+
+		
 			
 		//place frame in middle of screen
 		int x = (screenSize.width - frame.getWidth()) / 2;  
@@ -39,7 +41,7 @@ class NetworkPanel extends JPanel implements ActionListener
 	JButton start = new JButton("Make Network");
 String destinationString = "Destination";
 		String routeString = "Route";
-		String nbrString = "All_NBR";
+		String nbrString = "ALL_NBR";
 	JRadioButton destination = new JRadioButton(destinationString);
 	JRadioButton route = new JRadioButton(routeString);
 	JRadioButton all_nbr = new JRadioButton(nbrString);
@@ -48,7 +50,10 @@ String destinationString = "Destination";
 	JButton objectButton = new JButton("Create moving Object");
 	int numNodes;
 	Network n;
+
 	DrawNetwork nodePanel;
+
+	String heuristic;
 	
 	//might use constructor for something later
 	public NetworkPanel()
@@ -97,11 +102,10 @@ String destinationString = "Destination";
 		buttonPanel.add(objectButton);
 
 		//Create the radio buttons.
-		
-		    
+	    
 		    destination.setMnemonic(KeyEvent.VK_B);
 		    destination.setActionCommand(destinationString);
-		    destination.setSelected(true);
+		    destination.setSelected(false);
 
 		   
 		    route.setMnemonic(KeyEvent.VK_C);
@@ -136,8 +140,14 @@ String destinationString = "Destination";
 	public void actionPerformed(ActionEvent evt)
 	{
 		Object source = evt.getSource();
-		//e.getActionCommand() 
-		System.out.println(evt.getActionCommand());
+
+		//System.out.println(evt.getActionCommand() );
+		if(evt.getActionCommand() == "Destination" || evt.getActionCommand() == "Route" || evt.getActionCommand() == "ALL_NBR")
+		{
+			heuristic = evt.getActionCommand();
+			//n.setHeuristic(heuristic);
+			System.out.println(heuristic);
+		}
 		
 		if(source == start){
 			int num = 0;
@@ -147,7 +157,6 @@ String destinationString = "Destination";
 			if(num > 50 || num < 1) num = 0;
 			addNetwork(num);
 		}
-
 
 		/*
 		if(source == textField){
@@ -166,7 +175,8 @@ String destinationString = "Destination";
 	
 	public void addNetwork(int x)
 	{
-		n  = new Network( x );
+		n  = new Network( x);
+		n.setHeuristic(heuristic);
 		nodePanel = n.getDrawNetwork();
 		nodePanel.setVisible(true);
 		panel.add(nodePanel);
