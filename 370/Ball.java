@@ -92,9 +92,10 @@ class Ball extends Thread {
 			draw();
 			for (int i = 1; i <= 5000; i++) {
 				move();
-				network.update(x, y);
+				if ( (i%15) == 0 ) network.update(x, y);
 				sleep(3);
 				draw();
+				network.d.repaint();
 			}
 		} catch (InterruptedException e) {}
 	}

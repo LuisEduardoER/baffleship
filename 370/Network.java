@@ -10,7 +10,7 @@ public class Network// extends Thread
 
 	private java.util.List<Node> nodesToAwaken = new ArrayList<Node>();
 	
-	private DrawNetwork d;
+	public DrawNetwork d;
 	private int numNodes;	
 
 	private Point objectLocation;
@@ -18,22 +18,6 @@ public class Network// extends Thread
 
 	private int prevX =1;
 	private int prevY =1;
-	private float nextX1 =1;
-	private float nextY1 =1;
-	private float nextX2 =1;
-	private float nextY2 =1;
-	private float nextX3 =1;
-	private float nextY3 =1;
-	private float nextX4 =1;
-	private float nextY4 =1;
-	private float nextX5 =1;
-	private float nextY5 =1;
-	private float nextX6 =1;
-	private float nextY6 =1;
-	private float nextX7 =1;
-	private float nextY7 =1;
-	private float slopeX = 1;
-	private float slopeY = 1;
 	
 	String heuristic;
 
@@ -77,13 +61,13 @@ public class Network// extends Thread
 		heuristic = h;
 	}	
 	
-	public void addNode(String name, Point2D p)
+	public void addNode(String name, Point p)
 	{
 		nodes.add(new Node(name, this, p));
 	}
 
 	//returns a list of nodes in range of a certain point
-	public ArrayList<Node> inRange(Point2D p)
+	public ArrayList<Node> inRange(Point p)
 	{
 		java.util.ArrayList<Node> temp = new ArrayList<Node>();	
 		for(Node n : nodes) if (n.inRange(p)) temp.add(n);
@@ -91,7 +75,7 @@ public class Network// extends Thread
 	}
 
 	//return node closest to a given point
-	public Node closest(Point2D p)
+	public Node closest(Point p)
 	{
 		Node tempNode=null;
 		float closestDistance=0;	
@@ -106,6 +90,26 @@ public class Network// extends Thread
 		}
 		return tempNode;
 	}	
+
+
+	//return node closest to a given point IF IT IS IN RANGE
+	public Node closestInRange(Point p)
+	{
+		Node tempNode=null;
+		float closestDistance=0;	
+		for(Node n : nodes)
+		{
+			float currentDistance= n.distance(p);
+			    if ( ( (tempNode==null) && (n.inRange(p) ) ) || (currentDistance<closestDistance) ) 
+			    {
+				    tempNode=n;			
+				    closestDistance=currentDistance;
+			    }
+		}
+		return tempNode;
+	}	
+
+
 	 
 	public DrawNetwork getDrawNetwork()
 	{
@@ -117,80 +121,43 @@ public class Network// extends Thread
 	//node to the ball is not currently active
 	public void update(int x, int y)
 	{
-/*	private float predictedDistanceX = 1;
-	private float predictedDistanceY = 1;
 
-		if(prevX != x && prevY != y) { slopeX = (x - prevX); slopeY = (y - prevY);}
-		predictedDistanceX = 100*slopeX;
-		predictedDistanceY = 100*slopeY;
+		wakeupNodes();
 
-		nextX = x+predictedDistanceX;
-		nextY = y+predictedDistanceY;  */
-
-		nextX1 = x+(x-prevX)*10;
-		nextY1 = y+(y-prevY)*10; 
-
-		nextX2 = x+(x-prevX)*20;
-		nextY2 = y+(y-prevY)*20; 
-
-		nextX3 = x+(x-prevX)*30;
-		nextY3 = y+(y-prevY)*30; 
-
-		nextX4 = x+(x-prevX)*40;
-		nextY4 = y+(y-prevY)*40; 
-
-		nextX5 = x+(x-prevX)*50;
-		nextY5 = y+(y-prevY)*50; 
-
-		nextX6 = x+(x-prevX)*60;
-		nextY6 = y+(y-prevY)*60; 
-
-		nextX7 = x+(x-prevX)*70;
-		nextY7 = y+(y-prevY)*70; 
-
-		/*
-		System.out.println("predicted distance: "+"("+nextX+", "+nextY+")");
-		System.out.println("("+x+", "+y+") ("+prevX+", "+prevY+")");
-		System.out.println("slope of predicted path is: ("+slopeX+", "+slopeY+")");
-		*/
-
-		Point p = new Point(x, y);
-		Point nextP1 = new Point((int)nextX1, (int)nextY1);
-		Point nextP2 = new Point((int)nextX2, (int)nextY2);
-		Point nextP3 = new Point((int)nextX3, (int)nextY3);
-		Point nextP4 = new Point((int)nextX4, (int)nextY4);
-		Point nextP5 = new Point((int)nextX5, (int)nextY5);
-		Point nextP6 = new Point((int)nextX6, (int)nextY6);
-		Point nextP7 = new Point((int)nextX7, (int)nextY7);
-
-		Node closestNode = closest(p);
-		Node predictedNode1 = closest(nextP1);
-		Node predictedNode2 = closest(nextP2);
-		Node predictedNode3 = closest(nextP3);
-		Node predictedNode4 = closest(nextP4);
-		Node predictedNode5 = closest(nextP5);
-		Node predictedNode6 = closest(nextP6);
-		Node predictedNode7 = closest(nextP7);
-
-		if(heuristic.equals("Destination")) predictedNode7.wakeup();
-		
-		if(heuristic.equals("Route")) {
-			predictedNode1.wakeup();
-			predictedNode2.wakeup();
-			predictedNode3.wakeup();
-			predictedNode4.wakeup();
-			predictedNode5.wakeup();
-			predictedNode6.wakeup();
-			predictedNode7.wakeup();
+		if(heuristic.equals("Route") )
+{
+		Node tempNodeA;
+		Node tempNodeB=null;
+		for(int i=1;i<101;i++)
+		{
+			tempNodeA=closestInRange(new Point( x+(x-prevX)*i , y+(y-prevY)*i ));
+			if ( (tempNodeA != null) && (tempNodeA != tempNodeB) )
+			{
+				nodesToAwaken.add(tempNodeA);			
+				tempNodeB=tempNodeA;
+			}
 		}
 
-		if(!closestNode.isCurrent()){
+
+}
+
+
+//		Point p = new Point(x, y);
+
+		//if(heuristic.equals("Destination")) predictedNode7.wakeup();
+		
+
+		{
+
+		}
+
+/*		if(!closestNode.isCurrent()){
 			for(Node node :nodes){
 				node.setNonCurrent();
 			}
 			closestNode.setCurrent();
 			//d.repaint();
-		}
+		}*/
 		prevX = x;
 		prevY = y;
 		d.repaint();
@@ -238,17 +205,10 @@ public class Network// extends Thread
 	//
 	private void wakeupNodes()
 	{
+		if (nodesToAwaken.isEmpty()) return;
 		for(Node n : nodesToAwaken) n.wakeup();
 		nodesToAwaken.clear();
 	}
 
-
-	public void tick()
-	{
-		wakeupNodes();
-		for(Node n : nodes) ;
-	}
-	
-	
 
 }
