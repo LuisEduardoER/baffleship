@@ -15,6 +15,10 @@ public class Network// extends Thread
 	
 	private DrawNetwork d;
 	private int numNodes;
+	
+	private int prevX =1;
+	private int prevY =1;
+	private float slope = 1;
 
 	//creates a random network of nodes
 	//currently just creates 20, this could be a
@@ -86,8 +90,14 @@ public class Network// extends Thread
 		return d;
 	}
 	
+	//gets coords of moving ball and updates the network
+	//if the closest node is not current
 	public void update(int x, int y)
 	{
+		prevX = x;
+		prevY = y;
+		if(prevX != x && prevY != y) slope = (x - prevX) / (y - prevY);
+		//System.out.println("slope of predicted path is: "+slope);
 		Point p = new Point(x, y);
 		Node closestNode = closestInRange(p);
 		if(!closestNode.isCurrent()){
@@ -95,13 +105,16 @@ public class Network// extends Thread
 				node.setNonCurrent();
 			}
 			closestNode.setCurrent();
-			d.repaint();
+			//d.repaint();
 		}
+		d.repaint();
 	}
 	 
 	//goes through every node in the network
 	//setting current then non current.
 	//this function is automatically called from start()
+	
+	//this function isn't even used anymore but i'm keeping it just because
 	public void run() 
 	{
 		//try{
