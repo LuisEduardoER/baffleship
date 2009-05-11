@@ -12,9 +12,7 @@ public class NetworkMain extends JFrame
 {
 	public static void main(String [] args){
 	
-		int numNodes = 10;  //default to localhost
-		try { numNodes= Integer.parseInt(args[0] ); } catch (Exception e) {;}
-		NetworkPanel netPanel = new NetworkPanel( numNodes );
+		NetworkPanel netPanel = new NetworkPanel();
 			
 		Toolkit toolkit = Toolkit.getDefaultToolkit();  
 		Dimension screenSize = toolkit.getScreenSize();
@@ -22,15 +20,13 @@ public class NetworkMain extends JFrame
 		JFrame frame = new JFrame("Network");
 		frame.setContentPane(netPanel.createContentPane());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//com.sun.awt.AWTUtilities.setWindowOpacity(frame, 0.70f);
-		frame.setSize(500,700);
+		frame.setSize(500,750);
 			
 		//place frame in middle of screen
 		int x = (screenSize.width - frame.getWidth()) / 2;  
 		int y = (screenSize.height - frame.getHeight()) / 2;  
 	 	frame.setLocation(x, y); 
-		//frame.setUndecorated(true);
-		//com.sun.awt.AWTUtilities.setWindowOpaque(frame, false);
+
 
 		frame.setVisible(true);
 		}
@@ -41,50 +37,51 @@ class NetworkPanel extends JPanel implements ActionListener
 	
 	JPanel panel = new JPanel();
 	JButton start = new JButton("Make Network");
-	JTextField textField = new JTextField(20);
+	JTextField textField = new JTextField(3);
 
 	JButton objectButton = new JButton("Create moving Object");
 	int numNodes;
 	Network n;
 	DrawNetwork nodePanel;
 	
-	public NetworkPanel(int x)
+	//might use constructor for something later
+	public NetworkPanel()
 	{
-		numNodes = x;
 	}
 	
 	public JPanel createContentPane()
 	{
 		Border border1 = new LineBorder(Color.BLACK, 3);
 		
-		panel.setLayout(null);
 		panel.setSize(500, 600);
 		panel.setLocation(200, 0);
-		panel.setBackground(Color.white);
+		panel.setBackground(Color.white);	
 		
-		
-		
-		textField.addActionListener(this);
-		textField.setLocation( 10, 10);
-		textField.setVisible(true);
-		panel.add(textField);
 		
 		JPanel buttonPanel = new JPanel();     
-       	buttonPanel.setLayout(null);
+       	buttonPanel.setLayout(new GridLayout(1,3, 5, 5));
        	buttonPanel.setLocation(000, 000);
       	buttonPanel.setSize(500,100);
 		buttonPanel.setBackground(Color.white);	
 		
+		textField.addActionListener(this);
+		//textField.setLocation( 200, 100);
+		textField.setText("number of nodes (1-50)");
+		textField.setVisible(true);
+		textField.setHorizontalAlignment(JTextField.CENTER); 
+		textField.requestFocus();
+		buttonPanel.add(textField);
+		
 		start.addActionListener(this);
 		start.setBackground(Color.white);
-		start.setLocation(10,10);
+		//start.setLocation(10,10);
 		start.setSize(175, 25);
 		start.setVisible(true);
 		buttonPanel.add(start);
 		
 		objectButton.addActionListener(this);
 		objectButton.setBackground(Color.white);
-		objectButton.setLocation(300,10);
+		//objectButton.setLocation(300,10);
 		objectButton.setEnabled(false);
 		objectButton.setSize(175, 25);
 		objectButton.setVisible(true);
@@ -102,10 +99,19 @@ class NetworkPanel extends JPanel implements ActionListener
 		
 		
 		if(source == start){
+			int num = 0;
+			String text = textField.getText();
+			if(text.length() > 2) num = 0;
+			num = Integer.parseInt(text);
+			if(num > 50 || num < 1) num = 0;
+			addNetwork(num);
+		}
+		/*
+		if(source == textField){
 			String text = textField.getText();
 			addNetwork();
 		}
-		
+		*/
 		if(source == objectButton){
 			objectButton.setEnabled(false);
 			start.setEnabled(false);
@@ -114,9 +120,9 @@ class NetworkPanel extends JPanel implements ActionListener
 		}
 	}
 	
-	public void addNetwork()
+	public void addNetwork(int x)
 	{
-		n  = new Network( numNodes );
+		n  = new Network( x );
 		nodePanel = n.getDrawNetwork();
 		nodePanel.setVisible(true);
 		panel.add(nodePanel);
