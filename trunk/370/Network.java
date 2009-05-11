@@ -18,10 +18,24 @@ public class Network// extends Thread
 
 	private int prevX =1;
 	private int prevY =1;
-	private float nextX =1;
-	private float nextY =1;
+	private float nextX1 =1;
+	private float nextY1 =1;
+	private float nextX2 =1;
+	private float nextY2 =1;
+	private float nextX3 =1;
+	private float nextY3 =1;
+	private float nextX4 =1;
+	private float nextY4 =1;
+	private float nextX5 =1;
+	private float nextY5 =1;
+	private float nextX6 =1;
+	private float nextY6 =1;
+	private float nextX7 =1;
+	private float nextY7 =1;
 	private float slopeX = 1;
 	private float slopeY = 1;
+	
+	String heuristic;
 
 	//creates a random network of nodes
 	//currently just creates 20, this could be a
@@ -58,6 +72,11 @@ public class Network// extends Thread
 		d = new DrawNetwork(this);
 	}
 
+	public void setHeuristic(String h)
+	{
+		heuristic = h;
+	}	
+	
 	public void addNode(String name, Point2D p)
 	{
 		nodes.add(new Node(name, this, p));
@@ -108,20 +127,62 @@ public class Network// extends Thread
 		nextX = x+predictedDistanceX;
 		nextY = y+predictedDistanceY;  */
 
-		nextX = x+(x-prevX)*25;
-		nextY = y+(y-prevY)*25; 
+		nextX1 = x+(x-prevX)*10;
+		nextY1 = y+(y-prevY)*10; 
 
+		nextX2 = x+(x-prevX)*20;
+		nextY2 = y+(y-prevY)*20; 
 
+		nextX3 = x+(x-prevX)*30;
+		nextY3 = y+(y-prevY)*30; 
+
+		nextX4 = x+(x-prevX)*40;
+		nextY4 = y+(y-prevY)*40; 
+
+		nextX5 = x+(x-prevX)*50;
+		nextY5 = y+(y-prevY)*50; 
+
+		nextX6 = x+(x-prevX)*60;
+		nextY6 = y+(y-prevY)*60; 
+
+		nextX7 = x+(x-prevX)*70;
+		nextY7 = y+(y-prevY)*70; 
+
+		/*
 		System.out.println("predicted distance: "+"("+nextX+", "+nextY+")");
 		System.out.println("("+x+", "+y+") ("+prevX+", "+prevY+")");
 		System.out.println("slope of predicted path is: ("+slopeX+", "+slopeY+")");
+		*/
 
 		Point p = new Point(x, y);
-		Point nextP = new Point((int)nextX, (int)nextY);
+		Point nextP1 = new Point((int)nextX1, (int)nextY1);
+		Point nextP2 = new Point((int)nextX2, (int)nextY2);
+		Point nextP3 = new Point((int)nextX3, (int)nextY3);
+		Point nextP4 = new Point((int)nextX4, (int)nextY4);
+		Point nextP5 = new Point((int)nextX5, (int)nextY5);
+		Point nextP6 = new Point((int)nextX6, (int)nextY6);
+		Point nextP7 = new Point((int)nextX7, (int)nextY7);
 
 		Node closestNode = closest(p);
-		Node predictedNode = closest(nextP);
-		predictedNode.wakeup();
+		Node predictedNode1 = closest(nextP1);
+		Node predictedNode2 = closest(nextP2);
+		Node predictedNode3 = closest(nextP3);
+		Node predictedNode4 = closest(nextP4);
+		Node predictedNode5 = closest(nextP5);
+		Node predictedNode6 = closest(nextP6);
+		Node predictedNode7 = closest(nextP7);
+
+		if(heuristic.equals("Destination")) predictedNode7.wakeup();
+		
+		if(heuristic.equals("Route")) {
+			predictedNode1.wakeup();
+			predictedNode2.wakeup();
+			predictedNode3.wakeup();
+			predictedNode4.wakeup();
+			predictedNode5.wakeup();
+			predictedNode6.wakeup();
+			predictedNode7.wakeup();
+		}
 
 		if(!closestNode.isCurrent()){
 			for(Node node :nodes){
