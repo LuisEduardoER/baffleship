@@ -9,19 +9,17 @@ public class Network// extends Thread
 	public java.util.List<Node> nodes = new ArrayList<Node>();
 
 	private java.util.List<Node> nodesToAwaken = new ArrayList<Node>();
-
-	private Point2D objectLocation;
-	private Point2D previousLocation;
 	
 	private DrawNetwork d;
-	private int numNodes;
-	
+	private int numNodes;	
+
+	private Point objectLocation;
+	private Point previousLocation;
+
 	private int prevX =1;
 	private int prevY =1;
 	private float nextX =1;
 	private float nextY =1;
-	private float predictedDistanceX = 1;
-	private float predictedDistanceY = 1;
 	private float slopeX = 1;
 	private float slopeY = 1;
 
@@ -48,8 +46,8 @@ public class Network// extends Thread
 			
 			Point p = new Point (randX, randY);
 			//if there is an node in range
-			if(closestInRange(p) != null){
-				while (closestInRange(p).distance(p) < 50){
+			if(closest(p) != null){
+				while (closest(p).distance(p) < 50){
 					randX = generator.nextInt( 400 ) + 50;    
 					randY = generator.nextInt( 500 ) + 50;   
 					p = new Point (randX, randY);
@@ -74,14 +72,14 @@ public class Network// extends Thread
 	}
 
 	//return node closest to a given point
-	public Node closestInRange(Point2D p)
+	public Node closest(Point2D p)
 	{
 		Node tempNode=null;
 		float closestDistance=0;	
 		for(Node n : nodes)
 		{
 			float currentDistance= n.distance(p);
-			    if ( (tempNode==null) || (currentDistance<closestDistance) )
+			    if ( (tempNode==null) || (currentDistance<closestDistance) ) 
 			    {
 				    tempNode=n;			
 				    closestDistance=currentDistance;
@@ -100,12 +98,19 @@ public class Network// extends Thread
 	//node to the ball is not currently active
 	public void update(int x, int y)
 	{
+/*	private float predictedDistanceX = 1;
+	private float predictedDistanceY = 1;
+
 		if(prevX != x && prevY != y) { slopeX = (x - prevX); slopeY = (y - prevY);}
 		predictedDistanceX = 100*slopeX;
 		predictedDistanceY = 100*slopeY;
 
 		nextX = x+predictedDistanceX;
-		nextY = y+predictedDistanceY;
+		nextY = y+predictedDistanceY;  */
+
+		nextX = x+x-prevX;
+		nextY = y+y-prevY; 
+
 
 		System.out.println("predicted distance: "+"("+nextX+", "+nextY+")");
 		System.out.println("("+x+", "+y+") ("+prevX+", "+prevY+")");
@@ -114,8 +119,8 @@ public class Network// extends Thread
 		Point p = new Point(x, y);
 		Point nextP = new Point((int)nextX, (int)nextY);
 
-		Node closestNode = closestInRange(p);
-		Node predictedNode = closestInRange(nextP);
+		Node closestNode = closest(p);
+		Node predictedNode = closest(nextP);
 		predictedNode.wakeup();
 
 		if(!closestNode.isCurrent()){
