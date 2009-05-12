@@ -22,21 +22,29 @@ class Ball extends Thread {
 	public static final int sleep_time=10;   //ms
 
 
-	private static final int XSIZE = 10;
-	private static final int YSIZE = 10;
-	private int x = 0;
-	private int y = 0;
+	private static final int XSIZE = 50;
+	private static final int YSIZE = 40;
+	private int x = 15;
+	private int y = 28;
 	private int dx = 2;
 	private int dy = 2;
 	Network network;
 
-	BufferedImage img = null;
-	
+	BufferedImage img = null;	
 
 	private boolean paused=false;
 
+	private static Ball singleton=null;
+
+	public static Ball getBall(JPanel b, Network n)
+	{
+		if (singleton!=null) return singleton;
+
+		singleton = new Ball(b, n);
+		return singleton;
+	}
 	
-	public Ball(JPanel b, Network n) {
+	private Ball(JPanel b, Network n) {
 		network = n;
 		box = b;
 		setImg();
@@ -61,7 +69,6 @@ class Ball extends Thread {
 
 	public void move() {
 		if (!box.isVisible())	return;
-		if (paused) return;
 		//Graphics g = box.getGraphics();
 		//g.setXORMode(box.getBackground());
 		//g.fillOval(x, y, XSIZE, YSIZE);
@@ -101,10 +108,13 @@ class Ball extends Thread {
 	public void run() {
 		try {
 			draw();
-			for (int i = 0; i <= 5000; i++) {
+			for (int i = 0; true; i++) {
+				if (!paused) { 
 				move();
+				if ( (i%time_interval) == 0 ) { network.update(x, y); }
 				network.d.repaint();
-				if ( (i%time_interval) == 0 ) network.update(x, y);
+
+				}
 				draw();
 				sleep(sleep_time);
 			}
@@ -113,7 +123,8 @@ class Ball extends Thread {
 
 	public void pause()
 	{
-		paused=!paused;
+		paused= !paused;
+		System.out.println(paused);
 	}
 
 }
