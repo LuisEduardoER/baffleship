@@ -12,7 +12,7 @@ public class DrawNetwork extends JPanel
 	Border border1 = new LineBorder(Color.BLACK, 3);
 
 	DrawNetwork(Network n){
-		this.setSize(500, 600);
+		this.setSize(NetworkMain.XBIG, NetworkMain.YBIG-150);
 		//this.setBorder(border1);
 		this.setBackground(Color.white);
 		this.setLocation(000,70);

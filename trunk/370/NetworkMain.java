@@ -15,6 +15,9 @@ import  java.io.*;
 public class NetworkMain extends JFrame
 {
 
+	static final int XBIG=1000;
+	static final int YBIG=800;		
+
 
 	public static void main(String [] args){
 	
@@ -26,7 +29,7 @@ public class NetworkMain extends JFrame
 		JFrame frame = new JFrame("Network");
 		frame.setContentPane(netPanel.createContentPane());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(500,750);
+		frame.setSize(XBIG,YBIG);
 
 		
 			
@@ -72,10 +75,9 @@ String destinationString = "Destination";
 		Border border1 = new LineBorder(Color.BLACK, 3);
 
 		
-		panel.setSize(500, 700);
-		panel.setLocation(200, 0);
-		panel.setBackground(Color.white);	
-		
+		panel.setSize(NetworkMain.XBIG, NetworkMain.YBIG);
+		panel.setLocation(150, 0);
+		panel.setBackground(Color.white);			
 		
 		JPanel buttonPanel = new JPanel();     
 
@@ -86,7 +88,7 @@ String destinationString = "Destination";
 		
 		textField.addActionListener(this);
 		//textField.setLocation( 200, 100);
-		textField.setText("20");
+		textField.setText("40");
 		textField.setVisible(true);
 		textField.setHorizontalAlignment(JTextField.CENTER); 
 		textField.requestFocus();
@@ -160,7 +162,7 @@ String destinationString = "Destination";
 			String text = textField.getText();
 			if(text.length() > 2) num = 0;
 			num = Integer.parseInt(text);
-			if(num > 50 || num < 1) num = 0;
+			if(num > 90 || num < 1) num = 90;
 			addNetwork(num);
 		}
 

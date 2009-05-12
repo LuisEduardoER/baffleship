@@ -18,8 +18,8 @@ class Ball extends Thread {
 
 	private JPanel box;
 
-	public static final int time_interval = 10;
-	public static final int sleep_time=10;   //ms
+	public static final int time_interval = 50;
+	public static final int sleep_time=50;   //ms
 
 
 	private static final int XSIZE = 50;
@@ -49,8 +49,8 @@ class Ball extends Thread {
 		box = b;
 		setImg();
 		Random r = new Random();
-		dx=r.nextInt(7) + 1;
-		dy=r.nextInt(7) + 1;
+		dx=r.nextInt(4) + 1;
+		dy=r.nextInt(3) + 1;
 		System.out.println(dx+" "+dy);
 	}
 
@@ -64,7 +64,7 @@ class Ball extends Thread {
 	public void draw() {
 		Graphics g = box.getGraphics();
 		//g.dispose();
-		g.drawImage(img, x, y, null);
+		g.drawImage(img, x+XSIZE/2, y+YSIZE/2, null);
 	}
 
 	public void move() {
@@ -108,7 +108,7 @@ class Ball extends Thread {
 	public void run() {
 		try {
 			draw();
-			for (int i = 0; true; i++) {
+			for (int i = -3; true; i++) {
 				if (!paused) { 
 				move();
 				if ( (i%time_interval) == 0 ) { network.update(x, y); }
