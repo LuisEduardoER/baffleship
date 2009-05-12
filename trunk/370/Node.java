@@ -53,6 +53,13 @@ public class Node
 		}
 	}
 
+	public void sleep()
+	{
+		awake=false;
+	}
+
+
+
 	
 	public void setCurrent()
 	{

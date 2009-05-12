@@ -171,11 +171,9 @@ String destinationString = "Destination";
 		}
 		*/
 		if(source == objectButton){
-			final Ball b=null;
-			start.setEnabled(false);
-			if (b==null) { b = new Ball(nodePanel, n); b.start(); }
+			Ball b=Ball.getBall(nodePanel, n);
+			if (start.isEnabled()) { start.setEnabled(false); b.start(); }
 			else b.pause();
-
 		}
 	}
 	

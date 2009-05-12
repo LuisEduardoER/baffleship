@@ -165,48 +165,15 @@ public class Network// extends Thread
 
 	}
 	 
-	//goes through every node in the network
-	//setting current then non current.
-	//this function is automatically called from start()
-
-
-	//actually this function isn't even used anymore but
-	//i'm keeping it just because
-
-	public void run() 
-	{
-		//try{
-		    /*
-			for(Node node :nodes)
-			{
-				closestInRange(node.location).setCurrent();
-				d.repaint();
-				sleep(500);
-				closestInRange(node.location).setNonCurrent();
-			}*/
-			/*
-			Node node = nodes.get(0);
-		    Node tempNode = node;
-			for(int i = 1; i <= numNodes; i++)
-			{
-			    node.setCurrent();
-			    d.repaint();
-			    sleep(500);
-			    node.setNonCurrent();
-			    tempNode = closestInRange(node.location);
-			    System.out.println("tempNode: "+tempNode.name);
-			    node = tempNode;
-			}*/
-			
-		//}catch (InterruptedException e) {}
-	}
-
 	//used by individual nodes to make list of nodes to wake up next
 	public void wakeupNextTick(Node n) { nodesToAwaken.add(n); }
 
 	//
 	private void wakeupNodes()
 	{
+		//for now
+		for(Node n : nodes) n.sleep();
+
 		if (nodesToAwaken.isEmpty()) return;
 		for(Node n : nodesToAwaken) n.wakeup();
 		nodesToAwaken.clear();
