@@ -64,7 +64,7 @@ class Ball extends Thread {
 	public void draw() {
 		Graphics g = box.getGraphics();
 		//g.dispose();
-		g.drawImage(img, x+XSIZE/2, y+YSIZE/2, null);
+		g.drawImage(img, x-XSIZE/2, y-YSIZE/2, null);
 	}
 
 	public void move() {

@@ -31,7 +31,10 @@ public class DrawNetwork extends JPanel
 		    if(!n.isAlive()) break;//dont draw dead nodes
 		    comp2D.fill(Circle(n.location.getX(),n.location.getY(), 10));
 			comp2D.draw(Circle(n.location.getX(), n.location.getY(), 25 ) );
-		}		
+		}
+		    comp2D.setPaint(Color.blue);		
+comp2D.draw(Circle(network.prediction.getX(), network.prediction.getY(), 5 ) );		
+		
 	}
 
 	public static Ellipse2D.Double Circle(double x,double y,int r)
