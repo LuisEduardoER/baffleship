@@ -13,8 +13,7 @@ public class Network// extends Thread
 	public DrawNetwork d;
 	private int numNodes;	
 
-	private Point objectLocation;
-	private Point previousLocation;
+	public Point prediction=new Point(0,0);
 
 	private int prevX =1;
 	private int prevY =1;
@@ -45,7 +44,7 @@ public class Network// extends Thread
 			String name = "Node "+ i;			
 			Point p = new Point (generator.nextInt(NetworkMain.XBIG-100 ) + 50, generator.nextInt( NetworkMain.YBIG-200 ) + 50);
 			//if there is an node in range
-			while (closest(p).distance(p)< (Node.detectionRange /3))
+			while (closest(p).distance(p)< (Node.detectionRange /4))
 				p = new Point (generator.nextInt( NetworkMain.XBIG-100  ) + 50, generator.nextInt( NetworkMain.YBIG-200 ) + 50);
 			addNode(name, p);		
 		}
@@ -156,6 +155,8 @@ public class Network// extends Thread
 		currentNode.setCurrent();
 
 		if(heuristic.equals("Destination")) nodesToAwaken.add(currentNode);
+
+		prediction=new Point(x+(x-prevX)*2, y+(y-prevY)*2);
 
 		prevX = x;
 		prevY = y;

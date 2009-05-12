@@ -4,7 +4,7 @@ import java.awt.*;
 public class Node
 {
 
-	static final int detectionRange = 150;
+	static final int detectionRange = 250;
 	static final float maxEnergy = 100;
 
 	private Network network; //context
