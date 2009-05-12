@@ -53,7 +53,7 @@ String destinationString = "Destination";
 
 	DrawNetwork nodePanel;
 
-	String heuristic;
+	String heuristic="Destination";
 	
 	//might use constructor for something later
 	public NetworkPanel()
@@ -80,7 +80,7 @@ String destinationString = "Destination";
 		
 		textField.addActionListener(this);
 		//textField.setLocation( 200, 100);
-		textField.setText("number of nodes (1-50)");
+		textField.setText("20");
 		textField.setVisible(true);
 		textField.setHorizontalAlignment(JTextField.CENTER); 
 		textField.requestFocus();
@@ -165,11 +165,11 @@ String destinationString = "Destination";
 		}
 		*/
 		if(source == objectButton){
-			objectButton.setEnabled(false);
+			static Ball b=null;
 			start.setEnabled(false);
-			//if(evt.getActionCommand() == destination) System.out.println("destination");
-			Ball b = new Ball(nodePanel, n);
-			b.start();
+			if (b==null) { Ball b = new Ball(nodePanel, n); b.start(); }
+			else b.pause();
+
 		}
 	}
 	

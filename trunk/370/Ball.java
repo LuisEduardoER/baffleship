@@ -12,10 +12,15 @@ import javax.imageio.*;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.util.Random;
 
 class Ball extends Thread {
 
 	private JPanel box;
+
+	public static final int time_interval = 10;
+	public static final int sleep_time=10;   //ms
+
 
 	private static final int XSIZE = 10;
 	private static final int YSIZE = 10;
@@ -27,11 +32,18 @@ class Ball extends Thread {
 
 	BufferedImage img = null;
 	
+
+	private boolean killed=false;
+
 	
 	public Ball(JPanel b, Network n) {
 		network = n;
 		box = b;
 		setImg();
+		Random r = new Random();
+		dx=r.nextInt(7) + 1;
+		dy=r.nextInt(7) + 1;
+		System.out.println(dx+" "+dy);
 	}
 
 	public void setImg()
@@ -90,13 +102,20 @@ class Ball extends Thread {
 	public void run() {
 		try {
 			draw();
-			for (int i = 1; i <= 5000; i++) {
+			for (int i = 0; i <= 5000; i++) {
 				move();
-				if ( (i%15) == 0 ) network.update(x, y);
-				sleep(3);
-				draw();
 				network.d.repaint();
+				draw();
+				if ( (i%time_interval) == 0 ) network.update(x, y);
+				if (killed) break;
+				sleep(sleep_time);
 			}
 		} catch (InterruptedException e) {}
 	}
+
+	public void dieNowPlease()
+	{
+		killed=true;
+	}
+
 }
