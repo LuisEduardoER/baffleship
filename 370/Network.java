@@ -18,8 +18,10 @@ public class Network// extends Thread
 
 	private int prevX =1;
 	private int prevY =1;
+
+	private Node currentNode;
 	
-	String heuristic;
+	private String heuristic;
 
 	//creates a random network of nodes
 	//currently just creates 20, this could be a
@@ -32,28 +34,23 @@ public class Network// extends Thread
 	public void createNetwork(int num)
 	{
 		Random generator = new Random();
-		int randX = 0;;
-		int randY = 0;;	
-		Node node;
-		for(int i = 1; i <= num; i++)
+
+		addNode("Zero", new Point(60,60));
+		currentNode=nodes.get(0);
+		currentNode.setCurrent();
+
+		for(int i = 1; i < num; i++)
 		{
-			randX = generator.nextInt( 400 ) + 50;    
-			randY = generator.nextInt( 500 ) + 50;  
-			
-			String name = "Node "+ i;
-			
-			Point p = new Point (randX, randY);
+
+			String name = "Node "+ i;			
+			Point p = new Point (generator.nextInt( 400 ) + 50, generator.nextInt( 500 ) + 50);
 			//if there is an node in range
-			if(closest(p) != null){
-				while (closest(p).distance(p) < 50){
-					randX = generator.nextInt( 400 ) + 50;    
-					randY = generator.nextInt( 500 ) + 50;   
-					p = new Point (randX, randY);
-				}
-			}
+			while (closest(p).distance(p)< (Node.detectionRange /2))
+				p = new Point (generator.nextInt( 400 ) + 50, generator.nextInt( 500 ) + 50);
 			addNode(name, p);		
 		}
 		d = new DrawNetwork(this);
+		heuristic="Destination";
 	}
 
 	public void setHeuristic(String h)
@@ -121,14 +118,15 @@ public class Network// extends Thread
 	//node to the ball is not currently active
 	public void update(int x, int y)
 	{
-
+		
 		wakeupNodes();
 
-		if(heuristic.equals("Route") )
-{
+		if( heuristic.equals("Route") || heuristic.equals("ALL_NBR"))
+
+		{
 		Node tempNodeA;
 		Node tempNodeB=null;
-		for(int i=1;i<101;i++)
+		for(int i=1;i<=Ball.time_interval;i++)
 		{
 			tempNodeA=closestInRange(new Point( x+(x-prevX)*i , y+(y-prevY)*i ));
 			if ( (tempNodeA != null) && (tempNodeA != tempNodeB) )
@@ -137,30 +135,34 @@ public class Network// extends Thread
 				tempNodeB=tempNodeA;
 			}
 		}
-
-
-}
-
-
-//		Point p = new Point(x, y);
-
-		//if(heuristic.equals("Destination")) predictedNode7.wakeup();
+		}
 		
+	
+		if(heuristic.equals("ALL_NBR"))
 
 		{
-
+			java.util.List<Node> neighborNodes = new ArrayList<Node>();	
+			for(Node n : nodes)
+				for(Node m : nodesToAwaken) 
+					if (  n.inRange(m.location))
+					{
+						neighborNodes.add(n);
+						break;
+					}
+			nodesToAwaken.addAll(neighborNodes); //some nodes will be in twice, but thats ok
 		}
 
-/*		if(!closestNode.isCurrent()){
-			for(Node node :nodes){
-				node.setNonCurrent();
-			}
-			closestNode.setCurrent();
-			//d.repaint();
-		}*/
+
+		if(heuristic.equals("Destination"))
+			nodesToAwaken.add(closest(new Point(x+(x-prevX)*Ball.time_interval, y+(y-prevY)*Ball.time_interval)));
+
+		currentNode.setNonCurrent();
+		currentNode=closest(new Point(x+(x-prevX)*Ball.time_interval, y+(y-prevY)*Ball.time_interval)  );
+		currentNode.setCurrent();
+
 		prevX = x;
 		prevY = y;
-		d.repaint();
+
 	}
 	 
 	//goes through every node in the network

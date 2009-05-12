@@ -28,9 +28,9 @@ public class DrawNetwork extends JPanel
 		    if(n.isAwake()) comp2D.setPaint(Color.red);
 		    else comp2D.setPaint(Color.black);
 		    if(n.isCurrent()) comp2D.setPaint(Color.green);
-		    if(!n.isAlive()) comp2D.setPaint(Color.gray);
-		    comp2D.fill(Circle(n.location.getX(),n.location.getY(), 17));
-			comp2D.draw(Circle(n.location.getX(), n.location.getY(), Node.detectionRange ) );
+		    if(!n.isAlive()) break;//dont draw dead nodes
+		    comp2D.fill(Circle(n.location.getX(),n.location.getY(), 10));
+			comp2D.draw(Circle(n.location.getX(), n.location.getY(), 25 ) );
 		}		
 	}
 
