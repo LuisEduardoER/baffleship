@@ -33,7 +33,7 @@ class Ball extends Thread {
 	BufferedImage img = null;
 	
 
-	private boolean killed=false;
+	private boolean paused=false;
 
 	
 	public Ball(JPanel b, Network n) {
@@ -55,18 +55,17 @@ class Ball extends Thread {
 
 	public void draw() {
 		Graphics g = box.getGraphics();
-		//g.fillOval(x, y, XSIZE, YSIZE);
+		//g.dispose();
 		g.drawImage(img, x, y, null);
-		g.dispose();
 	}
 
 	public void move() {
-		if (!box.isVisible())
-		return;
-		Graphics g = box.getGraphics();
-		g.setXORMode(box.getBackground());
+		if (!box.isVisible())	return;
+		if (paused) return;
+		//Graphics g = box.getGraphics();
+		//g.setXORMode(box.getBackground());
 		//g.fillOval(x, y, XSIZE, YSIZE);
-		g.drawImage(img, x, y, null);
+		//g.drawImage(img, x, y, null);
 		x += dx;
 		y += dy;
 		Dimension d = box.getSize();
@@ -86,9 +85,9 @@ class Ball extends Thread {
 			y = d.height - YSIZE;
 			dy = -dy;
 		}
-		g.drawImage(img, x, y, null);
+		//g.drawImage(img, x, y, null);
 		//g.fillOval(x, y, XSIZE, YSIZE);
-		g.dispose();
+//		g.dispose();
 	}
 	
 	public int getX(){
@@ -105,17 +104,16 @@ class Ball extends Thread {
 			for (int i = 0; i <= 5000; i++) {
 				move();
 				network.d.repaint();
-				draw();
 				if ( (i%time_interval) == 0 ) network.update(x, y);
-				if (killed) break;
+				draw();
 				sleep(sleep_time);
 			}
 		} catch (InterruptedException e) {}
 	}
 
-	public void dieNowPlease()
+	public void pause()
 	{
-		killed=true;
+		paused=!paused;
 	}
 
 }
