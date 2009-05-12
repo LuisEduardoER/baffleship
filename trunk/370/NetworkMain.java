@@ -8,8 +8,14 @@ import javax.swing.border.*;
 
 import  java.io.*;
 
+
+
+
+
 public class NetworkMain extends JFrame
 {
+
+
 	public static void main(String [] args){
 	
 		NetworkPanel netPanel = new NetworkPanel();
@@ -165,9 +171,9 @@ String destinationString = "Destination";
 		}
 		*/
 		if(source == objectButton){
-			static Ball b=null;
+			final Ball b=null;
 			start.setEnabled(false);
-			if (b==null) { Ball b = new Ball(nodePanel, n); b.start(); }
+			if (b==null) { b = new Ball(nodePanel, n); b.start(); }
 			else b.pause();
 
 		}
