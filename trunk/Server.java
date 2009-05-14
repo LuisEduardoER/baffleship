@@ -16,111 +16,105 @@ import javax.swing.SwingUtilities;
 import java.io.StringBufferInputStream;
 import java.net.*;
 import java.io.*;
-
-
-
+import java.util.*;
 
 
 public class Server
 {
 	private ServerSocket server; // server socket
 
-	private Socket connectionA; // connection to client A
-	private PrintWriter outToA; // output stream to client
-	private InputStream inFromA; // input stream from client
-
-	private Socket connectionB; // connection to client B
-	private PrintWriter outToB; // output stream to client
-   	private InputStream inFromB; // input stream from client
+	//first one is player A, second one is player B, the rest are observers
+	private java.util.List<Socket> clients = new ArrayList<Socket>();	
+	private java.util.List<PrintWriter> outToClient = new ArrayList<PrintWriter>();
+	private java.util.List<InputStream> inFromClient = new ArrayList<InputStream>();
+	public java.util.List<String> names = new ArrayList<String>();	
 
 	ServerGame theGame = new ServerGame(this);
-
+	
+	//private boolean 
+	
+	//debugging
    private void Print (String s) { System.out.println(s); }
 
+   public int numPlayersConnected() {return clients.size();}
+   
    public static void main( String args[] )
    {
 	int port = 44771; //default port
 	try { port= Integer.parseInt(args[0]); } catch (Exception e) {;}
 
-      	Server application = new Server(port); // create  and run server
+	new Server(port); // create  and run server
    } 
 
 
    public Server(int port)
    {
-
       try // set up server to receive connections; process connections
       {
          server = new ServerSocket(port); // create ServerSocket
+		 server.setSoTimeout(20); //now accept() throws SocketTimeoutException after 20ms
 
-            try 
-            {
-               waitForConnections(); 
-               getStreams(); // get input & output streams
-               processConnections(); //loops until a connection is closed
-            } 
-            catch ( EOFException eofException ) 
-            {
-               Print( "\nServer terminated connection" );
-            } 
-            finally 
-            {
-               closeConnections();          
-            } 
-
+		while(true)
+		{
+			getConnection();
+			processConnections();		
+		}
       } // end try
       catch ( Exception e ) 
       {
          e.printStackTrace();
-	 Print("Can't listen on port "+port);
       } // end catch
    } // end constructor
 
-   // wait for connection to arrive, then display connection info
-   private void waitForConnections() throws IOException
+   // wait a few ms for connection to arrive
+   private void getConnection()
    {
-	Print( "Waiting for connection\n" );
-
-	connectionA = server.accept(); // allow server to accept connection  
-	Print( "Connection received from: " + connectionA.getInetAddress().getHostName() );
-
-	connectionB = server.accept();        
-	Print( "Connection received from: " + connectionB.getInetAddress().getHostName() );
+	try {
+		Socket temp = server.accept();
+		clients.add(temp);
+		outToClient.add(new PrintWriter(temp.getOutputStream(), true));
+		inFromClient.add(temp.getInputStream());
+		names.add(temp.getInetAddress().toString());
+		Print("Connected to "+temp.getInetAddress());
+		} catch ( SocketTimeoutException e) {;}
+		  catch ( Exception e ) { e.printStackTrace(); }
+      
    } 
 
-   // get streams to send and receive data
-   private void getStreams() throws IOException
-   {    
-     	outToA = new PrintWriter(connectionA.getOutputStream(), true);
-	inFromA = connectionA.getInputStream();
 
-	outToB = new PrintWriter(connectionB.getOutputStream(), true);
-	inFromB = connectionB.getInputStream();
-   }
-
-   // process connection with client
+   //check each connected client once for data, send it to the game, then return
    private void processConnections() throws IOException
    {
 	StringBuilder tempMessage;
-
-	while( (connectionA.isConnected() ) && (connectionB.isConnected() ) ) // process messages sent from client
-	{ 
-		tempMessage = new StringBuilder(); 
-		while ( inFromA.available() >0 )tempMessage.append((char)inFromA.read());
-		if (tempMessage.length()>0 ) theGame.inputFromPlayer('A',tempMessage.toString());
-
-		tempMessage = new StringBuilder(); 
-		while ( inFromB.available() >0 ) tempMessage.append((char)inFromB.read());
-		if (tempMessage.length()>0 ) theGame.inputFromPlayer('B',tempMessage.toString());
-	}
-  }
-
-	public void sendToPlayer(char player, String s)
+	
+	for(int i=0;i<numPlayersConnected();i++)
 	{
-		System.out.println("Sending to player "+player+": "+s);
-		if (player == 'A') outToA.println(s);
-		if (player == 'B') outToB.println(s);
+		tempMessage = new StringBuilder(); 
+		while ( inFromClient.get(i).available() >0 )tempMessage.append((char)inFromClient.get(i).read());
+		if (tempMessage.length()>0 ) theGame.inputFromPlayer(i,tempMessage.toString());
 	}
+	
+   }
+
+	public void sendToPlayer(int player, String s)
+	{
+		if ( (player >= numPlayersConnected() ) || (player<0) ) { Print("Cannot send to nonexistent player #"+player); return; } 
+		
+		System.out.println("Sending to player "+player+": "+s);
+		outToClient.get(player).println(s);
+	}
+	
+	public void sendToAllPlayers(String s)
+	{
+		System.out.println("Sending to all players: "+s);
+		for(int i=0;i<numPlayersConnected();i++) outToClient.get(i).println(s);
+	}	
+	
+	public void sendToAllPlayersExcept(int player, String s)
+	{
+		System.out.println("Sending to all players except "+player+": "+s);
+		for(int i=0;i<numPlayersConnected();i++) if (i!=player) outToClient.get(i).println(s);
+	}	
 
 
    // close streams and socket
@@ -129,19 +123,18 @@ public class Server
       System.out.println( "\nTerminating connection\n" );
       try 
       {
-         inFromA.close(); // close output stream
-         outToA.close(); // close input stream
-         connectionA.close(); // close socket
-	 inFromB.close(); // close output stream
-         outToB.close(); // close input stream
-         connectionB.close(); // close socket
+		for(int i=0;i<numPlayersConnected();i++)
+		{
+			clients.get(i).close();
+			outToClient.get(i).close();
+			inFromClient.get(i).close();
+		}
       } // end try
       catch ( IOException ioException ) 
       {
          ioException.printStackTrace();
       } // end catch
    } // end method closeConnection
-
 
 
 } // end class Server

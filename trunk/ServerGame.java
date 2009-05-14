@@ -28,7 +28,7 @@ public class ServerGame
 		}*/
 	}
 
-	public void inputFromPlayer(char player, String message)
+	public void inputFromPlayer(int player, String message)
 	{
 		System.out.println("In from player "+player+": "+message);
 
@@ -41,18 +41,15 @@ public class ServerGame
 
 		//we cant use switch on strings, sadly
 
-
 		if ( command.equals("CHAT") )
 		{
 			if ( messageLength < 2 ) return; //empty chats not allowed
 
-			if (player == 'A') server.sendToPlayer('B', message);
-			if (player == 'B') server.sendToPlayer('A', message);
-
+			server.sendToAllPlayersExcept(player, "CHAT "+server.names.get(player)+" "+message.substring(5));
 			return;
 		}
 		
-
+		if (player>1) return; //only the first two players can do things besides chat
 
 		/* 
 		  	 PLACE BSHIP 4 5 EAST
@@ -88,16 +85,15 @@ public class ServerGame
 		
 			//else try to add the ship to the appropriate fleet
 			//if the fleet rejects it, too bad 
-			if (player == 'A') fleetA.addShip(newShip); 
-			if (player == 'B') fleetB.addShip(newShip);
+			if (player == 0) fleetA.addShip(newShip); 
+			if (player == 1) fleetB.addShip(newShip);
 
 			//now test if the boards are full, and if so start the game
 			if ( ( fleetA.numShips() == 5 )  && ( fleetB.numShips() == 5 ) && ( gamestate == GameState.WAITING ) )
 			{
 				gamestate = GameState.TURN_A;
-				server.sendToPlayer('A',"START");
-				server.sendToPlayer('B',"START");
-				server.sendToPlayer('A',"YOURTURN");
+				server.sendToAllPlayers("START");
+				server.sendToPlayer(0,"YOURTURN");
 			}
 
 			return;
@@ -117,18 +113,18 @@ public class ServerGame
 
 			if (gamestate == GameState.TURN_A)
 			{
-				if (player !='A') return; //cant shoot when it isn't your turn
+				if (player !=0) return; //cant shoot when it isn't your turn
 			
 				SquareType result = fleetB.shoot(new Point(x,y) );
 		
-				server.sendToPlayer('A', "YOURSHOT "+result+" "+x+" "+y);
+				server.sendToPlayer(0, "YOURSHOT "+result+" "+x+" "+y);
 
 				//if that square had not previously been guessed
 				//we need to notify the other player,
 				//mark it as previously guessed, and check for win					
 				if ( ! boardB[x][y] )
 				{
-					server.sendToPlayer('B', "HISSHOT "+result+" "+x+" "+y);
+					server.sendToPlayer(1, "HISSHOT "+result+" "+x+" "+y);
 					boardB[x][y]=true;
 					gamestate= GameState.TURN_B;
 					checkVictory();
@@ -140,18 +136,18 @@ public class ServerGame
 
 			if (gamestate == GameState.TURN_B)
 			{
-				if (player !='B') return; //cant shoot when it isn't your turn
+				if (player !=1) return; //cant shoot when it isn't your turn
 		
 				SquareType result = fleetA.shoot(new Point(x,y) );
 			
-				server.sendToPlayer('B', "YOURSHOT "+result+" "+x+" "+y);
+				server.sendToPlayer(1, "YOURSHOT "+result+" "+x+" "+y);
 
 				//if that square had not previously been guessed
 				//we need to notify the other player,
 				//mark it as previously guessed, and check for win					
 				if ( ! boardA[x][y] )
 				{
-					server.sendToPlayer('A', "HISSHOT "+result+" "+x+" "+y);
+					server.sendToPlayer(0, "HISSHOT "+result+" "+x+" "+y);
 					boardA[x][y]=true;
 					gamestate= GameState.TURN_A;
 					checkVictory();
@@ -170,15 +166,15 @@ public class ServerGame
 	{
 		if ( fleetA.isSunk() )
 		{
-			server.sendToPlayer('A', "GAMEOVER LOSE");
-			server.sendToPlayer('B', "GAMEOVER WIN");
+			server.sendToPlayer(0, "GAMEOVER LOSE");
+			server.sendToPlayer(1, "GAMEOVER WIN");
 			gamestate=GameState.GAMEOVER;
 		}
 			
 		if ( fleetB.isSunk() )
 		{
-			server.sendToPlayer('A', "GAMEOVER WIN");
-			server.sendToPlayer('B', "GAMEOVER LOSE");
+			server.sendToPlayer(0, "GAMEOVER WIN");
+			server.sendToPlayer(1, "GAMEOVER LOSE");
 			gamestate=GameState.GAMEOVER;
 		}
 	}
