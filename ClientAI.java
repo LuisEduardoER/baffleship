@@ -165,12 +165,12 @@ public class ClientAI
 		if(result.isWater())
 		{
 			displayMessage( Color.red, "\nOpponent Miss");
-		if (rrr.nextInt(10) ==0) sendData( "CHAT HAHA U SUX");
+		if (rrr.nextInt(12) ==0) sendData( "CHAT HAHA U MISSED U SUX");
 		}
 		else
 		{
 			displayMessage( Color.red, "\nYour opponent hit your " + result.name);
-		if (rrr.nextInt(3) ==0) sendData( "CHAT OMG U HAX IMA GONNA GET U BANED");
+		if (rrr.nextInt(5) ==0) sendData( "CHAT OMG U HAX IMA GONNA GET U BANED");
 		}
 		
 		Shoot();
@@ -185,13 +185,11 @@ public class ClientAI
 	}
 
 	//now possibly make one or more random comments
-	if (rrr.nextInt(50) ==0) sendData( "CHAT WASSSSSSSSSSSUP");
-	if (rrr.nextInt(60) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
-	if (rrr.nextInt(100) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
-	if (rrr.nextInt(80) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
-	if (rrr.nextInt(80) ==0) sendData( "CHAT Cough if you have swine flu");
-	if (rrr.nextInt(80) ==0) sendData( "CHAT ITS OVER 9000");
-	if (rrr.nextInt(80) ==0) sendData( "CHAT random is as random does");
+	if (rrr.nextInt(100) ==0) sendData( "CHAT Headline: Gang violence claims lives of five nerds in Henson 105");
+	if (rrr.nextInt(300) ==0) sendData( "CHAT xkcdsucks dot blogspot dot com");
+	if (rrr.nextInt(200) ==0) sendData( "CHAT IM CHARGIN MAH LAZERS");
+	if (rrr.nextInt(120) ==0) sendData( "CHAT Cough if you have swine flu");
+	if (rrr.nextInt(120) ==0) sendData( "CHAT random is as random does");
 
 	
       } while(! (tokens[0].equals("GAMEOVER"))); 
@@ -222,11 +220,11 @@ public class ClientAI
    public void sendData( String message )
    {
 	output.flush();
-	try { Thread.sleep(800); } catch (Exception e) {;}
+	try { Thread.sleep(500); } catch (Exception e) {;}
         output.println(message);
 	output.flush();
 	System.out.println("Sending: "+message);
-	try { Thread.sleep(800); } catch (Exception e) {;}
+	try { Thread.sleep(500); } catch (Exception e) {;}
   
    } // end method sendData
 
