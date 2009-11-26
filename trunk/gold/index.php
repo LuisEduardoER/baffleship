@@ -1,22 +1,28 @@
 <?php
 
 // remove this eventually
-if (@$_GET['source'])
+if (@$_GET['saws'])
 {
 	header('Content-type: text/plain');
 	readfile(basename($_SERVER['PHP_SELF']));
 	exit(0);
 }
 
-//make sure to set these up
-$secretfile      = '../christmassecret.php';  					 //has $secret and $api_key
-$facebookinclude = '../facebook-platform/php/facebook.php';
+//has $secret and $api_key
+//make sure to set this up in a directory apache doesn't serve
+require_once('../gold_price_secret.php');
 
 $appid = '198253726224';
+
+//this is the location of the pictures
+//same as this php file is fine
+$imgurl = 'http://frankrowe.com/goldprice/';
+
+//should we give these guys credit? 
 $feedurl = "http://dgcsc.org/goldprices.xml";
-          
-require_once($facebookinclude);
-require_once($secretfile);
+
+//this needs to be installed, its the facebook-platform.tar stuff
+require_once('../facebook-platform/php/facebook.php');
 
 $facebook = new Facebook($api_key, $secret);
 
@@ -38,15 +44,16 @@ if (@$_POST['fb_sig_user'])
 
 }
 
-/* If the first argument passed to the script is "generate" then we calculate
- * the nights to christmas for each of the timezones, update the Fb:ref's
- * corresponding to each, and then exit
+/* If the first argument passed to the script is "generate" then we 
+ * go get the current gold price and generate some HTML for it,
+ * and then exit
 */
 if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
 {
-	$price_per_oz =0;
+	$price_per_oz = 0;
 
-
+	//get the gold price from xml feed
+	//eventually we could have multiple feeds in case some go down
     $xml = simplexml_load_file("$feedurl");
 	foreach($xml->Price as $price)
         if($price->attributes() == 'USD')
@@ -55,7 +62,7 @@ if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
 			break;
         }       
        
-	$FBML .= "<span style='font-size: xx-large; color: #3b5998;'>
+	$FBML = "<span style='font-size: xx-large; color: #3b5998;'>
 			$daystochristmas $sleeps
 			</span><br />
 			<a
