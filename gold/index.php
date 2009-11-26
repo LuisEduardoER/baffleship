@@ -136,14 +136,3 @@ if ($fb_user)
 </fb:else>
 </fb:if-is-app-user>
 
-<?php
-
-/* Calculate the nights until Christmas for each of the 27 whole-hour GMT offset
- * zones: http://en.wikipedia.org/wiki/List_of_time_zones
- * This is called when the script is run with an argument of "generate" which
- * should be done once per hour.
- */
-
-
-
-?>
