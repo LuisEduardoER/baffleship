@@ -10,7 +10,7 @@ if (@$_GET['saws'])
 
 //has $secret and $api_key
 //make sure to set this up in a directory apache doesn't serve
-require_once('../gold_price_secret.php');
+require_once('../../facebook/gold_price_secret.php');
 
 $appid = '198253726224';
 
@@ -23,7 +23,7 @@ $wallpic = $imgurl+'70x50.jpg';
 $feedurl = "http://dgcsc.org/goldprices.xml";
 
 //this needs to be installed, its the facebook-platform.tar stuff
-require_once('../facebook-platform/php/facebook.php');
+require_once('../../facebook-platform/php/facebook.php');
 
 $facebook = new Facebook($api_key, $secret);
 
