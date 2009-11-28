@@ -65,68 +65,34 @@ if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
 	//colors and styles and shit should be changed to something original
 	if ($price_per_oz)
 	{
-		$FBML = "<span style='font-size: xx-large; color: #3b5998;'><a href='http://www.facebook.com/apps/application.php?id=$appid'><img src='"+$wallpic
-				+"
-			$price_per_oz
-			</span><br />
-			
-			
-			src='
-			
-			
-			http://mretc.net/~cris/facebook/nightstochristmas/snowman-75x75.jpg'
-			/>
-			</a>";
-
-		// update each fb:ref handle to the new content
-		try
-		{
-			$facebook->api_client->fbml_setRefHandle("tz:$timezone", $FBML);
-		}
-		catch (Exception $ex)
-		{
-
-			/* Sometimes calling this script standalone (like from cron)
-			caused setRefHandle to throw an exception about an invalid
-			session key.
-			
-			Seems to be fixed now (11/13/08), but it's good to catch
-			exceptions anyhow.
-			
-			Possible source of this problem:
-			http://forum.developers.facebook.com/viewtopic.php?id=24208
-			*/
-			$facebook->set_user(null, null);
-			$facebook->api_client->fbml_setRefHandle("tz:$timezone", $FBML);
-		}
+		$FBML = "<span style='font-size: xx-large; color: #3b5998;'>"
+				+"<a href='http://www.facebook.com/apps/application.php?id=$appid'><img src='"
+				+$wallpic+"'><br>&#36; "+$price_per_oz+" per ounce</span><br /></a>";
 	}
-
-
-
-
-
+	else; //should have something here indicating the xml prices feed has gone down
+		
  exit(0);
+ 
 }
 
 // Possibily helpful debug information
 //echo "<pre>Debug:" . print_r($facebook,true) . "</pre>";
 
-// Set the FBML for the user currently viewing our canvas page
-$boxfbml = "<fb:ref handle='tz:" . get_user_tz() . "' />";
+
 
 /* Set the profile box FBML for the user currently viewing the canvas page (but
  * only if we have a UID)
  */
 if ($fb_user)
 {
-	$facebook->api_client->profile_setFBML(NULL, $fb_user, $boxfbml, NULL,
-		$boxfbml, $boxfbml);
+	$facebook->api_client->profile_setFBML(NULL, $fb_user, $FBML, NULL,
+		$FBML, $FBML);
 }
 
-// print out our canvas page: days until christmas and add-to-profile button
+// print out our canvas page: days until gold and add-to-profile button
 ?>
 
-<fb:dashboard>Nights Until Christmas</fb:dashboard>
+<fb:dashboard>Gold gold Gold</fb:dashboard>
 <?php echo $boxfbml ?>
 
 <fb:if-is-app-user uid='<?php echo $fb_user ?>'>
