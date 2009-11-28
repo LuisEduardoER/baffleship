@@ -17,6 +17,7 @@ $appid = '198253726224';
 //this is the location of the pictures
 //same as this php file is fine
 $imgurl = 'http://frankrowe.com/goldprice/';
+$wallpic = $imgurl+'70x50.jpg';
 
 //should we give these guys credit? 
 $feedurl = "http://dgcsc.org/goldprices.xml";
@@ -50,8 +51,7 @@ if (@$_POST['fb_sig_user'])
 */
 if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
 {
-	$price_per_oz = 0;
-
+	
 	//get the gold price from xml feed
 	//eventually we could have multiple feeds in case some go down
     $xml = simplexml_load_file("$feedurl");
@@ -61,14 +61,20 @@ if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
             $price_per_oz = round($price*31.103,2);
 			break;
         }       
-       
-	$FBML = "<span style='font-size: xx-large; color: #3b5998;'>
-			$daystochristmas $sleeps
+				
+	//colors and styles and shit should be changed to something original
+	if ($price_per_oz)
+	{
+		$FBML = "<span style='font-size: xx-large; color: #3b5998;'><a href='http://www.facebook.com/apps/application.php?id=$appid'><img src='"+$wallpic
+				+"
+			$price_per_oz
 			</span><br />
-			<a
-			href='http://www.facebook.com/apps/application.php?id=$appid'>
-			<img
-			src='http://mretc.net/~cris/facebook/nightstochristmas/snowman-75x75.jpg'
+			
+			
+			src='
+			
+			
+			http://mretc.net/~cris/facebook/nightstochristmas/snowman-75x75.jpg'
 			/>
 			</a>";
 
