@@ -8,6 +8,10 @@ if (@$_GET['saws'])
 	exit(0);
 }
 
+//this needs to be installed, its the facebook-platform.tar stuff
+require_once('../../facebook-platform/php/facebook.php');
+
+
 //has $secret and $api_key
 //make sure to set this up in a directory apache doesn't serve
 require_once('../../facebook/gold_price_secret.php');
@@ -22,12 +26,9 @@ $wallpic = $imgurl+'70x50.jpg';
 //should we give these guys credit? 
 $feedurl = "http://dgcsc.org/goldprices.xml";
 
-//this needs to be installed, its the facebook-platform.tar stuff
-require_once('../../facebook-platform/php/facebook.php');
-
 $facebook = new Facebook($api_key, $secret);
 
-// Get the current user's ID (or the Page ID)
+/* // Get the current user's ID (or the Page ID)
 if (@$_POST['fb_sig_user'])
 {
 	// fb_sig_user is set when we are not authorized
@@ -43,7 +44,7 @@ if (@$_POST['fb_sig_user'])
 	// the request is on behalf of a page
 	$fb_user = $_POST['fb_sig_page_id'];
 
-}
+}  */
 
 /* If the first argument passed to the script is "generate" then we 
  * go get the current gold price and generate some HTML for it,
@@ -80,20 +81,14 @@ if (@$_GET['generate'] || @$_SERVER['argv'][1] == 'generate')
 
 
 
-/* Set the profile box FBML for the user currently viewing the canvas page (but
- * only if we have a UID)
- */
-if ($fb_user)
-{
+
 	$facebook->api_client->profile_setFBML(NULL, $fb_user, $FBML, NULL,
 		$FBML, $FBML);
-}
 
-// print out our canvas page: days until gold and add-to-profile button
 ?>
 
 <fb:dashboard>Gold gold Gold</fb:dashboard>
-<?php echo $boxfbml ?>
+<?php echo $FBML ?>
 
 <fb:if-is-app-user uid='<?php echo $fb_user ?>'>
   <p>Add this application to your profile and never lose track again!</p>
@@ -107,4 +102,3 @@ if ($fb_user)
   </form>
 </fb:else>
 </fb:if-is-app-user>
-
